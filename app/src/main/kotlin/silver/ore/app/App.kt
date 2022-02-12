@@ -5,5 +5,5 @@ package silver.ore.app
 
 fun main() {
     val world = World()
-    println(world.getCube(0, 0, 124).display())
+    println(world.getCube(0, 0, 128).display())
 }
