@@ -2,7 +2,7 @@ package silver.ore.app
 
 class Generator {
     fun getCube(x: Int, y: Int, z: Int): Cube {
-        var floor: Material = Material.AIR
+        val floor: Material
         var wall: Material = Material.AIR
         if (z == 128) {
             floor = Material.GRASS;

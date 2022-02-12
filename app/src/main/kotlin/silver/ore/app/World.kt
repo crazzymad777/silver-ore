@@ -8,12 +8,9 @@ class World {
         return Chunk(i)
     }
     private fun getChunk(x: Int, y: Int, z: Int): Chunk {
-        println("${x+y*16+z*16*16}")
         return chunks[x+y*16+z*16*16]
     }
     fun getCube(x: Int, y: Int, z: Int): Cube {
-//        val generator = Generator()
-//        return generator.getCube(x, y, z)
         val chunk = getChunk(x/16, y/16, z/16)
         return chunk.getCube(x, y, z)
     }
