@@ -6,7 +6,5 @@ import kotlin.random.Random
 
 fun main() {
     val worlds = Array(1) { i -> World() }
-    for (i in 0..0) {
-        println(worlds[i].getCube(Random.nextInt(0,255), Random.nextInt(0,255), 128).display())
-    }
+    println(worlds[0].getCube(Random.nextInt(0,255), Random.nextInt(0,255), 128).display())
 }

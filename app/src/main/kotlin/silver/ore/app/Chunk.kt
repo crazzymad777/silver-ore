@@ -6,7 +6,7 @@ class Chunk(i: Int) {
     private val offsetY = ((chunkId/16)%16)*16
     private val offsetZ = (chunkId/(16*16))*16
 
-    private val generator = Generator()
+    private val generator = Generator.FLAT
     private val cubes = Array(16*16*16) {
         i -> generateCube(i)
     }
