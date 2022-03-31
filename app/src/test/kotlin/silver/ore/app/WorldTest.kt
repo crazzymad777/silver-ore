@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.random.Random
 
 class WorldTest {
-    private val world = World()
+    private val flatWorld = World(Generator.FLAT)
 
-    @Test fun testWorld() {
+    @Test fun testFlatWorld() {
         // randomize x and y
         val getCube: (Int) -> Cube = {
-            world.getCube(Random.nextInt(0, 255), Random.nextInt(0, 255), it)
+            flatWorld.getCube(Random.nextInt(0, 255), Random.nextInt(0, 255), it)
         }
 
         assertEquals("STONE:STONE", getCube(124).display())
@@ -20,9 +20,9 @@ class WorldTest {
         assertEquals("AIR:AIR", getCube(130).display())
     }
 
-    @Test fun testWorldMoreTimes() {
+    @Test fun testFlatWorldMoreTimes() {
         for (x in 0..10) {
-            testWorld();
+            testFlatWorld();
         }
     }
 }

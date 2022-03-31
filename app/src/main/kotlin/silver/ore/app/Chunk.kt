@@ -1,12 +1,11 @@
 package silver.ore.app
 
-class Chunk(i: Int) {
+class Chunk(i: Int, private val generator: Generator) {
     private val chunkId = i
     private val offsetX = (chunkId%16)*16
     private val offsetY = ((chunkId/16)%16)*16
     private val offsetZ = (chunkId/(16*16))*16
 
-    private val generator = Generator.FLAT
     private val cubes = Array(16*16*16) {
         i -> generateCube(i)
     }
