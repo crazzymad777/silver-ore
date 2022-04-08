@@ -6,12 +6,28 @@ import silver.ore.app.Material
 import kotlin.random.Random
 
 class i1(random: Random = Random(0)) : Generator(random) {
-    val buildings = Array(16) { i -> Building(random) }
+    val buildings = Array(random.nextInt()%16+8) { Building(random) }
     override fun getCube(x: Int, y: Int, z: Int): Cube {
         val floor: Material
         var wall: Material = Material.AIR
+
+        var building: Building? = null
+        for (build in buildings) {
+            if (build.check(x, y, z)) {
+                building = build
+                break
+            }
+        }
+
         if (z == 128) {
-            floor = Material.GRASS;
+            if (building != null) {
+                floor = Material.WOOD
+                if (building.isWall(x, y, z)) {
+                    wall = Material.WOOD
+                }
+            } else {
+                floor = Material.GRASS
+            }
         } else if (z <= 124) {
             wall = Material.STONE;
             floor = Material.STONE;

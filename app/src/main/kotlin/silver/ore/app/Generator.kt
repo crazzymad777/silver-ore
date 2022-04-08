@@ -1,6 +1,5 @@
 package silver.ore.app
 
-import silver.ore.app.generator.Building
 import kotlin.random.Random
 
 abstract class Generator(val random: Random = Random(0)) {
