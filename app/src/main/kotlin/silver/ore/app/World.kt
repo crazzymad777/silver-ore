@@ -2,11 +2,10 @@ package silver.ore.app
 
 import kotlin.random.Random
 
-class World(private val generator: Generator = Generator.FLAT) {
+class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
     val cache = HashMap<Any, Any>()
-    var unixTime = System.currentTimeMillis() / 1000L
-    private val seed: Long = unixTime
-    val random = Random(seed)
+    private val random = Random(config.seed)
+    private val generator = config.getGenerator(random)
     private val chunks = Array(16*16*16) { i -> generateChunk(i, generator) }
 
     private fun generateChunk(i: Int, generator: Generator): Chunk {

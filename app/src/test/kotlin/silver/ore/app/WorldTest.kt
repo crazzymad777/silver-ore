@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import kotlin.random.Random
 
 class WorldTest {
-    private val flatWorld = World(Generator.FLAT)
+    private val flatWorld = World(WorldConfig(generatorName = "flat"))
 
     @Test fun testFlatWorld() {
         // randomize x and y
