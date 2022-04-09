@@ -10,3 +10,7 @@ application {
     // Define the main class for the application.
     mainClass.set("silver.ore.app.AppKt")
 }
+
+dependencies {
+    implementation("org.jline:jline-terminal:3.21.0")
+}

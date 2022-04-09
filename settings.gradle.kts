@@ -8,4 +8,4 @@
  */
 
 rootProject.name = "silver-ore"
-include("app", "list", "utilities")
+include("app")

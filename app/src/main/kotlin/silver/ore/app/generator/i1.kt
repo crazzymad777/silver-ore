@@ -4,9 +4,10 @@ import silver.ore.app.Cube
 import silver.ore.app.Generator
 import silver.ore.app.Material
 import kotlin.random.Random
+import kotlin.random.nextUInt
 
 class i1(random: Random = Random(0)) : Generator(random) {
-    val buildings = Array(random.nextInt()%16+8) { Building(random) }
+    val buildings = Array((random.nextUInt()%16u).toInt()+8) { Building(random) }
     override fun getCube(x: Int, y: Int, z: Int): Cube {
         val floor: Material
         var wall: Material = Material.AIR
