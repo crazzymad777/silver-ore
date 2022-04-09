@@ -13,7 +13,8 @@ enum class Material {
             return false
         }
     },
-    SOIL;
+    SOIL,
+    VOID;
 
     open fun isSolid(): Boolean {
         return true;
@@ -27,8 +28,10 @@ enum class Material {
             return 'S'
         } else if (this == SOIL) {
             return 's'
-        }else if (this == AIR) {
-            return '_'
+        } else if (this == AIR) {
+            return ' '
+        } else if (this == VOID) {
+            return '~'
         }
         return ' '
     }

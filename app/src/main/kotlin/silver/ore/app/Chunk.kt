@@ -6,6 +6,10 @@ class Chunk(i: Int, private val generator: Generator) {
     private val offsetY = ((chunkId/16)%16)*16
     private val offsetZ = (chunkId/(16*16))*16
 
+    override fun toString(): String {
+        return "$chunkId:$offsetX:$offsetY:$offsetZ"
+    }
+
     private val cubes = Array(16*16*16) {
         i -> generateCube(i)
     }

@@ -27,6 +27,7 @@ fun main() {
     var z = 128
     do {
         println("X: $x, Y: $y, Z: $z")
+        println("Chunk: ${world.getChunkByCoordinates(x, y, z)}")
         println(world.getCube(x, y, z).fullDisplay())
         for (i in -16..16) {
             var row: String = ""
