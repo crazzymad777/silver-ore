@@ -18,4 +18,18 @@ enum class Material {
     open fun isSolid(): Boolean {
         return true;
     }
+    open fun display(): Char {
+        if (this == GRASS) {
+            return 'g'
+        } else if (this == WOOD) {
+            return 'w'
+        } else if (this == STONE) {
+            return 'S'
+        } else if (this == SOIL) {
+            return 's'
+        }else if (this == AIR) {
+            return '_'
+        }
+        return ' '
+    }
 }

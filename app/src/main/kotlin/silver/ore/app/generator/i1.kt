@@ -7,7 +7,7 @@ import kotlin.random.Random
 import kotlin.random.nextUInt
 
 class i1(random: Random = Random(0)) : Generator(random) {
-    val buildings = Array((random.nextUInt()%16u).toInt()+8) { Building(random) }
+    private val buildings = Array((random.nextUInt()%32u).toInt()+32) { Building(random) }
     override fun getCube(x: Int, y: Int, z: Int): Cube {
         val floor: Material
         var wall: Material = Material.AIR
@@ -20,25 +20,26 @@ class i1(random: Random = Random(0)) : Generator(random) {
             }
         }
 
-        if (z == 128) {
-            if (building != null) {
-                floor = Material.WOOD
-                if (building.isWall(x, y, z)) {
-                    wall = Material.WOOD
-                }
-            } else {
-                floor = Material.GRASS
+        if (building != null) {
+            floor = Material.WOOD
+            if (building.isWall(x, y, z)) {
+                wall = Material.WOOD
             }
-        } else if (z <= 124) {
-            wall = Material.STONE;
-            floor = Material.STONE;
-        } else if (z > 128) {
-            wall = Material.AIR;
-            floor = Material.AIR;
-        } else {
-            wall = Material.SOIL;
-            floor = Material.SOIL;
+            return Cube(wall, floor, building)
         }
-        return Cube(wall, floor);
+
+        if (z == 128) {
+            floor = Material.GRASS
+        } else if (z <= 124) {
+            wall = Material.STONE
+            floor = Material.STONE
+        } else if (z > 128) {
+            wall = Material.AIR
+            floor = Material.AIR
+        } else {
+            wall = Material.SOIL
+            floor = Material.SOIL
+        }
+        return Cube(wall, floor)
     }
 }

@@ -1,13 +1,21 @@
 package silver.ore.app
 
-class Cube(private val wall: Material = Material.AIR, private val floor: Material = Material.AIR) {
-    fun display(): String {
-//        return "$wall:$floor"
-        if (wall == Material.WOOD) {
-            return "w"
-        } else if (wall.isSolid()) {
-            return "s"
+import silver.ore.app.generator.Building
+
+class Cube(private val wall: Material = Material.AIR, private val floor: Material = Material.AIR, private val building: Building? = null) {
+    fun display(): Char {
+        if (wall == Material.AIR) {
+            if (floor == Material.GRASS) {
+                return ','
+            }
+            return floor.display()
         }
-        return "_"
+        if (wall == Material.WOOD) {
+            return '+'
+        }
+        return wall.display()
+    }
+    fun fullDisplay(): String {
+        return "$wall:$floor:$building"
     }
 }

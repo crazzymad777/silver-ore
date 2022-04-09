@@ -27,10 +27,15 @@ fun main() {
     var z = 128
     do {
         println("X: $x, Y: $y, Z: $z")
-        for (i in -8..8) {
+        println(world.getCube(x, y, z).fullDisplay())
+        for (i in -16..16) {
             var row: String = ""
-            for (j in -8..8) {
-                row += world.getCube(x + j, y + i, z).display()
+            for (j in -24..24) {
+                if (i != 0 || j != 0) {
+                    row += world.getCube(x + j, y + i, z).display()
+                } else {
+                    row += "x"
+                }
             }
             println(row)
         }
@@ -38,10 +43,10 @@ fun main() {
         val char = integer.toChar()
         when (char) {
             'w' -> {
-                y++
+                y--
             }
             's' -> {
-                y--
+                y++
             }
             'a' -> {
                 x--
