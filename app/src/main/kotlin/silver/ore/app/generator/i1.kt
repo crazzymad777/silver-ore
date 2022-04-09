@@ -4,28 +4,16 @@ import silver.ore.app.Cube
 import silver.ore.app.Generator
 import silver.ore.app.Material
 import kotlin.random.Random
-import kotlin.random.nextUInt
 
 class i1(random: Random = Random(0)) : Generator(random) {
-    private val buildings = Array((random.nextUInt()%32u).toInt()+32) { Building(random) }
+    private val buildingGenerator = BuildingGenerator(random)
     override fun getCube(x: Int, y: Int, z: Int): Cube {
         val floor: Material
         var wall: Material = Material.AIR
 
-        var building: Building? = null
-        for (build in buildings) {
-            if (build.check(x, y, z)) {
-                building = build
-                break
-            }
-        }
-
-        if (building != null) {
-            floor = Material.WOOD
-            if (building.isWall(x, y, z)) {
-                wall = Material.WOOD
-            }
-            return Cube(wall, floor, building)
+        val cube = buildingGenerator.getCube(x, y, z)
+        if (cube != null) {
+            return cube
         }
 
         if (z == 128) {

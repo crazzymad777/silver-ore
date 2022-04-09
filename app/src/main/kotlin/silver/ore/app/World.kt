@@ -2,6 +2,8 @@ package silver.ore.app
 
 import kotlin.random.Random
 
+// TODO: clusters. One cluster 16x16x16 chunks.
+
 class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
     val cache = HashMap<Any, Any>()
     private val random = Random(config.seed)

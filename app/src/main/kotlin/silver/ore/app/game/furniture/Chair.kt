@@ -1,4 +1,9 @@
 package silver.ore.app.game.furniture
 
-class Chair {
+import silver.ore.app.game.Furniture
+
+class Chair : Furniture() {
+    override fun display(): Char {
+        return 'c'
+    }
 }
