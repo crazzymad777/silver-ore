@@ -18,4 +18,7 @@ class Cube(private val wall: Material = Material.AIR, private val floor: Materia
     fun fullDisplay(): String {
         return "$wall:$floor:$building"
     }
+    fun displayTest(): String {
+        return "$wall:$floor"
+    }
 }
