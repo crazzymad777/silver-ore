@@ -1,5 +1,7 @@
 package silver.ore.app
 
+import silver.ore.app.utils.GlobalCubeCoordinates
+import silver.ore.app.utils.WorldChunkCoordinates
 import kotlin.random.Random
 
 // TODO: clusters. One cluster 16x16x16 chunks.
@@ -27,19 +29,20 @@ class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
         return chunk
     }
 
-    private fun getChunk(x: Int, y: Int, z: Int): Chunk {
-        return generateChunk(x+y*16+z*16*16, generator)
+    private fun getChunk(coors: WorldChunkCoordinates): Chunk {
+        return generateChunk(coors.getClusterChunkCoordinates().getChunkId(), generator)
     }
 
-    fun getChunkByCoordinates(x: Int, y: Int, z: Int): Chunk {
-        return getChunk(x/16, y/16, z/16)
+    fun getChunkByCoordinates(coors: GlobalCubeCoordinates): Chunk {
+        return getChunk(coors.getChunkCoordinates())
     }
 
-    fun getCube(x: Int, y: Int, z: Int): Cube {
-        if (x < 0 || x >= 256 || z < 0 || z >= 256 || y < 0 || y >= 256) {
+    fun getCube(coors: GlobalCubeCoordinates): Cube {
+        if (coors.x < 0 || coors.x >= 256 || coors.z < 0 || coors.z >= 256 || coors.y < 0 || coors.y >= 256) {
             return Cube(Material.VOID, Material.VOID)
         }
-        val chunk = getChunk(x/16, y/16, z/16)
-        return chunk.getCube(x, y, z)
+        val chunk = getChunk(coors.getChunkCoordinates())
+//        return chunk.getCube(coors)
+        return chunk.getLocalCube(chunk.chunkTransformer.getLocalCubeCoordinates(coors))
     }
 }

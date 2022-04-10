@@ -4,6 +4,7 @@ import silver.ore.app.AbstractGenerator
 import silver.ore.app.Cube
 import silver.ore.app.Material
 import silver.ore.app.game.Ore
+import silver.ore.app.utils.GlobalCubeCoordinates
 import java.util.*
 import kotlin.Int.Companion.MAX_VALUE
 import kotlin.math.pow
@@ -32,12 +33,12 @@ class OreGenerator(random: Random = Random(0)) : AbstractGenerator(random) {
         for (i in 1..20)
             oreClusters.addElement(Cluster(produce(), produce(), random.nextInt(0, 128), Material.IRON, random.nextInt(5, 10)))
     }
-    override fun getCube(x: Int, y: Int, z: Int): Cube? {
-        if (z <= 124) {
+    override fun getCube(coors: GlobalCubeCoordinates): Cube? {
+        if (coors.z <= 124) {
             var ore: Ore? = null
-            val newX = (x+offsetX)%256
-            val newY = (y+offsetY)%256
-            val newZ = (z+offsetZ)%256
+            val newX = (coors.x+offsetX)%256
+            val newY = (coors.y+offsetY)%256
+            val newZ = (coors.z+offsetZ)%256
             for (cluster in oreClusters) {
                 if ((newX - cluster.x).toDouble().pow(2) + (newY -  cluster.y).toDouble().pow(2) + (newZ -  cluster.z).toDouble().pow(2) < cluster.radius.toDouble().pow(2)) {
                     ore = Ore(cluster.material)

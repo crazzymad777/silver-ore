@@ -7,6 +7,7 @@ import org.jline.terminal.Attributes
 import org.jline.terminal.Terminal
 import org.jline.terminal.TerminalBuilder
 import org.jline.utils.InfoCmp
+import silver.ore.app.utils.GlobalCubeCoordinates
 
 fun main() {
 //    val worlds = Array(1) { i -> World() }
@@ -41,8 +42,8 @@ fun main() {
     var z = 128
     do {
         println("X: $x, Y: $y, Z: $z")
-        println("Chunk: ${world.getChunkByCoordinates(x, y, z)} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}")
-        val cube = world.getCube(x, y, z)
+        println("Chunk: ${world.getChunkByCoordinates(GlobalCubeCoordinates(x, y, z))} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}")
+        val cube = world.getCube(GlobalCubeCoordinates(x, y, z))
         println(cube.fullDisplay())
         val item = cube.getItem()
         if (item != null) {
@@ -54,7 +55,7 @@ fun main() {
             var row: String = ""
             for (j in -24..24) {
                 if (i != 0 || j != 0) {
-                    row += world.getCube(x + j, y + i, z).display()
+                    row += world.getCube(GlobalCubeCoordinates(x + j, y + i, z)).display()
                 } else {
                     row += "x"
                 }

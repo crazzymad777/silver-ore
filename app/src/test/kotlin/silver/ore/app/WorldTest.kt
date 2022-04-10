@@ -2,6 +2,7 @@ package silver.ore.app
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import silver.ore.app.utils.GlobalCubeCoordinates
 import kotlin.random.Random
 
 class WorldTest {
@@ -10,7 +11,7 @@ class WorldTest {
     @Test fun testFlatWorld() {
         // randomize x and y
         val getCube: (Int) -> Cube = {
-            flatWorld.getCube(Random.nextInt(0, 255), Random.nextInt(0, 255), it)
+            flatWorld.getCube(GlobalCubeCoordinates(Random.nextInt(0, 255), Random.nextInt(0, 255), it))
         }
 
         assertEquals("STONE:STONE", getCube(124).displayTest())

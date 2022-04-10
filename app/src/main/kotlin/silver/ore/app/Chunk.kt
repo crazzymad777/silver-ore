@@ -1,13 +1,14 @@
 package silver.ore.app
 
+import silver.ore.app.utils.ChunkCubeCoordinates
+import silver.ore.app.utils.ChunkTransformer
+
 class Chunk(i: Int, private val generator: WorldGenerator) {
+    val chunkTransformer = ChunkTransformer(i)
     private val chunkId = i
-    private val offsetX = (chunkId%16)*16
-    private val offsetY = ((chunkId/16)%16)*16
-    private val offsetZ = (chunkId/(16*16))*16
 
     override fun toString(): String {
-        return "$chunkId:$offsetX:$offsetY:$offsetZ"
+        return "$chunkId"
     }
 
     private val cubes = HashMap<Int, Cube>()
@@ -22,7 +23,7 @@ class Chunk(i: Int, private val generator: WorldGenerator) {
             return cube
         }
 
-        cube = generator.getCube(i%16 + offsetX, (i/16)%16 + offsetY, i/(16*16) + offsetZ)
+        cube = generator.getCube(chunkTransformer.getGlobalCubeCoordinatesById(i))
         if (cube != null) {
             cubes[i] = cube
             return cube
@@ -31,11 +32,11 @@ class Chunk(i: Int, private val generator: WorldGenerator) {
         return Cube(Material.VOID, Material.VOID)
     }
 
-    private fun getLocalCube(x: Int, y: Int, z: Int): Cube {
-        return generateCube(x+y*16+z*16*16)
+    fun getLocalCube(coors: ChunkCubeCoordinates): Cube {
+        return generateCube(coors.getCubeId())
     }
 
-    fun getCube(x: Int, y: Int, z: Int): Cube {
-        return getLocalCube(x-offsetX, y-offsetY, z-offsetZ)
-    }
+//    fun getCube(coors: GlobalCubeCoordinates): Cube {
+//        return getLocalCube(ChunkCubeCoordinates(coors.x-offsetX, coors.y-offsetY, coors.z-offsetZ))
+//    }
 }
