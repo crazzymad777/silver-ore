@@ -12,6 +12,10 @@ class Chunk(i: Int, private val generator: WorldGenerator) {
 
     private val cubes = HashMap<Int, Cube>()
 
+    fun cubesLoaded(): Int {
+        return cubes.count()
+    }
+
     private fun generateCube(i: Int): Cube {
         var cube = cubes[i]
         if (cube != null) {

@@ -13,6 +13,10 @@ class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
         return chunks.count()
     }
 
+    fun cubesLoaded(): Int {
+        return chunks.map { it.value.cubesLoaded() }.toTypedArray().sum()
+    }
+
     private fun generateChunk(i: Int, generator: WorldGenerator): Chunk {
         var chunk = chunks[i]
         if (chunk != null) {
