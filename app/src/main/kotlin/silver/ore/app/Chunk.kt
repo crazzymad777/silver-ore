@@ -10,19 +10,26 @@ class Chunk(i: Int, private val generator: WorldGenerator) {
         return "$chunkId:$offsetX:$offsetY:$offsetZ"
     }
 
-    private val cubes = Array(16*16*16) {
-        i -> generateCube(i)
-    }
+    private val cubes = HashMap<Int, Cube>()
+
     private fun generateCube(i: Int): Cube {
-        val cube = generator.getCube(i%16 + offsetX, (i/16)%16 + offsetY, i/(16*16) + offsetZ)
+        var cube = cubes[i]
         if (cube != null) {
             return cube
         }
+
+        cube = generator.getCube(i%16 + offsetX, (i/16)%16 + offsetY, i/(16*16) + offsetZ)
+        if (cube != null) {
+            return cube
+        }
+
         return Cube(Material.VOID, Material.VOID)
     }
+
     private fun getLocalCube(x: Int, y: Int, z: Int): Cube {
-        return cubes[x+y*16+z*16*16]
+        return generateCube(x+y*16+z*16*16)
     }
+
     fun getCube(x: Int, y: Int, z: Int): Cube {
         return getLocalCube(x-offsetX, y-offsetY, z-offsetZ)
     }
