@@ -46,21 +46,26 @@ class UtilsCoordinatesTest {
             }
         }
 
-//        @Test fun testGetLocalCubeCoordinates() {
-//            for (i in 0..50) {
-//                val chunkId = Random.nextInt(0, 16*16*16)
-//                val chunkTransformer = ChunkTransformer(chunkId)
-//
-//                val x = Random.nextInt(0, 16)
-//                val y = Random.nextInt(0, 16)
-//                val z = Random.nextInt(0, 16)
-//
-//                val actual = chunkTransformer.makeGlobalCubeCoordinates(ChunkCubeCoordinates(x, y, z))
-//                val expected = chunkTransformer.getLocalCubeCoordinates(actual)
-//
-//                assertEquals(expected, actual)
-//            }
-//        }
+        @Test fun testGetLocalCubeCoordinates() {
+            for (i in 0..50) {
+                val chunkId = Random.nextInt(0, 16*16*16)
+                val chunkTransformer = ChunkTransformer(chunkId)
+
+                val offsetX = (chunkId%16)*16
+                val offsetY = ((chunkId/16)%16)*16
+                val offsetZ = (chunkId/(16*16))*16
+
+                val x = Random.nextInt(0, 16)
+                val y = Random.nextInt(0, 16)
+                val z = Random.nextInt(0, 16)
+
+                val actual = ChunkCubeCoordinates(x, y, z)
+                val global = GlobalCubeCoordinates(x+offsetX, y+offsetY, z+offsetZ)
+                val expected = chunkTransformer.getLocalCubeCoordinates(global)
+
+                assertEquals(expected, actual)
+            }
+        }
     }
 
     @Test fun testGlobalCubeCoordinates() {
