@@ -5,20 +5,32 @@ import kotlin.random.Random
 // TODO: clusters. One cluster 16x16x16 chunks.
 
 class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
-    val cache = HashMap<Any, Any>()
     private val random = Random(config.seed)
     private val generator = config.getGenerator(random)
-    private val chunks = Array(16*16*16) { i -> generateChunk(i, generator) }
+    private val chunks = HashMap<Int, Chunk>()
+
+    fun chunksLoaded(): Int {
+        return chunks.count()
+    }
 
     private fun generateChunk(i: Int, generator: WorldGenerator): Chunk {
-        return Chunk(i, generator)
+        var chunk = chunks[i]
+        if (chunk != null) {
+            return chunk
+        }
+        chunk = Chunk(i, generator)
+        chunks[i] = chunk
+        return chunk
     }
+
     private fun getChunk(x: Int, y: Int, z: Int): Chunk {
-        return chunks[x+y*16+z*16*16]
+        return generateChunk(x+y*16+z*16*16, generator)
     }
+
     fun getChunkByCoordinates(x: Int, y: Int, z: Int): Chunk {
         return getChunk(x/16, y/16, z/16)
     }
+
     fun getCube(x: Int, y: Int, z: Int): Cube {
         if (x < 0 || x >= 256 || z < 0 || z >= 256 || y < 0 || y >= 256) {
             return Cube(Material.VOID, Material.VOID)

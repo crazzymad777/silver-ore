@@ -41,7 +41,7 @@ fun main() {
     var z = 128
     do {
         println("X: $x, Y: $y, Z: $z")
-        println("Chunk: ${world.getChunkByCoordinates(x, y, z)}")
+        println("Chunk: ${world.getChunkByCoordinates(x, y, z)} / Chunks loaded: ${world.chunksLoaded()}")
         val cube = world.getCube(x, y, z)
         println(cube.fullDisplay())
         val item = cube.getItem()

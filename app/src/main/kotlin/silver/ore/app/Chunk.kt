@@ -20,6 +20,7 @@ class Chunk(i: Int, private val generator: WorldGenerator) {
 
         cube = generator.getCube(i%16 + offsetX, (i/16)%16 + offsetY, i/(16*16) + offsetZ)
         if (cube != null) {
+            cubes[i] = cube
             return cube
         }
 
