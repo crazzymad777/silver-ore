@@ -35,23 +35,43 @@ class Building(val random: Random) {
         }
     }
 
-    fun newFurniture(type: String): DataFurniture {
-        val x = random.nextInt(x-width+1, x+width)
-        val y = random.nextInt(y-height+1, y+height)
-        var minZ = z
-        if (hasBasement()) {
-            minZ = z-1
-        }
-        var maxZ = z+1
-        if (hasLoft()) {
-            maxZ = z+1+1
-        }
-        val z = random.nextInt(minZ, maxZ)
-        val data = DataFurniture(x, y, z, type)
-        furniture.addElement(data)
-        return data
+    fun newFurniture(type: String): DataFurniture? {
+        var i = 0
+        var x: Int
+        var y: Int
+        var z: Int
+        do {
+            x = random.nextInt(this.x-width+1, this.x+width)
+            y = random.nextInt(this.y-height+1, this.y+height)
+            var minZ = this.z
+            if (hasBasement()) {
+                minZ = this.z-1
+            }
+            var maxZ = this.z+1
+            if (hasLoft()) {
+                maxZ = this.z+1+1
+            }
+            z = random.nextInt(minZ, maxZ)
+
+            var collision = false
+            for (element in furniture) {
+                if (element.x == x && element.y == y && element.z == z) {
+                    collision = true
+                }
+            }
+
+            if (!collision) {
+                val data = DataFurniture(x, y, z, type)
+                furniture.addElement(data)
+                return data
+            }
+            i++
+        } while(i < 10)
+
+        return null
     }
 
+    // Supposed that chair generated right after table generation. So collision not checked.
     fun newChair(type: String, follow: DataFurniture): DataFurniture? {
         val coors = arrayOf(Pair(follow.x-1, follow.y),
                             Pair(follow.x+1, follow.y),
@@ -84,7 +104,10 @@ class Building(val random: Random) {
 
     init {
         val table = newFurniture("Table")
-        newChair("Chair", table)
+        if (table != null) {
+            newChair("Chair", table)
+        }
+
         newFurniture("Chest")
         newFurniture("Closet")
         newFurniture("Bed")
