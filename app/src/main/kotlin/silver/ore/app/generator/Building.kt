@@ -3,11 +3,12 @@ package silver.ore.app.generator
 import silver.ore.app.Material
 import silver.ore.app.game.Furniture
 import silver.ore.app.game.furniture.*
+import java.util.*
 import kotlin.math.abs
 import kotlin.random.Random
 import kotlin.random.nextUInt
 
-class Building(random: Random) {
+class Building(val random: Random) {
     private val x: Int = (random.nextUInt()%256u).toInt()
     private val y: Int = (random.nextUInt()%256u).toInt()
     private val z: Int = 128
@@ -22,28 +23,71 @@ class Building(random: Random) {
     val stairsX: Int = cornersX[random.nextInt(0, 2)]
     val stairsY: Int = cornersY[random.nextInt(0, 2)]
 
-    val tableX: Int = random.nextInt(x-width+1, x+width)
-    val tableY: Int = random.nextInt(y-height+1, y+height)
+    data class DataFurniture(val x: Int, val y: Int, val z: Int, val furniture: String = "null")
+    private val furniture: Vector<DataFurniture> = Vector()
+    init {
+        furniture.addElement(DataFurniture(stairsX, stairsY, z, "Stairs"))
+        if (this.hasLoft()) {
+            furniture.addElement(DataFurniture(stairsX, stairsY, z + 1, "Stairs"))
+        }
+        if (this.hasBasement()) {
+            furniture.addElement(DataFurniture(stairsX, stairsY, z - 1, "Stairs"))
+        }
+    }
 
-    val chestX: Int = random.nextInt(x-width+1, x+width)
-    val chestY: Int = random.nextInt(y-height+1, y+height)
+    fun newFurniture(type: String): DataFurniture {
+        val x = random.nextInt(x-width+1, x+width)
+        val y = random.nextInt(y-height+1, y+height)
+        var minZ = z
+        if (hasBasement()) {
+            minZ = z-1
+        }
+        var maxZ = z+1
+        if (hasLoft()) {
+            maxZ = z+1+1
+        }
+        val z = random.nextInt(minZ, maxZ)
+        val data = DataFurniture(x, y, z, type)
+        furniture.addElement(data)
+        return data
+    }
 
-    val closetX: Int = random.nextInt(x-width+1, x+width)
-    val closetY: Int = random.nextInt(y-height+1, y+height)
+    fun newChair(type: String, follow: DataFurniture): DataFurniture? {
+        val coors = arrayOf(Pair(follow.x-1, follow.y),
+                            Pair(follow.x+1, follow.y),
+                            Pair(follow.x, follow.y+1),
+                            Pair(follow.x, follow.y-1))
 
-    val bedX: Int = random.nextInt(x-width+1, x+width)
-    val bedY: Int = random.nextInt(y-height+1, y+height)
+        val offset = random.nextInt(0, 4)
+        var pair: Pair<Int, Int>? = null
 
-    var chairX: Int
-    var chairY: Int
+        for (i in 0..3) {
+            val x = coors[(offset+i)%4].first
+            val y = coors[(offset+i)%4].second
+            if (!isWall(x, y, z)) {
+                pair = coors[(offset+i)%4]
+                break
+            }
+        }
+
+        if (pair != null) {
+            val x = pair.first
+            val y = pair.second
+            val z = follow.z
+            val data = DataFurniture(x, y, z, type)
+            furniture.addElement(data)
+            return data
+        }
+
+        return null
+    }
 
     init {
-        val xes = arrayOf(tableX-1, tableX+1)
-        val yes = arrayOf(tableY-1, tableY+1)
-        do {
-            chairX = xes[random.nextInt(0, 2)]
-            chairY = yes[random.nextInt(0, 2)]
-        } while (isWall(chairX, chairY, z))
+        val table = newFurniture("Table")
+        newChair("Chair", table)
+        newFurniture("Chest")
+        newFurniture("Closet")
+        newFurniture("Bed")
     }
 
     fun check(x: Int, y: Int, z: Int): Boolean {
@@ -73,21 +117,28 @@ class Building(random: Random) {
             return Stairs()
         }
 
-        if (this.z == z) {
-            if (bedX == x && bedY == y) {
-                return Bed()
-            }
-            if (tableX == x && tableY == y) {
-                return Table()
-            }
-            if (chestX == x && chestY == y) {
-                return Chest()
-            }
-            if (closetX == x && closetY == y) {
-                return Closet()
-            }
-            if (chairX == x && chairY == y) {
-                return Chair()
+        for (element in furniture) {
+            if (x == element.x && y == element.y && z == element.z) {
+                when (element.furniture) {
+                    "Stairs" -> {
+                        return Stairs()
+                    }
+                    "Table" -> {
+                        return Table()
+                    }
+                    "Chair" -> {
+                        return Chair()
+                    }
+                    "Bed" -> {
+                        return Bed()
+                    }
+                    "Closet" -> {
+                        return Closet()
+                    }
+                    "Chest" -> {
+                        return Chest()
+                    }
+                }
             }
         }
 
