@@ -1,6 +1,12 @@
 package silver.ore.app.utils
 
 data class ChunkTransformer(val chunkId: Int) {
+    init {
+        if (chunkId < 0 || chunkId >= 4096) {
+            throw IllegalArgumentException("invalid chunkId: $chunkId")
+        }
+    }
+
     private val offsetX = (chunkId%16)*16
     private val offsetY = ((chunkId/16)%16)*16
     private val offsetZ = (chunkId/(16*16))*16
