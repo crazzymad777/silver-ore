@@ -102,6 +102,30 @@ class Building(val random: Random) {
         return null
     }
 
+    fun newDoor(): DataFurniture {
+        val x: Int
+        val y: Int
+        if (random.nextBoolean()) {
+            x = random.nextInt(this.x-width+1, this.x+width)
+            y = if (random.nextBoolean()) {
+                this.y-height
+            } else {
+                this.y+height
+            }
+        } else {
+            y = random.nextInt(this.y-height+1, this.y+height)
+            x = if (random.nextBoolean()) {
+                this.x-width
+            } else {
+                this.x+width
+            }
+        }
+        val data = DataFurniture(x, y, z, "Door")
+        furniture.addElement(data)
+        return data
+    }
+
+    private val doorData: DataFurniture = newDoor()
     init {
         val table = newFurniture("Table")
         if (table != null) {
@@ -123,9 +147,11 @@ class Building(val random: Random) {
     }
 
     fun isWall(x: Int, y: Int, z: Int): Boolean {
-        if (abs(this.x-x) == width || abs(this.y-y) == height) {
-            if (z == this.z || (z == this.z+1 && this.loft) || (z == this.z-1 && this.basement)) {
-                return true;
+        if (doorData.x != x || doorData.y != y || doorData.z != z) {
+            if (abs(this.x - x) == width || abs(this.y - y) == height) {
+                if (z == this.z || (z == this.z + 1 && this.loft) || (z == this.z - 1 && this.basement)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -160,6 +186,9 @@ class Building(val random: Random) {
                     }
                     "Chest" -> {
                         return Chest()
+                    }
+                    "Door" -> {
+                        return Door()
                     }
                 }
             }
