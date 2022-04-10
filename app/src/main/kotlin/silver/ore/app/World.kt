@@ -10,7 +10,7 @@ class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
     private val generator = config.getGenerator(random)
     private val chunks = Array(16*16*16) { i -> generateChunk(i, generator) }
 
-    private fun generateChunk(i: Int, generator: Generator): Chunk {
+    private fun generateChunk(i: Int, generator: WorldGenerator): Chunk {
         return Chunk(i, generator)
     }
     private fun getChunk(x: Int, y: Int, z: Int): Chunk {

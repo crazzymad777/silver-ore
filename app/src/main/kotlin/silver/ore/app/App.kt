@@ -21,6 +21,20 @@ fun main() {
     terminal.attributes = attributes;
     val reader = terminal.reader()
 
+    if (terminal.type == "dumb-color" || terminal.type == "dumb") {
+        println("Your terminal is ${terminal.type}. Continue to work? (y/n)")
+        var integer: Int
+        var char: Char
+        do {
+            integer = reader.read()
+            char = integer.toChar().lowercaseChar()
+        } while(integer >= 0 && char != 'y' && char != 'n')
+
+        if (integer < 0 || char == 'n') {
+            return
+        }
+    }
+
     val world = World(WorldConfig(generatorName = "i1"))
     var x = 128
     var y = 128
@@ -28,7 +42,14 @@ fun main() {
     do {
         println("X: $x, Y: $y, Z: $z")
         println("Chunk: ${world.getChunkByCoordinates(x, y, z)}")
-        println(world.getCube(x, y, z).fullDisplay())
+        val cube = world.getCube(x, y, z)
+        println(cube.fullDisplay())
+        val item = cube.getItem()
+        if (item != null) {
+            println("Item: ${item.getName()}")
+        } else {
+            println("No items")
+        }
         for (i in -16..16) {
             var row: String = ""
             for (j in -24..24) {

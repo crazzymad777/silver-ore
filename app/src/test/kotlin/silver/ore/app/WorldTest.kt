@@ -21,7 +21,7 @@ class WorldTest {
 
     @Test fun testFlatWorldMoreTimes() {
         for (x in 0..10) {
-            testFlatWorld();
+            testFlatWorld()
         }
     }
 }

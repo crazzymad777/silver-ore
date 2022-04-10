@@ -6,4 +6,8 @@ class Closet : Furniture() {
     override fun display(): Char {
         return 'H'
     }
+
+    override fun getName(): String {
+        return "Closet"
+    }
 }
