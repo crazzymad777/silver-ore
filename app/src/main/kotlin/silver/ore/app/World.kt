@@ -1,5 +1,6 @@
 package silver.ore.app
 
+import silver.ore.app.generator.Flat
 import silver.ore.app.utils.GlobalCubeCoordinates
 import silver.ore.app.utils.WorldChunkCoordinates
 import kotlin.random.Random
@@ -8,8 +9,15 @@ import kotlin.random.Random
 
 class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
     private val random = Random(config.seed)
+    private val flatGenerator = Flat(random)
+    private val map = Map(random)
     private val generator = config.getGenerator(random)
     private val clusters = HashMap<ClusterId, Cluster>()
+    private val generators = HashMap<ClusterId, WorldGenerator>()
+
+    fun getDefaultCoordinates(): GlobalCubeCoordinates {
+        return GlobalCubeCoordinates(map.humanTownClusterId.x*256+128, map.humanTownClusterId.y*256+128, 128)
+    }
 
     fun clustersLoaded(): Int {
         return clusters.count()
@@ -26,16 +34,32 @@ class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
     fun getChunkByCoordinates(coors: GlobalCubeCoordinates): Chunk {
         val chunkCoors = coors.getChunkCoordinates()
         val cluster = getCluster(chunkCoors)
-        return cluster.getLocalChunk(chunkCoors.getClusterChunkCoordinates(), generator)
+        return cluster.getLocalChunk(chunkCoors.getClusterChunkCoordinates())
     }
 
-    fun getCluster(chunkCoors: WorldChunkCoordinates): Cluster {
+    private fun getCluster(chunkCoors: WorldChunkCoordinates): Cluster {
         val clusterId = chunkCoors.getClusterId()
         var cluster = clusters[clusterId]
         if (cluster != null) {
             return cluster
         }
-        cluster = Cluster(clusterId)
+
+        val tile = map.getTile(clusterId)
+        var gen = generators[clusterId]
+        // WARNING! Not reproducible way. Should be refactored. Some day.
+        if (tile.type == Tile.TYPE.TOWN) {
+            if (gen == null) {
+                gen = generator
+                generators[clusterId] = gen
+            }
+        } else {
+            if (gen == null) {
+                gen = flatGenerator
+                generators[clusterId] = gen
+            }
+        }
+        cluster = Cluster(clusterId, gen)
+
         clusters[clusterId] = cluster
         return cluster
     }
@@ -47,7 +71,7 @@ class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
 
         val chunkCoors = coors.getChunkCoordinates()
         val cluster = getCluster(chunkCoors)
-        val chunk = cluster.getLocalChunk(chunkCoors.getClusterChunkCoordinates(), generator)
+        val chunk = cluster.getLocalChunk(chunkCoors.getClusterChunkCoordinates())
 
         val localCoors = cluster.clusterTransformer.getClusterCubeCoordinates(coors)
         return chunk.getLocalCube(chunk.chunkTransformer.getLocalCubeCoordinates(localCoors))

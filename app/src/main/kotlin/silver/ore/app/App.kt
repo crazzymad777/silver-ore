@@ -19,7 +19,7 @@ fun main() {
     terminal.echo(false)
     val attributes = terminal.attributes
     attributes.setLocalFlag(Attributes.LocalFlag.ICANON, false)
-    terminal.attributes = attributes;
+    terminal.attributes = attributes
     val reader = terminal.reader()
 
     if (terminal.type == "dumb-color" || terminal.type == "dumb") {
@@ -37,9 +37,10 @@ fun main() {
     }
 
     val world = World(WorldConfig(generatorName = "i1"))
-    var x = 128
-    var y = 128
-    var z = 128
+    val coors = world.getDefaultCoordinates()
+    var x = coors.x
+    var y = coors.y
+    var z = coors.z
     do {
         println("X: $x, Y: $y, Z: $z")
         println("Chunk: ${world.getChunkByCoordinates(GlobalCubeCoordinates(x, y, z))} / Cluster loaded: ${world.clustersLoaded()} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}")
@@ -52,7 +53,7 @@ fun main() {
             println("No items")
         }
         for (i in -16..16) {
-            var row: String = ""
+            var row = ""
             for (j in -24..24) {
                 if (i != 0 || j != 0) {
                     row += world.getCube(GlobalCubeCoordinates(x + j, y + i, z)).display()
@@ -84,7 +85,7 @@ fun main() {
                 z++
             }
         }
-        terminal.puts(InfoCmp.Capability.clear_screen);
-        terminal.flush();
+        terminal.puts(InfoCmp.Capability.clear_screen)
+        terminal.flush()
     } while (char != 'q' && integer != -1)
 }

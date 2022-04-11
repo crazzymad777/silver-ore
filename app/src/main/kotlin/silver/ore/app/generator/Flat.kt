@@ -11,17 +11,21 @@ class Flat(random: Random = Random(0)) : WorldGenerator(random) {
         val floor: Material
         var wall: Material = Material.AIR
         if (coors.z == 128) {
-            floor = Material.GRASS;
+            floor = Material.GRASS
         } else if (coors.z <= 124) {
-            wall = Material.STONE;
-            floor = Material.STONE;
+            @Suppress("NAME_SHADOWING") val cube = oreGenerator.getCube(coors)
+            if (cube != null) {
+                return cube
+            }
+            wall = Material.STONE
+            floor = Material.STONE
         } else if (coors.z > 128) {
-            wall = Material.AIR;
-            floor = Material.AIR;
+            wall = Material.AIR
+            floor = Material.AIR
         } else {
-            wall = Material.SOIL;
-            floor = Material.SOIL;
+            wall = Material.SOIL
+            floor = Material.SOIL
         }
-        return Cube(wall, floor);
+        return Cube(wall, floor)
     }
 }
