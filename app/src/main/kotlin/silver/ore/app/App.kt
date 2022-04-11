@@ -42,7 +42,7 @@ fun main() {
     var z = 128
     do {
         println("X: $x, Y: $y, Z: $z")
-        println("Chunk: ${world.getChunkByCoordinates(GlobalCubeCoordinates(x, y, z))} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}")
+        println("Chunk: ${world.getChunkByCoordinates(GlobalCubeCoordinates(x, y, z))} / Cluster loaded: ${world.clustersLoaded()} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}")
         val cube = world.getCube(GlobalCubeCoordinates(x, y, z))
         println(cube.fullDisplay())
         val item = cube.getItem()

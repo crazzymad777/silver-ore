@@ -61,7 +61,8 @@ class UtilsCoordinatesTest {
 
                 val actual = ChunkCubeCoordinates(x, y, z)
                 val global = GlobalCubeCoordinates(x+offsetX, y+offsetY, z+offsetZ)
-                val expected = chunkTransformer.getLocalCubeCoordinates(global)
+                val local = ClusterTransformer(ClusterId(0, 0)).getClusterCubeCoordinates(global)
+                val expected = chunkTransformer.getLocalCubeCoordinates(local)
 
                 assertEquals(expected, actual)
             }

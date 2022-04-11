@@ -15,7 +15,7 @@ data class ChunkTransformer(val chunkId: Int) {
         return GlobalCubeCoordinates(coors.x+offsetX, coors.y+offsetY, coors.z+offsetZ)
     }
 
-    fun getLocalCubeCoordinates(coors: GlobalCubeCoordinates): ChunkCubeCoordinates {
+    fun getLocalCubeCoordinates(coors: ClusterCubeCoordinates): ChunkCubeCoordinates {
         return ChunkCubeCoordinates(coors.x-offsetX, coors.y-offsetY, coors.z-offsetZ)
     }
 
