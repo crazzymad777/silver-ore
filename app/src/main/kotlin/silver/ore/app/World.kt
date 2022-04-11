@@ -41,13 +41,14 @@ class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
     }
 
     fun getCube(coors: GlobalCubeCoordinates): Cube {
-//        if (coors.x < 0 || coors.x >= 256 || coors.z < 0 || coors.z >= 256 || coors.y < 0 || coors.y >= 256) {
-//            return Cube(Material.VOID, Material.VOID)
-//        }
+        if (coors.z < 0 || coors.z >= 256) {
+            return Cube(Material.VOID, Material.VOID)
+        }
+
         val chunkCoors = coors.getChunkCoordinates()
         val cluster = getCluster(chunkCoors)
         val chunk = cluster.getLocalChunk(chunkCoors.getClusterChunkCoordinates(), generator)
-//        return chunk.getCube(coors)
+
         val localCoors = cluster.clusterTransformer.getClusterCubeCoordinates(coors)
         return chunk.getLocalCube(chunk.chunkTransformer.getLocalCubeCoordinates(localCoors))
     }
