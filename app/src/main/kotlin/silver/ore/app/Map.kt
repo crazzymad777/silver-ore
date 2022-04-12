@@ -15,12 +15,32 @@ class Map(val random: Random) {
         tiles[humanTownClusterId] = Tile(humanTownClusterId, Tile.TYPE.TOWN)
     }
 
-    fun getTile(clusterId: ClusterId): Tile {
+    init {
+        for (x in 0 until width) {
+            for (y in 0 until height) {
+                val id = ClusterId(x, y)
+                if (id != humanTownClusterId) {
+                    var type = Tile.TYPE.FLAT
+                    if (random.nextBoolean()) {
+                        type = Tile.TYPE.SEA
+                    }
+                    getTile(id, type)
+                }
+            }
+        }
+    }
+
+    fun getTileType(clusterId: ClusterId): Tile.TYPE {
+        val tile = tiles[clusterId] ?: return Tile.TYPE.SEA
+        return tile.type
+    }
+
+    fun getTile(clusterId: ClusterId, type: Tile.TYPE = Tile.TYPE.FLAT): Tile {
         var tile = tiles[clusterId]
         if (tile != null) {
             return tile
         }
-        tile = Tile(clusterId, Tile.TYPE.FLAT)
+        tile = Tile(clusterId, type)
         tiles[clusterId] = tile
         return tile
     }

@@ -3,7 +3,7 @@ package silver.ore.app
 import silver.ore.app.utils.ChunkCubeCoordinates
 import silver.ore.app.utils.ChunkTransformer
 
-class Chunk(i: Int, private val generator: WorldGenerator) {
+class Chunk(i: Int, private val generator: ClusterGenerator) {
     val chunkTransformer = ChunkTransformer(i)
     private val chunkId = i
 

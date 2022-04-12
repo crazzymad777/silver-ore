@@ -1,19 +1,19 @@
 package silver.ore.app.generator
 
+import silver.ore.app.ClusterGenerator
 import silver.ore.app.Cube
+import silver.ore.app.Generator
 import silver.ore.app.Material
-import silver.ore.app.WorldGenerator
 import silver.ore.app.utils.GlobalCubeCoordinates
-import kotlin.random.Random
 
-class Flat(seed: Long, random: Random = Random(seed)) : WorldGenerator(seed) {
+class Flat(val generator: Generator) : ClusterGenerator() {
     override fun getCube(coors: GlobalCubeCoordinates): Cube {
         val floor: Material
         var wall: Material = Material.AIR
         if (coors.z == 128) {
             floor = Material.GRASS
         } else if (coors.z <= 124) {
-            @Suppress("NAME_SHADOWING") val cube = oreGenerator.getCube(coors)
+            @Suppress("NAME_SHADOWING") val cube = generator.oreGenerator.getCube(coors)
             if (cube != null) {
                 return cube
             }

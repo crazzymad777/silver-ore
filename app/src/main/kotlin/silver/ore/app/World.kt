@@ -1,19 +1,15 @@
 package silver.ore.app
 
-import silver.ore.app.generator.Flat
 import silver.ore.app.utils.GlobalCubeCoordinates
 import silver.ore.app.utils.WorldChunkCoordinates
 import kotlin.random.Random
 
-// TODO: clusters. One cluster 16x16x16 chunks.
-
 class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
-    private val random = Random(config.seed)
-    private val flatGenerator = Flat(config.seed, random)
-    private val map = Map(random)
-    private val generator = config.getGenerator(config.seed, random)
+    private val map = Map(Random(config.seed))
+    private val generator = Generator(config.seed, map, config.generatorName)
+
     private val clusters = HashMap<ClusterId, Cluster>()
-    private val generators = HashMap<ClusterId, WorldGenerator>()
+    private val generators = HashMap<ClusterId, ClusterGenerator>()
 
     fun getDefaultCoordinates(): GlobalCubeCoordinates {
         return GlobalCubeCoordinates(map.humanTownClusterId.x*256+128, map.humanTownClusterId.y*256+128, 128)
@@ -44,20 +40,9 @@ class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
             return cluster
         }
 
-        val tile = map.getTile(clusterId)
-        var gen = generators[clusterId]
         // WARNING! Not reproducible way. Should be refactored. Some day.
-        if (tile.type == Tile.TYPE.TOWN) {
-            if (gen == null) {
-                gen = generator
-                generators[clusterId] = gen
-            }
-        } else {
-            if (gen == null) {
-                gen = flatGenerator
-                generators[clusterId] = gen
-            }
-        }
+        val gen = generator.getGenerator(clusterId)
+        generators[clusterId] = gen
         cluster = Cluster(clusterId, gen)
 
         clusters[clusterId] = cluster

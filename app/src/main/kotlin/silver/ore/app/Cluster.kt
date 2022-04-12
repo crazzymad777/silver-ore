@@ -3,7 +3,7 @@ package silver.ore.app
 import silver.ore.app.utils.ClusterChunkCoordinates
 import silver.ore.app.utils.ClusterTransformer
 
-class Cluster(id: ClusterId, val generator: WorldGenerator) {
+class Cluster(id: ClusterId, val generator: ClusterGenerator) {
     private val chunks = HashMap<Int, Chunk>()
     val clusterTransformer = ClusterTransformer(id)
 
@@ -15,7 +15,7 @@ class Cluster(id: ClusterId, val generator: WorldGenerator) {
         return chunks.map { it.value.cubesLoaded() }.toTypedArray().sum()
     }
 
-    private fun generateChunk(i: Int, generator: WorldGenerator): Chunk {
+    private fun generateChunk(i: Int, generator: ClusterGenerator): Chunk {
         var chunk = chunks[i]
         if (chunk != null) {
             return chunk

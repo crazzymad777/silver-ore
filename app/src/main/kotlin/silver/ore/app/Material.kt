@@ -14,6 +14,7 @@ enum class Material {
         }
     },
     WATER,
+    SAND,
     SOIL,
     SILT,
     GOLD {
@@ -66,6 +67,8 @@ enum class Material {
             return '~'
         } else if (this == SILT) {
             return 'z'
+        } else if (this == SAND) {
+            return '.'
         }
         return ' '
     }
