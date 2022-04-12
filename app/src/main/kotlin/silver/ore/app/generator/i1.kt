@@ -6,7 +6,7 @@ import silver.ore.app.WorldGenerator
 import silver.ore.app.utils.GlobalCubeCoordinates
 import kotlin.random.Random
 
-class i1(random: Random = Random(0)) : WorldGenerator(random) {
+class i1(seed: Long, random: Random = Random(seed)) : WorldGenerator(seed) {
     private val humanTown = HumanTown(random)
     override fun getCube(coors: GlobalCubeCoordinates): Cube {
         val floor: Material

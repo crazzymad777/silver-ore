@@ -9,9 +9,9 @@ import kotlin.random.Random
 
 class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
     private val random = Random(config.seed)
-    private val flatGenerator = Flat(random)
+    private val flatGenerator = Flat(config.seed, random)
     private val map = Map(random)
-    private val generator = config.getGenerator(random)
+    private val generator = config.getGenerator(config.seed, random)
     private val clusters = HashMap<ClusterId, Cluster>()
     private val generators = HashMap<ClusterId, WorldGenerator>()
 
