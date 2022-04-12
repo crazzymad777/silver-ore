@@ -84,6 +84,18 @@ fun main() {
             'r' -> {
                 z++
             }
+            '6' -> {
+                x += 256
+            }
+            '4' -> {
+                x -= 256
+            }
+            '8' -> {
+                y -= 256
+            }
+            '2' -> {
+                y += 256
+            }
         }
         terminal.puts(InfoCmp.Capability.clear_screen)
         terminal.flush()

@@ -9,7 +9,7 @@ import silver.ore.app.utils.GlobalCubeCoordinates
 class OreGenerator(private val version: Int = 1, private val seed: Long) : AbstractGenerator() {
     private val clusters = HashMap<ClusterId, ClusterOreGenerator>()
 
-    fun getClusterOreGenerator(clusterId: ClusterId): ClusterOreGenerator {
+    private fun getClusterOreGenerator(clusterId: ClusterId): ClusterOreGenerator {
         var cluster = clusters[clusterId]
         if (cluster != null) {
             return cluster
