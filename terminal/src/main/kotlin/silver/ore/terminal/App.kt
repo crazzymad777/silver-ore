@@ -1,0 +1,123 @@
+package silver.ore.terminal
+
+import org.jline.terminal.Attributes
+import org.jline.terminal.Terminal
+import org.jline.terminal.TerminalBuilder
+import org.jline.utils.InfoCmp
+import silver.ore.core.World
+import silver.ore.core.WorldConfig
+import silver.ore.core.utils.GlobalCubeCoordinates
+
+fun main() {
+//    val worlds = Array(1) { i -> World() }
+//    println(worlds[0].getCube(Random.nextInt(0,255), Random.nextInt(0,255), 128).display())
+    val builder: TerminalBuilder = TerminalBuilder.builder()
+    builder.system(true)
+    val terminal: Terminal = builder.build()
+    println(terminal.name + ": " + terminal.type)
+    terminal.echo(false)
+    val attributes = terminal.attributes
+    attributes.setLocalFlag(Attributes.LocalFlag.ICANON, false)
+    terminal.attributes = attributes
+    val reader = terminal.reader()
+
+    if (terminal.type == "dumb-color" || terminal.type == "dumb") {
+        println("Your terminal is ${terminal.type}. Continue to work? (y/n)")
+        var integer: Int
+        var char: Char
+        do {
+            integer = reader.read()
+            char = integer.toChar().lowercaseChar()
+        } while(integer >= 0 && char != 'y' && char != 'n')
+
+        if (integer < 0 || char == 'n') {
+            return
+        }
+    }
+
+    val world = World(WorldConfig(generatorName = "i1"))
+    val coors = world.getDefaultCoordinates()
+    var x = coors.x
+    var y = coors.y
+    var z = coors.z
+
+    var speed = 256
+    do {
+        println("X: $x, Y: $y, Z: $z")
+        println("Chunk: ${world.getChunkByCoordinates(GlobalCubeCoordinates(x, y, z))} / Cluster loaded: ${world.clustersLoaded()} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}")
+
+        val newCoors = GlobalCubeCoordinates(x, y, z)
+        val cluster = world.getCluster(newCoors.getChunkCoordinates())
+        val clusterId = cluster.id
+
+        val chunk = cluster.getLocalChunk(newCoors.getChunkCoordinates().getClusterChunkCoordinates())
+        val chunkId = chunk.chunkId
+
+        val cubeId = chunk.chunkTransformer.getLocalCubeCoordinates(cluster.clusterTransformer.getClusterCubeCoordinates(newCoors)).getCubeId()
+
+        println("ClusterId: $clusterId / ChunkId: $chunkId / Cube: $cubeId")
+
+        val cube = world.getCube(GlobalCubeCoordinates(x, y, z))
+//        println(cube.fullDisplay())
+        val item = cube.getItem()
+        if (item != null) {
+            println("Item: ${item.getName()}")
+        } else {
+            println("No items")
+        }
+        for (i in -16..16) {
+            var row = ""
+            for (j in -24..24) {
+                if (i != 0 || j != 0) {
+                    row += world.getCube(GlobalCubeCoordinates(x + j, y + i, z)).display()
+                } else {
+                    row += "x"
+                }
+            }
+            println(row)
+        }
+        val integer = reader.read()
+        val char = integer.toChar()
+        when (char) {
+            'w' -> {
+                y--
+            }
+            's' -> {
+                y++
+            }
+            'a' -> {
+                x--
+            }
+            'd' -> {
+                x++
+            }
+            'e' -> {
+                z--
+            }
+            'r' -> {
+                z++
+            }
+            '6' -> {
+                x += speed
+            }
+            '4' -> {
+                x -= speed
+            }
+            '8' -> {
+                y -= speed
+            }
+            '2' -> {
+                y += speed
+            }
+            'm' -> {
+                speed = if (speed == 256) {
+                    16
+                } else {
+                    256
+                }
+            }
+        }
+        terminal.puts(InfoCmp.Capability.clear_screen)
+        terminal.flush()
+    } while (char != 'q' && integer != -1)
+}
