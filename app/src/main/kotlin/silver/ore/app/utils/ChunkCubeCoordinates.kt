@@ -14,9 +14,9 @@ data class ChunkCubeCoordinates(val x: Int, val y: Int, val z: Int) {
     }
 
     fun getCubeId(): Int {
-        val x = (this.x)%16
-        val y = (this.y)%16
-        val z = (this.z)%16
+        val x = (16+this.x)%16
+        val y = (16+this.y)%16
+        val z = (16+this.z)%16
         return x+y*16+z*16*16
     }
 }
