@@ -18,14 +18,13 @@ class Sea(val generator: Generator, val tiles: List<Tile.TYPE>) : ClusterGenerat
         val offsetX = x-128
         val offsetY = y-128
 
-        val angle = atan2(offsetY.toDouble(), offsetX.toDouble())
-        // TODO: this not working
-        val discreteAngle = 8*(angle+PI)/(2*PI) // should be between 0 and 8
-        val dir = (8-((discreteAngle-1/8).toInt()+1)+6)%8
+        val angle = atan2(-offsetY.toDouble(), -offsetX.toDouble())
+        // seems working
+        val discreteAngle = ((angle+(3*PI/4)).toInt()+8)%8
 
         // add isLand & isSea methods
         val dis: Int
-        if (tiles[dir] == Tile.TYPE.SEA) {
+        if (tiles[discreteAngle] == Tile.TYPE.SEA) {
             dis = 0
         } else {
             val disX = abs(offsetX)
