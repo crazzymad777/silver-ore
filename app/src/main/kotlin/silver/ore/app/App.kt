@@ -22,6 +22,7 @@ fun main() {
     terminal.attributes = attributes
     val reader = terminal.reader()
 
+    println(-1/16)
     if (terminal.type == "dumb-color" || terminal.type == "dumb") {
         println("Your terminal is ${terminal.type}. Continue to work? (y/n)")
         var integer: Int
