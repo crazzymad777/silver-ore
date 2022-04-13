@@ -35,7 +35,7 @@ class Map(val random: Random) {
         return tile.type
     }
 
-    fun getTile(clusterId: ClusterId, type: Tile.TYPE = Tile.TYPE.FLAT): Tile {
+    fun getTile(clusterId: ClusterId, type: Tile.TYPE = Tile.TYPE.SEA): Tile {
         var tile = tiles[clusterId]
         if (tile != null) {
             return tile

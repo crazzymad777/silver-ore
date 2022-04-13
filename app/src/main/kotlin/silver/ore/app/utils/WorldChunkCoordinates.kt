@@ -11,6 +11,14 @@ data class WorldChunkCoordinates(var x: Int, var y: Int, val z: Int) {
     }
 
     fun getClusterId(): ClusterId {
+        var x = this.x
+        if (x < 0) {
+            x -= 16
+        }
+        var y = this.y
+        if (y < 0) {
+            y -= 16
+        }
         return ClusterId(x/16, y/16)
     }
 }
