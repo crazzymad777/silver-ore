@@ -42,9 +42,8 @@ class Sea(val generator: Generator, private val tiles: List<Tile.TYPE>) : Cluste
             6
         }
 
-        // add isLand & isSea methods
         val dis: Int
-        if (tiles[dir] == Tile.TYPE.SEA) {
+        if (tiles[dir].isSea()) {
             dis = 0
         } else {
             val disX = abs(offsetX)

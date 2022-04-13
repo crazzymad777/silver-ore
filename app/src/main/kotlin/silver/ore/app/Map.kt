@@ -21,7 +21,7 @@ class Map(val random: Random) {
                 val id = ClusterId(x, y)
                 if (id != humanTownClusterId) {
                     var type = Tile.TYPE.FLAT
-                    if (random.nextBoolean()) {
+                    if (random.nextBoolean() && random.nextBoolean()) {
                         type = Tile.TYPE.SEA
                     }
                     getTile(id, type)

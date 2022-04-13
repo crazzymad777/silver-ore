@@ -6,6 +6,12 @@ data class Tile(val clusterId: ClusterId, val type: TYPE)
     enum class TYPE {
         TOWN,
         FLAT,
-        SEA
+        SEA;
+        fun isSea(): Boolean {
+            if (this == SEA) {
+                return true
+            }
+            return false
+        }
     }
 }
