@@ -33,7 +33,7 @@ class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
         return cluster.getLocalChunk(chunkCoors.getClusterChunkCoordinates())
     }
 
-    private fun getCluster(chunkCoors: WorldChunkCoordinates): Cluster {
+    fun getCluster(chunkCoors: WorldChunkCoordinates): Cluster {
         val clusterId = chunkCoors.getClusterId()
         var cluster = clusters[clusterId]
         if (cluster != null) {

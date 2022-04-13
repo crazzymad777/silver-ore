@@ -5,7 +5,7 @@ import silver.ore.app.utils.ChunkTransformer
 
 class Chunk(i: Int, private val generator: ClusterGenerator) {
     val chunkTransformer = ChunkTransformer(i)
-    private val chunkId = i
+    val chunkId = i
 
     override fun toString(): String {
         return "$chunkId"

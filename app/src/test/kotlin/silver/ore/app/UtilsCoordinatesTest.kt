@@ -91,10 +91,9 @@ class UtilsCoordinatesTest {
 
     @Test fun testWorldChunkCoordinates() {
         for (i in 0..100) {
-            // ClusterChunkCoordinates fails init without range (if x, y or z less than zero)
-            val x = Random.nextInt(0, 10000)
-            val y = Random.nextInt(0, 10000)
-            val z = Random.nextInt(0, 10000)
+            val x = Random.nextInt()
+            val y = Random.nextInt()
+            val z = Random.nextInt()
             val actual = WorldChunkCoordinates(x, y, z).getClusterChunkCoordinates()
             assertEquals(ClusterChunkCoordinates(x%16, y%16, z%16), actual)
         }

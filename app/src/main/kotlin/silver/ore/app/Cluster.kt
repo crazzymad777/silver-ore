@@ -3,7 +3,7 @@ package silver.ore.app
 import silver.ore.app.utils.ClusterChunkCoordinates
 import silver.ore.app.utils.ClusterTransformer
 
-class Cluster(id: ClusterId, val generator: ClusterGenerator) {
+class Cluster(val id: ClusterId, val generator: ClusterGenerator) {
     private val chunks = HashMap<Int, Chunk>()
     val clusterTransformer = ClusterTransformer(id)
 

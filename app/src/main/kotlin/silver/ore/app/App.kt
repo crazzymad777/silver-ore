@@ -22,7 +22,6 @@ fun main() {
     terminal.attributes = attributes
     val reader = terminal.reader()
 
-    println(-1/16)
     if (terminal.type == "dumb-color" || terminal.type == "dumb") {
         println("Your terminal is ${terminal.type}. Continue to work? (y/n)")
         var integer: Int
@@ -42,11 +41,25 @@ fun main() {
     var x = coors.x
     var y = coors.y
     var z = coors.z
+
+    var speed = 256
     do {
         println("X: $x, Y: $y, Z: $z")
         println("Chunk: ${world.getChunkByCoordinates(GlobalCubeCoordinates(x, y, z))} / Cluster loaded: ${world.clustersLoaded()} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}")
+
+        val newCoors = GlobalCubeCoordinates(x, y, z)
+        val cluster = world.getCluster(newCoors.getChunkCoordinates())
+        val clusterId = cluster.id
+
+        val chunk = cluster.getLocalChunk(newCoors.getChunkCoordinates().getClusterChunkCoordinates())
+        val chunkId = chunk.chunkId
+
+        val cubeId = chunk.chunkTransformer.getLocalCubeCoordinates(cluster.clusterTransformer.getClusterCubeCoordinates(newCoors)).getCubeId()
+
+        println("ClusterId: $clusterId / ChunkId: $chunkId / Cube: $cubeId")
+
         val cube = world.getCube(GlobalCubeCoordinates(x, y, z))
-        println(cube.fullDisplay())
+//        println(cube.fullDisplay())
         val item = cube.getItem()
         if (item != null) {
             println("Item: ${item.getName()}")
@@ -86,16 +99,23 @@ fun main() {
                 z++
             }
             '6' -> {
-                x += 256
+                x += speed
             }
             '4' -> {
-                x -= 256
+                x -= speed
             }
             '8' -> {
-                y -= 256
+                y -= speed
             }
             '2' -> {
-                y += 256
+                y += speed
+            }
+            'm' -> {
+                speed = if (speed == 256) {
+                    16
+                } else {
+                    256
+                }
             }
         }
         terminal.puts(InfoCmp.Capability.clear_screen)
