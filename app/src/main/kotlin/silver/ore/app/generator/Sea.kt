@@ -2,10 +2,9 @@ package silver.ore.app.generator
 
 import silver.ore.app.*
 import silver.ore.app.utils.GlobalCubeCoordinates
-import kotlin.math.PI
 import kotlin.math.abs
-import kotlin.math.atan2
 import kotlin.math.max
+import kotlin.math.sign
 
 class Sea(val generator: Generator, val tiles: List<Tile.TYPE>) : ClusterGenerator() {
     private fun getLevel(): Int {
@@ -18,13 +17,45 @@ class Sea(val generator: Generator, val tiles: List<Tile.TYPE>) : ClusterGenerat
         val offsetX = x-128
         val offsetY = y-128
 
-        val angle = atan2(-offsetY.toDouble(), -offsetX.toDouble())
-        // seems working
-        val discreteAngle = ((angle+(3*PI/4)).toInt()+8)%8
+        // TODO: this not working
+        val relation = if (offsetY == 0) {
+            2
+        } else {
+            offsetX / offsetY
+        }
+
+        var dirX = 0
+        var dirY = 0
+        if (abs(relation) >= 2) {
+            dirX = sign(offsetX.toDouble()).toInt()
+        } else if (abs(relation) <= 0.5) {
+            dirY = sign(offsetY.toDouble()).toInt()
+        } else {
+            dirX = sign(offsetX.toDouble()).toInt()
+            dirY = sign(offsetY.toDouble()).toInt()
+        }
+
+        val dir: Int = if (dirX == 0 && dirY == -1) {
+            0
+        } else if (dirX == 1 && dirY == -1) {
+            1
+        } else if (dirX == 1 && dirY == 0) {
+            2
+        } else if (dirX == 1 && dirY == 1) {
+            3
+        } else if (dirX == 0 && dirY == 1) {
+            4
+        } else if (dirX == -1 && dirY == 1) {
+            5
+        } else if (dirX == -1 && dirY == 0) {
+            6
+        } else {
+            7
+        }
 
         // add isLand & isSea methods
         val dis: Int
-        if (tiles[discreteAngle] == Tile.TYPE.SEA) {
+        if (tiles[dir] == Tile.TYPE.SEA) {
             dis = 0
         } else {
             val disX = abs(offsetX)
