@@ -17,7 +17,7 @@ class Sea(val generator: Generator, val tiles: List<Tile.TYPE>) : ClusterGenerat
         val offsetX = x-128
         val offsetY = y-128
 
-        // TODO: this not working
+        // seems working
         val relation = if (offsetY == 0) {
             2
         } else {
@@ -26,31 +26,20 @@ class Sea(val generator: Generator, val tiles: List<Tile.TYPE>) : ClusterGenerat
 
         var dirX = 0
         var dirY = 0
-        if (abs(relation) >= 2) {
+        if (abs(relation) >= 1) {
             dirX = sign(offsetX.toDouble()).toInt()
-        } else if (abs(relation) <= 0.5) {
-            dirY = sign(offsetY.toDouble()).toInt()
         } else {
-            dirX = sign(offsetX.toDouble()).toInt()
             dirY = sign(offsetY.toDouble()).toInt()
         }
 
         val dir: Int = if (dirX == 0 && dirY == -1) {
             0
-        } else if (dirX == 1 && dirY == -1) {
-            1
-        } else if (dirX == 1 && dirY == 0) {
+        } else if (dirX == 1) {
             2
-        } else if (dirX == 1 && dirY == 1) {
-            3
         } else if (dirX == 0 && dirY == 1) {
             4
-        } else if (dirX == -1 && dirY == 1) {
-            5
-        } else if (dirX == -1 && dirY == 0) {
-            6
         } else {
-            7
+            6
         }
 
         // add isLand & isSea methods
