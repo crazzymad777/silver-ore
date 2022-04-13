@@ -8,7 +8,7 @@ plugins {
 
 application {
     // Define the main class for the application.
-    mainClass.set("silver.ore.app.AppKt")
+    mainClass.set("silver.ore.terminal.AppKt")
 }
 
 dependencies {

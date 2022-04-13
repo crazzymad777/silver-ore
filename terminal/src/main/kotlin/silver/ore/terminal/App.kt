@@ -1,32 +1,19 @@
 package silver.ore.terminal
 
-import org.jline.terminal.Attributes
-import org.jline.terminal.Terminal
-import org.jline.terminal.TerminalBuilder
-import org.jline.utils.InfoCmp
 import silver.ore.core.World
 import silver.ore.core.WorldConfig
 import silver.ore.core.utils.GlobalCubeCoordinates
 
 fun main() {
-//    val worlds = Array(1) { i -> World() }
-//    println(worlds[0].getCube(Random.nextInt(0,255), Random.nextInt(0,255), 128).display())
-    val builder: TerminalBuilder = TerminalBuilder.builder()
-    builder.system(true)
-    val terminal: Terminal = builder.build()
-    println(terminal.name + ": " + terminal.type)
-    terminal.echo(false)
-    val attributes = terminal.attributes
-    attributes.setLocalFlag(Attributes.LocalFlag.ICANON, false)
-    terminal.attributes = attributes
-    val reader = terminal.reader()
+    val terminal = JLineTerminal()
+    val type = terminal.getType()
 
-    if (terminal.type == "dumb-color" || terminal.type == "dumb") {
-        println("Your terminal is ${terminal.type}. Continue to work? (y/n)")
+    if (type == "dumb-color" || type == "dumb") {
+        println("Your terminal is ${type}. Continue to work? (y/n)")
         var integer: Int
         var char: Char
         do {
-            integer = reader.read()
+            integer = terminal.reader.read()
             char = integer.toChar().lowercaseChar()
         } while(integer >= 0 && char != 'y' && char != 'n')
 
@@ -45,6 +32,7 @@ fun main() {
     do {
         println("X: $x, Y: $y, Z: $z")
         println("Chunk: ${world.getChunkByCoordinates(GlobalCubeCoordinates(x, y, z))} / Cluster loaded: ${world.clustersLoaded()} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}")
+//        println("Max colors: ${Colors.DEFAULT_COLORS_256.size}")
 
         val newCoors = GlobalCubeCoordinates(x, y, z)
         val cluster = world.getCluster(newCoors.getChunkCoordinates())
@@ -65,18 +53,20 @@ fun main() {
         } else {
             println("No items")
         }
+        val builder = terminal.builder()
         for (i in -16..16) {
-            var row = ""
-            for (j in -24..24) {
+            for (j in -48..48) {
                 if (i != 0 || j != 0) {
-                    row += world.getCube(GlobalCubeCoordinates(x + j, y + i, z)).display()
+                    val glyph = Glyph(world.getCube(GlobalCubeCoordinates(x + j, y + i, z)))
+                    builder.setForeground(glyph.foreground).append(glyph.char)
                 } else {
-                    row += "x"
+                    builder.setForeground(AbstractColor(255, 0, 0, 255)).append('x')
                 }
             }
-            println(row)
+            println(builder.toAnsi())
+            builder.clear()
         }
-        val integer = reader.read()
+        val integer = terminal.reader.read()
         val char = integer.toChar()
         when (char) {
             'w' -> {
@@ -117,7 +107,6 @@ fun main() {
                 }
             }
         }
-        terminal.puts(InfoCmp.Capability.clear_screen)
-        terminal.flush()
+        terminal.clear()
     } while (char != 'q' && integer != -1)
 }

@@ -5,7 +5,7 @@ import silver.ore.core.game.Item
 import silver.ore.core.game.Ore
 import silver.ore.core.generator.Building
 
-class Cube(private val wall: Material = Material.AIR, private val floor: Material = Material.AIR, private val building: Building? = null, private val furniture: Furniture? = null, private val ore: Ore? = null) {
+class Cube(val wall: Material = Material.AIR, val floor: Material = Material.AIR, private val building: Building? = null, private val furniture: Furniture? = null, private val ore: Ore? = null) {
     fun getItem(): Item? {
         if (ore == null) {
             if (furniture == null) {
