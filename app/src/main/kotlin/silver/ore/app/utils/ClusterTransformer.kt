@@ -7,8 +7,8 @@ data class ClusterTransformer(val clusterId: ClusterId) {
     private val offsetY = clusterId.y*256
 
     fun getClusterCubeCoordinates(coors: GlobalCubeCoordinates): ClusterCubeCoordinates {
-        val x = (256+coors.x-offsetX)%256
-        val y = (256+coors.y-offsetY)%256
+        val x = (coors.x-offsetX)%256
+        val y = (coors.y-offsetY)%256
         return ClusterCubeCoordinates(x, y, coors.z)
     }
 }

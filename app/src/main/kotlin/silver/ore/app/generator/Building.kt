@@ -9,11 +9,13 @@ import kotlin.random.Random
 import kotlin.random.nextUInt
 
 class Building(val random: Random) {
-    private val x: Int = (random.nextUInt()%256u).toInt()
-    private val y: Int = (random.nextUInt()%256u).toInt()
-    private val z: Int = 128
-    private val width: Int = (random.nextUInt()%4u).toInt()+4
-    private val height: Int = (random.nextUInt()%4u).toInt()+4
+    var ignored: Boolean = false
+    val x: Int = (random.nextUInt()%256u).toInt()
+    val y: Int = (random.nextUInt()%256u).toInt()
+    val z: Int = 128
+    val width: Int = (random.nextUInt()%4u).toInt()+4
+    val height: Int = (random.nextUInt()%4u).toInt()+4
+
     private val basement: Boolean = random.nextBoolean()
     private val loft: Boolean = random.nextBoolean()
     fun hasBasement(): Boolean { return basement }
