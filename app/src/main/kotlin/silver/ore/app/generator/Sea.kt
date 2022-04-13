@@ -6,7 +6,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sign
 
-class Sea(val generator: Generator, val tiles: List<Tile.TYPE>) : ClusterGenerator() {
+class Sea(val generator: Generator, private val tiles: List<Tile.TYPE>) : ClusterGenerator() {
     private fun getLevel(): Int {
         return 128
     }
@@ -56,7 +56,7 @@ class Sea(val generator: Generator, val tiles: List<Tile.TYPE>) : ClusterGenerat
     }
 
     override fun getCube(coors: GlobalCubeCoordinates): Cube {
-        val floor: Material
+        var floor: Material
         var wall: Material = Material.AIR
         val level = getLevel()
         val depth = getDepth(coors)
@@ -75,12 +75,13 @@ class Sea(val generator: Generator, val tiles: List<Tile.TYPE>) : ClusterGenerat
             wall = Material.AIR
             floor = Material.AIR
         } else {
+            wall = Material.SILT
+            floor = Material.SILT
             if (coors.x%256 < 5 || coors.x%256 > 250 || coors.y%256 < 5 || coors.y%256 > 250) {
-                wall = Material.SAND
-                floor = Material.SAND
-            } else {
-                wall = Material.SILT
-                floor = Material.SILT
+                if (depth < 5) {
+                    wall = Material.SAND
+                    floor = Material.SAND
+                }
             }
         }
         return Cube(wall, floor)
