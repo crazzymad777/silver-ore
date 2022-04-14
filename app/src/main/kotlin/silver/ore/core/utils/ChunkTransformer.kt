@@ -16,10 +16,10 @@ data class ChunkTransformer(val chunkId: Int) {
     }
 
     fun getLocalCubeCoordinates(coors: ClusterCubeCoordinates): ChunkCubeCoordinates {
-        return ChunkCubeCoordinates((coors.x-offsetX)%16, (coors.y-offsetY)%16, coors.z-offsetZ)
+        return ChunkCubeCoordinates(coors.x-offsetX, coors.y-offsetY, coors.z-offsetZ)
     }
 
-    fun getGlobalCubeCoordinatesById(i: Int): GlobalCubeCoordinates {
-        return GlobalCubeCoordinates(i%16 + offsetX, (i/16)%16 + offsetY, i/(16*16) + offsetZ)
+    fun getClusterCubeCoordinatesById(i: Int): ClusterCubeCoordinates {
+        return ClusterCubeCoordinates(i%16 + offsetX, (i/16)%16 + offsetY, i/(16*16) + offsetZ)
     }
 }

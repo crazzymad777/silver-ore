@@ -8,7 +8,7 @@ import org.jline.utils.NonBlockingReader
 
 class JLineTerminal : AbstractTerminal() {
     private val builder: TerminalBuilder = TerminalBuilder.builder()
-    private val terminal: Terminal = builder.build()
+    val terminal: Terminal = builder.build()
 
     init {
         terminal.echo(false)
@@ -28,6 +28,6 @@ class JLineTerminal : AbstractTerminal() {
     }
 
     override fun builder(): JLineTextBuilder {
-        return JLineTextBuilder()
+        return JLineTextBuilder(terminal)
     }
 }

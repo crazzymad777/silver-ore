@@ -20,7 +20,7 @@ class Cluster(val id: ClusterId, val generator: ClusterGenerator) {
         if (chunk != null) {
             return chunk
         }
-        chunk = Chunk(i, generator)
+        chunk = Chunk(i, generator, this)
         chunks[i] = chunk
         return chunk
     }

@@ -1,77 +1,76 @@
 package silver.ore.terminal
 
-import org.jline.utils.Colors
 import silver.ore.core.Cube
 import silver.ore.core.Material
 
 class Glyph(val cube: Cube) {
-    private val max = Colors.DEFAULT_COLORS_256.size
-    var foreground: AbstractColor = AbstractColor(255, 255, 255, max)
-    val background: AbstractColor = AbstractColor(0, 0, 0, max)
+    var foreground: RgbColor = RgbColor(255, 255, 255)
+    val background: RgbColor = RgbColor(0, 0, 0)
     val char: Char = cube.display()
 
-    private fun getMaterialForegroundColor(material: Material): AbstractColor {
+    private fun getMaterialForegroundColor(material: Material): RgbColor {
         when (material) {
             Material.GRASS -> {
-                return AbstractColor(0, 255, 0, max)
+                return RgbColor(0, 255, 0)
             }
             Material.WOOD -> {
-                return AbstractColor(255, 255, 0, max)
+                return RgbColor(255, 255, 0)
             }
             Material.STONE -> {
-                return AbstractColor(128, 128, 128, max)
+                return RgbColor(128, 128, 128)
             }
             Material.WATER -> {
-                return AbstractColor(0,95,175, max)
+                return RgbColor(0,95,175)
             }
             Material.SAND -> {
-                return AbstractColor(255, 255, 255, max)
+                return RgbColor(255, 255, 0)
             }
             Material.GOLD -> {
-                return AbstractColor(255, 255, 128, max)
+                return RgbColor(255, 255, 0)
             }
             Material.SILVER -> {
-                return AbstractColor(200, 200, 200, max)
+                return RgbColor(200, 200, 200)
             }
             Material.IRON -> {
-                return AbstractColor(255, 255, 255, max)
+                return RgbColor(255, 255, 255)
             }
             Material.COPPER -> {
-                return AbstractColor(184, 115, 51, max)
+                return RgbColor(184, 115, 51)
             }
             Material.VOID -> {
-                return AbstractColor(0, 0, 0, max)
+                return RgbColor(0, 0, 0)
             }
             Material.SILT -> {
-                return AbstractColor(0,100,0, max)
+                return RgbColor(0,100,0)
             }
             Material.TIN -> {
-                return AbstractColor(145,145,145, max)
+                return RgbColor(145,145,145)
             }
             Material.SOIL -> {
-                return AbstractColor(184, 115, 51, max)
+                return RgbColor(184, 115, 51)
             }
-            else -> return AbstractColor(255, 255, 255, max)
+            else -> return RgbColor(255, 255, 255)
         }
     }
 
-    fun getColor(): AbstractColor {
+    fun getColor(): RgbColor {
         val item = cube.getItem()
         if (item == null) {
             if (cube.wall == Material.AIR) {
                 if (cube.floor == Material.GRASS) {
-                    return AbstractColor(0, 255, 0, max)
+                    return RgbColor(0, 255, 0)
                 } else if (cube.floor == Material.WOOD) {
-                    return AbstractColor(255, 255, 0, max)
+                    return RgbColor(255, 255, 0)
                 }
-                return AbstractColor(255, 255, 255, max)
+                return getMaterialForegroundColor(cube.floor)
             }
             if (cube.wall == Material.WOOD) {
-                return AbstractColor(255, 255, 0, max)
+                return RgbColor(255, 255, 0)
             }
+
             return getMaterialForegroundColor(cube.wall)
         }
-        return AbstractColor(255, 0, 0, max)
+        return RgbColor(255, 0, 0)
     }
 
     init {

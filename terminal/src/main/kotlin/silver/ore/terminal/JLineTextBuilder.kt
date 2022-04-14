@@ -1,20 +1,19 @@
 package silver.ore.terminal
 
+import org.jline.terminal.Terminal
 import org.jline.utils.AttributedStringBuilder
 import org.jline.utils.AttributedStyle
 
-class JLineTextBuilder : AbstractTextBuilder() {
+class JLineTextBuilder(val terminal: Terminal) : AbstractTextBuilder() {
     private var builder = AttributedStringBuilder()
 
-    override fun setForeground(rgb: AbstractColor): AbstractTextBuilder {
-        val color = JLineColor.obtainColor(rgb).getIntColor()
-        builder.style(AttributedStyle.DEFAULT.foreground(color))
+    override fun setForeground(rgb: RgbColor): AbstractTextBuilder {
+        builder.style(AttributedStyle.DEFAULT.foreground(rgb.r, rgb.g, rgb.b))
         return this
     }
 
-    override fun setBackground(rgb: AbstractColor): AbstractTextBuilder {
-        val color = JLineColor.obtainColor(rgb).getIntColor()
-        builder.style(AttributedStyle.DEFAULT.background(color))
+    override fun setBackground(rgb: RgbColor): AbstractTextBuilder {
+        builder.style(AttributedStyle.DEFAULT.background(rgb.r, rgb.g, rgb.b))
         return this
     }
 
@@ -29,7 +28,7 @@ class JLineTextBuilder : AbstractTextBuilder() {
     }
 
     override fun toAnsi(): String {
-        return builder.toAnsi()
+        return builder.toAnsi(terminal)
     }
 
     override fun clear() {

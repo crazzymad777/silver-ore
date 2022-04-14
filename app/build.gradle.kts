@@ -5,7 +5,3 @@
 plugins {
     id("silver.ore.kotlin-application-conventions")
 }
-
-dependencies {
-    implementation("org.jline:jline-terminal:3.21.0")
-}

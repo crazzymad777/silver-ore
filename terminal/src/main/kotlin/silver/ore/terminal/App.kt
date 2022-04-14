@@ -9,7 +9,8 @@ fun main() {
     val type = terminal.getType()
 
     if (type == "dumb-color" || type == "dumb") {
-        println("Your terminal is ${type}. Continue to work? (y/n)")
+        terminal.terminal.writer().println("Your terminal is $type. Continue to work? (y/n)")
+        terminal.terminal.flush();
         var integer: Int
         var char: Char
         do {
@@ -30,8 +31,8 @@ fun main() {
 
     var speed = 256
     do {
-        println("X: $x, Y: $y, Z: $z")
-        println("Chunk: ${world.getChunkByCoordinates(GlobalCubeCoordinates(x, y, z))} / Cluster loaded: ${world.clustersLoaded()} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}")
+        terminal.terminal.writer().println("X: $x, Y: $y, Z: $z")
+//        println("Chunk: ${world.getChunkByCoordinates(GlobalCubeCoordinates(x, y, z))} / Cluster loaded: ${world.clustersLoaded()} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}")
 //        println("Max colors: ${Colors.DEFAULT_COLORS_256.size}")
 
         val newCoors = GlobalCubeCoordinates(x, y, z)
@@ -43,15 +44,16 @@ fun main() {
 
         val cubeId = chunk.chunkTransformer.getLocalCubeCoordinates(cluster.clusterTransformer.getClusterCubeCoordinates(newCoors)).getCubeId()
 
-        println("ClusterId: $clusterId / ChunkId: $chunkId / Cube: $cubeId")
+        terminal.terminal.writer().println("Ore generators loaded: ${world.oreGeneratorsLoaded()}")
+        terminal.terminal.writer().println("ClusterId: $clusterId / ChunkId: $chunkId / Cube: $cubeId")
 
         val cube = world.getCube(GlobalCubeCoordinates(x, y, z))
 //        println(cube.fullDisplay())
         val item = cube.getItem()
         if (item != null) {
-            println("Item: ${item.getName()}")
+            terminal.terminal.writer().println("Item: ${item.getName()}")
         } else {
-            println("No items")
+            terminal.terminal.writer().println("No items")
         }
         val builder = terminal.builder()
         for (i in -16..16) {
@@ -60,12 +62,13 @@ fun main() {
                     val glyph = Glyph(world.getCube(GlobalCubeCoordinates(x + j, y + i, z)))
                     builder.setForeground(glyph.foreground).append(glyph.char)
                 } else {
-                    builder.setForeground(AbstractColor(255, 0, 0, 255)).append('x')
+                    builder.setForeground(RgbColor(255, 0, 0)).append('x')
                 }
             }
-            println(builder.toAnsi())
+            terminal.terminal.writer().println(builder.toAnsi())
             builder.clear()
         }
+        terminal.terminal.flush();
         val integer = terminal.reader.read()
         val char = integer.toChar()
         when (char) {

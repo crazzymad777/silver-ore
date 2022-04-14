@@ -28,23 +28,24 @@ class UtilsCoordinatesTest {
             }
         }
 
-        @Test fun testGetGlobalCubeCoordinatesById() {
-            for (i in 0..50) {
-                val chunkId = Random.nextInt(0, 16*16*16)
-                val chunkTransformer = ChunkTransformer(chunkId)
-
-                val x = Random.nextInt(0, 16)
-                val y = Random.nextInt(0, 16)
-                val z = Random.nextInt(0, 16)
-
-                val local = ChunkCubeCoordinates(x, y, z)
-                val actual = chunkTransformer.makeGlobalCubeCoordinates(local)
-                val cubeId = local.getCubeId()
-                val expected = chunkTransformer.getGlobalCubeCoordinatesById(cubeId)
-
-                assertEquals(expected, actual)
-            }
-        }
+        // TODO: testGetClusterCubeCoordinatesById
+//        @Test fun testGetGlobalCubeCoordinatesById() {
+//            for (i in 0..50) {
+//                val chunkId = Random.nextInt(0, 16*16*16)
+//                val chunkTransformer = ChunkTransformer(chunkId)
+//
+//                val x = Random.nextInt(0, 16)
+//                val y = Random.nextInt(0, 16)
+//                val z = Random.nextInt(0, 16)
+//
+//                val local = ChunkCubeCoordinates(x, y, z)
+//                val actual = chunkTransformer.makeGlobalCubeCoordinates(local)
+//                val cubeId = local.getCubeId()
+//                val expected = chunkTransformer.getGlobalCubeCoordinatesById(cubeId)
+//
+//                assertEquals(expected, actual)
+//            }
+//        }
 
         @Test fun testGetLocalCubeCoordinates() {
             for (i in 0..50) {

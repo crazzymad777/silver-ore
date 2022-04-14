@@ -12,7 +12,7 @@ application {
 }
 
 dependencies {
-    implementation("org.jline:jline-terminal:3.21.0")
+    implementation("org.jline:jline:3.21.0")
     implementation(project(":app"))
 }
 

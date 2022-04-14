@@ -9,10 +9,13 @@ class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
     private val generator = Generator(config.seed, map, config.generatorName)
 
     private val clusters = HashMap<ClusterId, Cluster>()
-    private val generators = HashMap<ClusterId, ClusterGenerator>()
 
     fun getDefaultCoordinates(): GlobalCubeCoordinates {
         return GlobalCubeCoordinates(map.humanTownClusterId.x*256+128, map.humanTownClusterId.y*256+128, 128)
+    }
+
+    fun oreGeneratorsLoaded(): Int {
+        return generator.oreGenerator.loaded()
     }
 
     fun clustersLoaded(): Int {
@@ -41,9 +44,7 @@ class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
         }
 
         // WARNING! Not reproducible way. Should be refactored. Some day.
-        val gen = generator.getGenerator(clusterId)
-        generators[clusterId] = gen
-        cluster = Cluster(clusterId, gen)
+        cluster = Cluster(clusterId, generator.getGenerator(clusterId))
 
         clusters[clusterId] = cluster
         return cluster
