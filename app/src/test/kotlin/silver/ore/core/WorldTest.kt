@@ -10,8 +10,8 @@ class WorldTest {
 
     @Test fun testFlatWorld() {
         // randomize x and y
-        val getCube: (Int) -> Cube = {
-            flatWorld.getCube(GlobalCubeCoordinates(Random.nextInt(0, 255), Random.nextInt(0, 255), it))
+        val getCube: (Long) -> Cube = {
+            flatWorld.getCube(GlobalCubeCoordinates(Random.nextLong(0, 255), Random.nextLong(0, 255), it))
         }
 
         assertEquals("STONE:STONE", getCube(124).displayTest())

@@ -4,56 +4,57 @@ import silver.ore.core.Material
 import silver.ore.core.game.Furniture
 import silver.ore.core.game.furniture.*
 import java.util.*
-import kotlin.math.abs
 import kotlin.random.Random
 import kotlin.random.nextUInt
 
 class Building(val random: Random) {
     var ignored: Boolean = false
-    val x: Int = (random.nextUInt()%256u).toInt()
-    val y: Int = (random.nextUInt()%256u).toInt()
-    val z: Int = 128
-    val width: Int = (random.nextUInt()%4u).toInt()+4
-    val height: Int = (random.nextUInt()%4u).toInt()+4
+    val x = random.nextUInt()%256u
+    val y = random.nextUInt()%256u
+    val z = 128u
+    val width = random.nextUInt()%4u+4u
+    val height = random.nextUInt()%4u+4u
 
     private val basement: Boolean = random.nextBoolean()
     private val loft: Boolean = random.nextBoolean()
-    fun hasBasement(): Boolean { return basement }
-    fun hasLoft(): Boolean { return loft }
-    private val cornersX =  arrayOf( x-width+1, x+width-1)
-    private val cornersY =  arrayOf( y-height+1, y+height-1)
-    val stairsX: Int = cornersX[random.nextInt(0, 2)]
-    val stairsY: Int = cornersY[random.nextInt(0, 2)]
+    private fun hasBasement(): Boolean { return basement }
+    private fun hasLoft(): Boolean { return loft }
+    private val cornersX =  arrayOf( x-width+1u, x+width-1u)
+    private val cornersY =  arrayOf( y-height+1u, y+height-1u)
+    private val stairsX: UInt = cornersX[random.nextInt(0, 2)]
+    private val stairsY: UInt = cornersY[random.nextInt(0, 2)]
 
-    data class DataFurniture(val x: Int, val y: Int, val z: Int, val furniture: String = "null")
+    data class DataFurniture(val x: UInt, val y: UInt, val z: UInt, val furniture: String = "null")
     private val furniture: Vector<DataFurniture> = Vector()
     init {
         furniture.addElement(DataFurniture(stairsX, stairsY, z, "Stairs"))
         if (this.hasLoft()) {
-            furniture.addElement(DataFurniture(stairsX, stairsY, z + 1, "Stairs"))
+            furniture.addElement(DataFurniture(stairsX, stairsY, z + 1u, "Stairs"))
         }
         if (this.hasBasement()) {
-            furniture.addElement(DataFurniture(stairsX, stairsY, z - 1, "Stairs"))
+            furniture.addElement(DataFurniture(stairsX, stairsY, z - 1u, "Stairs"))
         }
     }
 
     fun newFurniture(type: String): DataFurniture? {
         var i = 0
-        var x: Int
-        var y: Int
-        var z: Int
+        var x: UInt
+        var y: UInt
+        var z: UInt
         do {
-            x = random.nextInt(this.x-width+1, this.x+width)
-            y = random.nextInt(this.y-height+1, this.y+height)
+            // this.x-width+1u
+            x = random.nextUInt(0u, this.x+width)
+            // this.y-height+1u
+            y = random.nextUInt(0u, this.y+height)
             var minZ = this.z
             if (hasBasement()) {
-                minZ = this.z-1
+                minZ = this.z-1u
             }
-            var maxZ = this.z+1
+            var maxZ = this.z+1u
             if (hasLoft()) {
-                maxZ = this.z+1+1
+                maxZ = this.z+1u+1u
             }
-            z = random.nextInt(minZ, maxZ)
+            z = random.nextUInt(minZ, maxZ)
 
             var collision = false
             for (element in furniture) {
@@ -75,13 +76,13 @@ class Building(val random: Random) {
 
     // Supposed that chair generated right after table generation. So collision not checked.
     fun newChair(type: String, follow: DataFurniture): DataFurniture? {
-        val coors = arrayOf(Pair(follow.x-1, follow.y),
-                            Pair(follow.x+1, follow.y),
-                            Pair(follow.x, follow.y+1),
-                            Pair(follow.x, follow.y-1))
+        val coors = arrayOf(Pair(follow.x-1u, follow.y),
+                            Pair(follow.x+1u, follow.y),
+                            Pair(follow.x, follow.y+1u),
+                            Pair(follow.x, follow.y-1u))
 
         val offset = random.nextInt(0, 4)
-        var pair: Pair<Int, Int>? = null
+        var pair: Pair<UInt, UInt>? = null
 
         for (i in 0..3) {
             val x = coors[(offset+i)%4].first
@@ -105,17 +106,19 @@ class Building(val random: Random) {
     }
 
     fun newDoor(): DataFurniture {
-        val x: Int
-        val y: Int
+        val x: UInt
+        val y: UInt
         if (random.nextBoolean()) {
-            x = random.nextInt(this.x-width+1, this.x+width)
+            // this.x-width+1u
+            x = random.nextUInt(0u, this.x+width)
             y = if (random.nextBoolean()) {
                 this.y-height
             } else {
                 this.y+height
             }
         } else {
-            y = random.nextInt(this.y-height+1, this.y+height)
+            // this.y-height+1u
+            y = random.nextUInt(0u, this.y+height)
             x = if (random.nextBoolean()) {
                 this.x-width
             } else {
@@ -139,20 +142,20 @@ class Building(val random: Random) {
         newFurniture("Bed")
     }
 
-    fun check(x: Int, y: Int, z: Int): Boolean {
-        if (abs(this.x-x) <= width && abs(this.y-y) <= height) {
-            if (z == this.z || (z == this.z+1 && this.loft) || (z == this.z-1 && this.basement)) {
+    fun check(x: UInt, y: UInt, z: UInt): Boolean {
+        if (this.x-x <= width && this.y-y <= height) {
+            if (z == this.z || (z == this.z+1u && this.loft) || (z == this.z-1u && this.basement)) {
                 return true;
             }
         }
         return false;
     }
 
-    fun isWall(x: Int, y: Int, z: Int): Boolean {
+    fun isWall(x: UInt, y: UInt, z: UInt): Boolean {
         if (doorData.x != x || doorData.y != y || doorData.z != z) {
-            if (abs(this.x - x) == width || abs(this.y - y) == height) {
-                if (z == this.z || (z == this.z + 1 && this.loft) || (z == this.z - 1 && this.basement)) {
-                    return true;
+            if (this.x - x == width || this.y - y == height) {
+                if (z == this.z || (z == this.z + 1u && this.loft) || (z == this.z - 1u && this.basement)) {
+                    return true
                 }
             }
         }
@@ -163,7 +166,7 @@ class Building(val random: Random) {
         return "building:$x:$y:$z:width:$width;height:$height;basement:$basement;loft:$loft;"
     }
 
-    fun getFurniture(x: Int, y: Int, z: Int): Furniture? {
+    fun getFurniture(x: UInt, y: UInt, z: UInt): Furniture? {
         if (this.stairsX == x && this.stairsY == y && (this.hasLoft() || this.hasBasement())) {
             return Stairs()
         }
@@ -199,7 +202,7 @@ class Building(val random: Random) {
         return null
     }
 
-    fun getWall(x: Int, y: Int, z: Int): Material {
+    fun getWall(x: UInt, y: UInt, z: UInt): Material {
         if (this.isWall(x, y, z)) {
             return Material.WOOD
         }

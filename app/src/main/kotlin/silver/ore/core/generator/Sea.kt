@@ -18,7 +18,7 @@ class Sea(val generator: Generator, private val tiles: List<Tile.TYPE>) : Cluste
         val offsetY = y-128
 
         // seems working
-        val relation = if (offsetY == 0) {
+        val relation = if (offsetY == 0L) {
             2
         } else {
             offsetX / offsetY
@@ -42,16 +42,16 @@ class Sea(val generator: Generator, private val tiles: List<Tile.TYPE>) : Cluste
             6
         }
 
-        val dis: Int
+        val dis: Long
         if (tiles[dir].isSea()) {
             dis = 0
         } else {
             val disX = abs(offsetX)
             val disY = abs(offsetY)
-            dis = max(-disX-disY, -64)
+            dis = max(-disX-disY, -64L)
         }
 
-        return 64+dis
+        return (64L+dis).toInt()
     }
 
     override fun getCube(coors: GlobalCubeCoordinates): Cube {

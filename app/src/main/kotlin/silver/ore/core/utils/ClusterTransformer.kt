@@ -12,16 +12,16 @@ data class ClusterTransformer(val clusterId: ClusterId) {
 //            offsetClusterId.y++
 //        }
 //    }
-    private val offsetX = offsetClusterId.x*256
-    private val offsetY = offsetClusterId.y*256
+    private val offsetX = offsetClusterId.x.toULong()*256u
+    private val offsetY = offsetClusterId.y.toULong()*256u
 
     fun getClusterCubeCoordinates(coors: GlobalCubeCoordinates): ClusterCubeCoordinates {
-        val x = coors.x-offsetX
-        val y = coors.y-offsetY
-        return ClusterCubeCoordinates(x, y, coors.z)
+        val x = (coors.x).toULong()-offsetX
+        val y = (coors.y).toULong()-offsetY
+        return ClusterCubeCoordinates(x.toUInt(), y.toUInt(), coors.z.toUInt())
     }
 
     fun getGlobalCubeCoordinates(clusterCoors: ClusterCubeCoordinates): GlobalCubeCoordinates {
-        return GlobalCubeCoordinates(clusterCoors.x+offsetX, clusterCoors.y+offsetY, clusterCoors.z)
+        return GlobalCubeCoordinates.fromInternalCoordinates(clusterCoors.x+offsetX, clusterCoors.y+offsetY, clusterCoors.z.toULong())
     }
 }

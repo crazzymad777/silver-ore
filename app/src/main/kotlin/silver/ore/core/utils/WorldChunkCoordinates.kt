@@ -3,22 +3,12 @@ package silver.ore.core.utils
 import silver.ore.core.ClusterId
 
 // relative obviously to world. x+1 next chunk on x-axis.
-data class WorldChunkCoordinates(var x: Int, var y: Int, val z: Int) {
+data class WorldChunkCoordinates(var x: ULong, var y: ULong, val z: ULong) {
     fun getClusterChunkCoordinates(): ClusterChunkCoordinates {
-        val x = (16+this.x)%16
-        val y = (16+this.y)%16
-        return ClusterChunkCoordinates(x%16, y%16, z%16)
+        return ClusterChunkCoordinates((x%16u).toUInt(), (y%16u).toUInt(), (z%16u).toUInt())
     }
 
     fun getClusterId(): ClusterId {
-        var x = this.x
-        if (x < 0) {
-            x -= 16
-        }
-        var y = this.y
-        if (y < 0) {
-            y -= 16
-        }
-        return ClusterId(x/16, y/16)
+        return ClusterId((x/16u).toInt(), (y/16u).toInt())
     }
 }

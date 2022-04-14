@@ -43,13 +43,13 @@ class ClusterOreGenerator(private val id: ClusterOreGeneratorId) {
     }
 
     fun getCube(coors: ClusterCubeCoordinates): Cube? {
-        if (coors.z <= 124) {
+        if (coors.z <= 124u) {
             var ore: Ore? = null
             val newX = coors.x
             val newY = coors.y
             val newZ = coors.z
             for (cluster in oreClusters) {
-                if ((newX - cluster.x).toDouble().pow(2) + (newY -  cluster.y).toDouble().pow(2) + (newZ -  cluster.z).toDouble().pow(2) < cluster.radius.toDouble().pow(2)) {
+                if ((newX - cluster.x.toUInt()).toDouble().pow(2) + (newY -  cluster.y.toUInt()).toDouble().pow(2) + (newZ -  cluster.z.toUInt()).toDouble().pow(2) < cluster.radius.toDouble().pow(2)) {
                     ore = Ore(cluster.material)
                     break
                 }

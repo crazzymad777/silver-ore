@@ -11,7 +11,10 @@ class World(config: WorldConfig = WorldConfig(generatorName = "flat")) {
     private val clusters = HashMap<ClusterId, Cluster>()
 
     fun getDefaultCoordinates(): GlobalCubeCoordinates {
-        return GlobalCubeCoordinates(map.humanTownClusterId.x*256+128, map.humanTownClusterId.y*256+128, 128)
+        return GlobalCubeCoordinates(
+            (map.humanTownClusterId.x*256+128).toLong(),
+            (map.humanTownClusterId.y*256+128).toLong(),
+        128)
     }
 
     fun oreGeneratorsLoaded(): Int {

@@ -3,7 +3,7 @@ package silver.ore.core
 import silver.ore.core.utils.ChunkCubeCoordinates
 import silver.ore.core.utils.ChunkTransformer
 
-class Chunk(i: Int, private val generator: ClusterGenerator, private val cluster: Cluster) {
+class Chunk(i: UInt, private val generator: ClusterGenerator, private val cluster: Cluster) {
     val chunkTransformer = ChunkTransformer(i)
     val chunkId = i
 
@@ -11,13 +11,13 @@ class Chunk(i: Int, private val generator: ClusterGenerator, private val cluster
         return "$chunkId"
     }
 
-    private val cubes = HashMap<Int, Cube>()
+    private val cubes = HashMap<UInt, Cube>()
 
     fun cubesLoaded(): Int {
         return cubes.count()
     }
 
-    private fun generateCube(i: Int): Cube {
+    private fun generateCube(i: UInt): Cube {
         var cube = cubes[i]
         if (cube != null) {
             return cube

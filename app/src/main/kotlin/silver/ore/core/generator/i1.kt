@@ -18,7 +18,7 @@ class i1(seed: Long, random: Random = Random(seed), val generator: Generator) : 
             return cube
         }
 
-        if (coors.z == 128) {
+        if (coors.z == 128L) {
             floor = Material.GRASS
         } else if (coors.z <= 124) {
             @Suppress("NAME_SHADOWING") val cube = generator.oreGenerator.getCube(coors)
