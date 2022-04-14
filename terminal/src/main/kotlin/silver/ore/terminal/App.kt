@@ -23,7 +23,7 @@ fun main() {
         }
     }
 
-    val world = World(WorldConfig(generatorName = "i1"))
+    val world = World(WorldConfig(generatorName = "i1", enableNegativeCoordinates = true))
     val coors = world.getDefaultCoordinates()
     var x = coors.x
     var y = coors.y
