@@ -9,6 +9,6 @@ data class WorldChunkCoordinates(var x: ULong, var y: ULong, val z: ULong) {
     }
 
     fun getClusterId(): ClusterId {
-        return ClusterId((x/16u).toLong(), (y/16u).toLong())
+        return ClusterId(x.toLong() shr 4, y.toLong() shr 4)
     }
 }

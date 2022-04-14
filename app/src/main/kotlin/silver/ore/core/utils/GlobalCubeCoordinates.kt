@@ -10,6 +10,6 @@ data class GlobalCubeCoordinates(val x: Long, val y: Long, val z: Long)
     }
 
     fun getChunkCoordinates(): WorldChunkCoordinates {
-        return WorldChunkCoordinates(x.toULong()/16u, y.toULong()/16u, z.toULong()/16u)
+        return WorldChunkCoordinates(x.toULong() shr 4, y.toULong() shr 4, z.toULong() shr 4)
     }
 }
