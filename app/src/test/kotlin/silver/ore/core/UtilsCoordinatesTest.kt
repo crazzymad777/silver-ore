@@ -173,9 +173,13 @@ class UtilsCoordinatesTest {
         val z = Random.nextInt().toLong()
 
         val global = GlobalCubeCoordinates(x, y, z)
+
+        val ux = x.toULong()/16u
+        val uy = y.toULong()/16u
+
         val coors = global.getChunkCoordinates()
 
-        val actual = signedClusterId(x/256, y/256)
+        val actual = ClusterId(ux.toLong()/16, uy.toLong()/16)
         val expected = coors.getClusterId()
         assertEquals(expected, actual)
     }
