@@ -71,7 +71,8 @@ class Sea(val generator: Generator, private val tiles: List<Tile.TYPE>) : Cluste
         var wall: Material = Material.AIR
         val level = getLevel()
 
-        val ucoors = GlobalCubeCoordinates((256+coors.x)%256, (256+coors.y)%256, coors.z)
+        val ucoors = GlobalCubeCoordinates(((coors.x.toULong())%256u).toLong(),
+                                           ((coors.y.toULong())%256u).toLong(), coors.z)
         val depth = getDepth(ucoors)
         val bottom = level-depth
 
