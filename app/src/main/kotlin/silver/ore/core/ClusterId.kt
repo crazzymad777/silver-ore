@@ -37,10 +37,10 @@ data class ClusterId(private val x: Long, private val y: Long) {
 
     fun getSignedY(): Long {
         val half = maxClusterId/2
-        return if (x < half) {
-            this.x
+        return if (y < half) {
+            this.y
         } else {
-            (-this.x+half*2)*-1-2
+            (-this.y+half*2)*-1-2
         }
     }
 
