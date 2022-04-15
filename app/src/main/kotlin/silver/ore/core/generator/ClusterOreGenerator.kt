@@ -4,8 +4,7 @@ import silver.ore.core.Cube
 import silver.ore.core.Material
 import silver.ore.core.game.Ore
 import silver.ore.core.utils.ClusterCubeCoordinates
-import java.nio.ByteBuffer
-import java.security.MessageDigest
+import silver.ore.core.utils.Seed
 import java.util.*
 import kotlin.math.pow
 import kotlin.random.Random
@@ -13,16 +12,7 @@ import kotlin.random.Random
 class ClusterOreGenerator(private val id: ClusterOreGeneratorId) {
     data class Cluster(val x: Int, val y: Int, val z: Int, val material: Material, val radius: Int)
 
-    val random: Random
-    init {
-        val str = "${id.seed}:ores:${id.clusterId.getSignedX()}:${id.clusterId.getSignedY()}"
-        val bytes = str.toByteArray()
-        val md = MessageDigest.getInstance("SHA-256")
-        val digest = md.digest(bytes)
-        val wrapped: ByteBuffer = ByteBuffer.wrap(digest)
-        val seed = wrapped.getLong(0)
-        random = Random(seed)
-    }
+    val random: Random = Random(Seed.make("${id.seed}:ores:${id.clusterId.getSignedX()}:${id.clusterId.getSignedY()}"))
 
     // gold (1-5), silver (1-15), tin (1-10), copper (1-15), iron (1-20)
     private val oreClusters: Vector<Cluster> = Vector()

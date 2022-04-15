@@ -2,18 +2,17 @@ package silver.ore.core
 
 import silver.ore.core.utils.GlobalCubeCoordinates
 import silver.ore.core.utils.WorldChunkCoordinates
-import kotlin.random.Random
 
 class World(private val config: WorldConfig = WorldConfig(generatorName = "flat")) {
-    private val map = Map(Random(config.seed))
+    val map = Map(config.seed)
     private val generator = Generator(config.seed, map, config.generatorName)
 
     private val clusters = HashMap<ClusterId, Cluster>()
 
     fun getDefaultCoordinates(): GlobalCubeCoordinates {
         return GlobalCubeCoordinates(
-            (map.humanTownClusterId.getSignedX()*256+128).toLong(),
-            (map.humanTownClusterId.getSignedY()*256+128).toLong(),
+            (map.defaultClusterId.getSignedX()*256+128).toLong(),
+            (map.defaultClusterId.getSignedY()*256+128).toLong(),
         128)
     }
 

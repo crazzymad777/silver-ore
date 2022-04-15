@@ -1,49 +1,62 @@
 package silver.ore.core
 
+import silver.ore.core.utils.Seed
 import kotlin.random.Random
 
-class Map(val random: Random) {
-    private val width = 16L
-    private val height = 16L
+class Map(val seed: Long) {
     private val tiles = HashMap<ClusterId, Tile>()
-    val humanTownClusterId: ClusterId
+    val defaultClusterId: ClusterId
 
     init {
-        val x = random.nextLong(0, width)
-        val y = random.nextLong(0, height)
-        humanTownClusterId = ClusterId(x, y)
-        tiles[humanTownClusterId] = Tile(humanTownClusterId, Tile.TYPE.TOWN)
-    }
+        var tile: Tile
+        var i = 0L
+        var x = 0L
+        var y = 0L
 
-    init {
-        for (x in 0 until width) {
-            for (y in 0 until height) {
-                val id = ClusterId(x, y)
-                if (id != humanTownClusterId) {
-                    var type = Tile.TYPE.FLAT
-                    if (random.nextBoolean() && random.nextBoolean()) {
-                        type = Tile.TYPE.SEA
-                    }
-                    getTile(id, type)
+        val k = 16
+        while (true) {
+            val clusterId = ClusterId(x+i*k, y+i*k)
+            tile = getTile(clusterId)
+
+            if (tile.type == Tile.TYPE.TOWN) {
+                defaultClusterId = clusterId
+                break
+            }
+
+            x++
+            if (x >= i*k) {
+                y++
+                x = 0
+                if (y >= i*k) {
+                    y = 0
+                    i++
                 }
             }
         }
     }
 
-    private fun defaultType(clusterId: ClusterId) : Tile.TYPE{
-        return Tile.TYPE.SEA
-    }
-
     fun getTileType(clusterId: ClusterId): Tile.TYPE {
-        val tile = tiles[clusterId] ?: return defaultType(clusterId)
-        return tile.type
+        return getTile(clusterId).type
     }
 
-    fun getTile(clusterId: ClusterId, type: Tile.TYPE = defaultType(clusterId)): Tile {
+    fun getTile(clusterId: ClusterId): Tile {
         var tile = tiles[clusterId]
         if (tile != null) {
             return tile
         }
+
+        val seed = Seed.make("${this.seed}:map_tile:${clusterId.getSignedX()}:${clusterId.getSignedY()}")
+        val random = Random(seed)
+        val p = random.nextDouble(0.0, 1.0)
+
+        val type: Tile.TYPE = if (p < 0.05) {
+            Tile.TYPE.TOWN
+        } else if (p < 0.25) {
+            Tile.TYPE.SEA
+        } else {
+            Tile.TYPE.FLAT
+        }
+
         tile = Tile(clusterId, type)
         tiles[clusterId] = tile
         return tile

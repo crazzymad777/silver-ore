@@ -7,21 +7,31 @@ import silver.ore.core.generator.i1
 import kotlin.random.Random
 
 // Выдавать кубы должны генераторы и должен делать это так, чтобы кубы можно было воспроизвести.
-class Generator(seed: Long, private val map: Map, private val generatorName: String = "flat") {
+class Generator(private val seed: Long, private val map: Map, private val generatorName: String = "flat") {
     val oreGenerator = OreGenerator(seed = seed)
     private val random = Random(seed)
 
     private val flatGenerator = Flat(this)
     private val generators = HashMap<ClusterId, ClusterGenerator>()
-    // Passing `random` can break reproducing
-    private val i1Generator = i1(seed, random, this)
 
     fun getGenerator(clusterId: ClusterId): ClusterGenerator {
+        var generator = generators[clusterId]
+        if (generator != null) {
+            return generator
+        }
+
+        generator = createGenerator(clusterId)
+        generators[clusterId] = generator
+
+        return generator
+    }
+
+    fun createGenerator(clusterId: ClusterId): ClusterGenerator {
         val tile = map.getTile(clusterId)
         val type = tile.type
 
         if (type == Tile.TYPE.TOWN && generatorName == "i1") {
-            return i1Generator
+            return i1(seed, clusterId,this)
         } else if (type == Tile.TYPE.SEA) {
             var seaGenerator = generators[clusterId]
             if (seaGenerator != null) {

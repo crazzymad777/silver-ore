@@ -1,13 +1,17 @@
 package silver.ore.core.generator
 
-import silver.ore.core.ClusterGenerator
-import silver.ore.core.Cube
-import silver.ore.core.Generator
-import silver.ore.core.Material
+import silver.ore.core.*
 import silver.ore.core.utils.GlobalCubeCoordinates
+import silver.ore.core.utils.Seed
 import kotlin.random.Random
 
-class i1(seed: Long, random: Random = Random(seed), val generator: Generator) : ClusterGenerator() {
+class i1(private val seed: Long, clusterId: ClusterId, val generator: Generator) : ClusterGenerator() {
+    val random: Random
+    init {
+        val seed = Seed.make("${this.seed}:i1:${clusterId.getSignedX()}:${clusterId.getSignedY()}")
+        random = Random(seed)
+    }
+
     private val humanTown = HumanTown(random)
     override fun getCube(coors: GlobalCubeCoordinates): Cube {
         val floor: Material

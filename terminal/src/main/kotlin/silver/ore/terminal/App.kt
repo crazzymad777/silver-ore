@@ -32,7 +32,7 @@ fun main() {
     var speed = 256
     do {
         terminal.terminal.writer().println("X: $x, Y: $y, Z: $z")
-//        println("Chunk: ${world.getChunkByCoordinates(GlobalCubeCoordinates(x, y, z))} / Cluster loaded: ${world.clustersLoaded()} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}")
+        println("Chunk: ${world.getChunkByCoordinates(GlobalCubeCoordinates(x, y, z))} / Cluster loaded: ${world.clustersLoaded()} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}")
 //        println("Max colors: ${Colors.DEFAULT_COLORS_256.size}")
 
         val newCoors = GlobalCubeCoordinates(x, y, z)
@@ -44,8 +44,8 @@ fun main() {
 
         val cubeId = chunk.chunkTransformer.getLocalCubeCoordinates(cluster.clusterTransformer.getClusterCubeCoordinates(newCoors)).getCubeId()
 
-        terminal.terminal.writer().println("Ore generators loaded: ${world.oreGeneratorsLoaded()}")
-        terminal.terminal.writer().println("ClusterId: $clusterId / ChunkId: $chunkId / Cube: $cubeId")
+//        terminal.terminal.writer().println("Ore generators loaded: ${world.oreGeneratorsLoaded()}")
+        terminal.terminal.writer().println("ClusterId: $clusterId (${world.map.getTileType(clusterId)}) / ChunkId: $chunkId / Cube: $cubeId")
 
         val cube = world.getCube(GlobalCubeCoordinates(x, y, z))
 //        println(cube.fullDisplay())
