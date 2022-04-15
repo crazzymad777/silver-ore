@@ -12,8 +12,8 @@ class World(private val config: WorldConfig = WorldConfig(generatorName = "flat"
 
     fun getDefaultCoordinates(): GlobalCubeCoordinates {
         return GlobalCubeCoordinates(
-            (map.humanTownClusterId.x*256+128).toLong(),
-            (map.humanTownClusterId.y*256+128).toLong(),
+            (map.humanTownClusterId.getSignedX()*256+128).toLong(),
+            (map.humanTownClusterId.getSignedY()*256+128).toLong(),
         128)
     }
 

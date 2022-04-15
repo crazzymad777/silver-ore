@@ -1,48 +1,99 @@
 package silver.ore.core
 
-data class ClusterId(var x: Long, var y: Long) {
-    override fun toString(): String {
-        val half = maxClusterId/2
+data class ClusterId(private val x: Long, private val y: Long) {
+    init {
+        if (x < 0) {
+            throw IllegalArgumentException("invalid x: $x")
+        }
 
+        if (y < 0) {
+            throw IllegalArgumentException("invalid y: $y")
+        }
+
+        if (x > maxClusterId) {
+            throw IllegalArgumentException("invalid x: $x")
+        }
+
+        if (y > maxClusterId) {
+            throw IllegalArgumentException("invalid y: $y")
+        }
+    }
+
+    override fun toString(): String {
         // Show signed clusterId
-        val x = if (x < half) {
+        val x = getSignedX()
+        val y = getSignedY()
+        return "ClusterId(x=$x, y=$y)"
+    }
+
+    fun getSignedX(): Long {
+        val half = maxClusterId/2
+        return if (x < half) {
             this.x
         } else {
             (-this.x+half*2)*-1-2
         }
+    }
 
-        val y = if (y < half) {
-            this.y
+    fun getSignedY(): Long {
+        val half = maxClusterId/2
+        return if (x < half) {
+            this.x
         } else {
-            (-this.y+half*2)*-1-2
+            (-this.x+half*2)*-1-2
         }
+    }
 
-        return "ClusterId(x=$x, y=$y)"
+    fun getUnsignedX(): Long {
+        return x
+    }
+
+    fun getUnsignedY(): Long {
+        return y
     }
 
     companion object {
         const val maxClusterId = 72057594037927935
 
         fun signedClusterId(x: Long, y: Long): ClusterId {
-            val half = maxClusterId
-
             val unsignedX = if (x < 0) {
                 maxClusterId+x+1
-            } else if (x < maxClusterId/2) {
-                x
+            } else if (x > maxClusterId) {
+                x - maxClusterId - 1
             } else {
-                (-x+half*2)*-1-2
+                x
             }
-
             val unsignedY = if (y < 0) {
                 maxClusterId+y+1
-            } else if (y < maxClusterId/2) {
-                y
+            } else if (y > maxClusterId) {
+                y - maxClusterId - 1
             } else {
-                (-y+half*2)*-1-2
+                y
             }
-
             return ClusterId(unsignedX, unsignedY)
+//            val half = maxClusterId/2
+//
+//            val unsignedX = if (x < 0) {
+//                maxClusterId+x+1
+//            } else if (x < half) {
+//                x
+//            } else {
+//                (-x+half*2)*-1-2
+//            }
+//
+//            val unsignedY = if (y < 0) {
+//                maxClusterId+y+1
+//            } else if (y < half) {
+//                y
+//            } else {
+//                (-y+half*2)*-1-2
+//            }
+//
+//            return if (unsignedX >= 0 && unsignedY >= 0) {
+//                ClusterId(unsignedX, unsignedY)
+//            } else {
+//                signedClusterId(unsignedX, unsignedY)
+//            }
         }
     }
 

@@ -30,12 +30,16 @@ class Map(val random: Random) {
         }
     }
 
+    private fun defaultType(clusterId: ClusterId) : Tile.TYPE{
+        return Tile.TYPE.SEA
+    }
+
     fun getTileType(clusterId: ClusterId): Tile.TYPE {
-        val tile = tiles[clusterId] ?: return Tile.TYPE.SEA
+        val tile = tiles[clusterId] ?: return defaultType(clusterId)
         return tile.type
     }
 
-    fun getTile(clusterId: ClusterId, type: Tile.TYPE = Tile.TYPE.SEA): Tile {
+    fun getTile(clusterId: ClusterId, type: Tile.TYPE = defaultType(clusterId)): Tile {
         var tile = tiles[clusterId]
         if (tile != null) {
             return tile

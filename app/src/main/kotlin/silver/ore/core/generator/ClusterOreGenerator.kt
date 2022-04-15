@@ -15,7 +15,7 @@ class ClusterOreGenerator(private val id: ClusterOreGeneratorId) {
 
     val random: Random
     init {
-        val str = "${id.seed}:ores:${id.clusterId.x}:${id.clusterId.y}"
+        val str = "${id.seed}:ores:${id.clusterId.getSignedX()}:${id.clusterId.getSignedY()}"
         val bytes = str.toByteArray()
         val md = MessageDigest.getInstance("SHA-256")
         val digest = md.digest(bytes)

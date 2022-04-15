@@ -11,9 +11,20 @@ class Sea(val generator: Generator, private val tiles: List<Tile.TYPE>) : Cluste
         return 128
     }
 
+    // TODO: change type to ClusterCubeCoordinates!!
     private fun getDepth(coors: GlobalCubeCoordinates): Int {
-        val x = coors.x%256
-        val y = coors.y%256
+        if (coors.x < 0) {
+            throw IllegalArgumentException("invalid coors.x: ${coors.x}")
+        }
+
+        if (coors.y < 0) {
+            throw IllegalArgumentException("invalid coors.y: ${coors.y}")
+        }
+
+        val x = coors.x%256 // signed division!!
+        val y = coors.y%256 // signed division!!
+//        val x = (256+coors.x)%256
+//        val y = (256+coors.y)%256
         val offsetX = x-128
         val offsetY = y-128
 
@@ -54,16 +65,19 @@ class Sea(val generator: Generator, private val tiles: List<Tile.TYPE>) : Cluste
         return (64L+dis).toInt()
     }
 
+    // TODO: change type to ClusterCubeCoordinates!!
     override fun getCube(coors: GlobalCubeCoordinates): Cube {
         var floor: Material
         var wall: Material = Material.AIR
         val level = getLevel()
-        val depth = getDepth(coors)
+
+        val ucoors = GlobalCubeCoordinates((256+coors.x)%256, (256+coors.y)%256, coors.z)
+        val depth = getDepth(ucoors)
         val bottom = level-depth
 
-        if (coors.z in bottom..level) {
+        if (ucoors.z in bottom..level) {
             floor = Material.WATER
-        } else if (coors.z <= bottom-4) {
+        } else if (ucoors.z <= bottom-4) {
             @Suppress("NAME_SHADOWING") val cube = generator.oreGenerator.getCube(coors)
             if (cube != null) {
                 return cube
@@ -76,7 +90,7 @@ class Sea(val generator: Generator, private val tiles: List<Tile.TYPE>) : Cluste
         } else {
             wall = Material.SILT
             floor = Material.SILT
-            if (coors.x%256 < 5 || coors.x%256 > 250 || coors.y%256 < 5 || coors.y%256 > 250) {
+            if (ucoors.x%256 < 5 || ucoors.x%256 > 250 || ucoors.y%256 < 5 || ucoors.y%256 > 250) {
                 if (depth < 5) {
                     wall = Material.SAND
                     floor = Material.SAND
