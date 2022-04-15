@@ -1,4 +1,4 @@
-package silver.ore.core.utils
+package silver.ore.core.world.utils
 
 // relative to world
 data class GlobalCubeCoordinates(val x: Long, val y: Long, val z: Long)

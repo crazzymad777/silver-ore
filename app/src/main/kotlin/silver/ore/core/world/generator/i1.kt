@@ -1,8 +1,12 @@
-package silver.ore.core.generator
+package silver.ore.core.world.generator
 
-import silver.ore.core.*
-import silver.ore.core.utils.GlobalCubeCoordinates
-import silver.ore.core.utils.Seed
+import silver.ore.core.game.Material
+import silver.ore.core.world.utils.GlobalCubeCoordinates
+import silver.ore.core.world.utils.Seed
+import silver.ore.core.world.ClusterGenerator
+import silver.ore.core.world.ClusterId
+import silver.ore.core.world.Cube
+import silver.ore.core.world.Generator
 import kotlin.random.Random
 
 class i1(private val seed: Long, clusterId: ClusterId, val generator: Generator) : ClusterGenerator() {

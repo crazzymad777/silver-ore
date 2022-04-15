@@ -1,6 +1,6 @@
-package silver.ore.core.generator
+package silver.ore.core.world.generator
 
-import silver.ore.core.Material
+import silver.ore.core.game.Material
 import silver.ore.core.game.Furniture
 import silver.ore.core.game.furniture.*
 import java.util.*

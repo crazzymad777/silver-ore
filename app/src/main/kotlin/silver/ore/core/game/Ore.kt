@@ -1,7 +1,5 @@
 package silver.ore.core.game
 
-import silver.ore.core.Material
-
 open class Ore(private val metal: Material) : Item() {
     init {
         if (!metal.isMetal()) {

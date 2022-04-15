@@ -1,7 +1,7 @@
 package silver.ore.terminal
 
-import silver.ore.core.Cube
-import silver.ore.core.Material
+import silver.ore.core.world.Cube
+import silver.ore.core.game.Material
 
 class Glyph(val cube: Cube) {
     var foreground: RgbColor = RgbColor(255, 255, 255)

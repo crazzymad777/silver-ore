@@ -1,8 +1,8 @@
-package silver.ore.core.generator
+package silver.ore.core.world.generator
 
-import silver.ore.core.AbstractGenerator
-import silver.ore.core.Cube
-import silver.ore.core.utils.GlobalCubeCoordinates
+import silver.ore.core.world.AbstractGenerator
+import silver.ore.core.world.Cube
+import silver.ore.core.world.utils.GlobalCubeCoordinates
 import kotlin.random.Random
 
 class HumanTown(random: Random = Random(0)) : AbstractGenerator() {

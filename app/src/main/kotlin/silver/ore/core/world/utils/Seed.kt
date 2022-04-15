@@ -1,4 +1,4 @@
-package silver.ore.core.utils
+package silver.ore.core.world.utils
 
 import java.nio.ByteBuffer
 import java.security.MessageDigest

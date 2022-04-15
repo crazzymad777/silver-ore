@@ -1,7 +1,11 @@
-package silver.ore.core.generator
+package silver.ore.core.world.generator
 
-import silver.ore.core.*
-import silver.ore.core.utils.GlobalCubeCoordinates
+import silver.ore.core.game.Material
+import silver.ore.core.world.utils.GlobalCubeCoordinates
+import silver.ore.core.world.ClusterGenerator
+import silver.ore.core.world.Cube
+import silver.ore.core.world.Generator
+import silver.ore.core.world.Tile
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sign

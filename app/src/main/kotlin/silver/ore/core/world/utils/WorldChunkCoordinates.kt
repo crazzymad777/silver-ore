@@ -1,6 +1,6 @@
-package silver.ore.core.utils
+package silver.ore.core.world.utils
 
-import silver.ore.core.ClusterId
+import silver.ore.core.world.ClusterId
 
 // relative obviously to world. x+1 next chunk on x-axis.
 data class WorldChunkCoordinates(var x: ULong, var y: ULong, val z: ULong) {

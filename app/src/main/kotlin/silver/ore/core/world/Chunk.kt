@@ -1,7 +1,8 @@
-package silver.ore.core
+package silver.ore.core.world
 
-import silver.ore.core.utils.ChunkCubeCoordinates
-import silver.ore.core.utils.ChunkTransformer
+import silver.ore.core.game.Material
+import silver.ore.core.world.utils.ChunkCubeCoordinates
+import silver.ore.core.world.utils.ChunkTransformer
 
 class Chunk(i: UInt, private val generator: ClusterGenerator, private val cluster: Cluster) {
     val chunkTransformer = ChunkTransformer(i)

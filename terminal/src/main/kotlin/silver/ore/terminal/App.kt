@@ -1,8 +1,8 @@
 package silver.ore.terminal
 
-import silver.ore.core.World
-import silver.ore.core.WorldConfig
-import silver.ore.core.utils.GlobalCubeCoordinates
+import silver.ore.core.world.World
+import silver.ore.core.world.WorldConfig
+import silver.ore.core.world.utils.GlobalCubeCoordinates
 
 fun main() {
     val terminal = JLineTerminal()

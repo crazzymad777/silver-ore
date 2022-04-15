@@ -1,7 +1,8 @@
-package silver.ore.core
+package silver.ore.core.world
 
-import silver.ore.core.utils.GlobalCubeCoordinates
-import silver.ore.core.utils.WorldChunkCoordinates
+import silver.ore.core.game.Material
+import silver.ore.core.world.utils.GlobalCubeCoordinates
+import silver.ore.core.world.utils.WorldChunkCoordinates
 
 class World(private val config: WorldConfig = WorldConfig(generatorName = "flat")) {
     val map = Map(config.seed)

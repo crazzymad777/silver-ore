@@ -1,10 +1,10 @@
-package silver.ore.core.generator
+package silver.ore.core.world.generator
 
-import silver.ore.core.Cube
-import silver.ore.core.Material
+import silver.ore.core.world.Cube
+import silver.ore.core.game.Material
 import silver.ore.core.game.Ore
-import silver.ore.core.utils.ClusterCubeCoordinates
-import silver.ore.core.utils.Seed
+import silver.ore.core.world.utils.ClusterCubeCoordinates
+import silver.ore.core.world.utils.Seed
 import java.util.*
 import kotlin.math.pow
 import kotlin.random.Random

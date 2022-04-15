@@ -1,6 +1,6 @@
-package silver.ore.core
+package silver.ore.core.world
 
-import silver.ore.core.utils.Seed
+import silver.ore.core.world.utils.Seed
 import kotlin.random.Random
 
 class Map(val seed: Long) {

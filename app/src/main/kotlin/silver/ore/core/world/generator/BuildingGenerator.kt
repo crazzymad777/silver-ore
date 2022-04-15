@@ -1,7 +1,7 @@
-package silver.ore.core.generator
+package silver.ore.core.world.generator
 
-import silver.ore.core.Cube
-import silver.ore.core.Material
+import silver.ore.core.world.Cube
+import silver.ore.core.game.Material
 import silver.ore.core.game.Furniture
 import java.util.*
 import kotlin.math.abs

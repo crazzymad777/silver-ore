@@ -1,6 +1,6 @@
-package silver.ore.core.utils
+package silver.ore.core.world.utils
 
-import silver.ore.core.ClusterId
+import silver.ore.core.world.ClusterId
 
 data class ClusterTransformer(val clusterId: ClusterId) {
     private val offsetClusterId = ClusterId(clusterId.getUnsignedX(), clusterId.getUnsignedY())
@@ -22,6 +22,10 @@ data class ClusterTransformer(val clusterId: ClusterId) {
     }
 
     fun getGlobalCubeCoordinates(clusterCoors: ClusterCubeCoordinates): GlobalCubeCoordinates {
-        return GlobalCubeCoordinates.fromInternalCoordinates(clusterCoors.x+offsetX, clusterCoors.y+offsetY, clusterCoors.z.toULong())
+        return GlobalCubeCoordinates.fromInternalCoordinates(
+            clusterCoors.x + offsetX,
+            clusterCoors.y + offsetY,
+            clusterCoors.z.toULong()
+        )
     }
 }

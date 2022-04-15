@@ -1,4 +1,4 @@
-package silver.ore.core
+package silver.ore.core.game
 
 enum class Material {
     GRASS {

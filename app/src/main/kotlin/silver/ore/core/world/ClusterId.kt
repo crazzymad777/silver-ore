@@ -1,4 +1,4 @@
-package silver.ore.core
+package silver.ore.core.world
 
 data class ClusterId(private val x: Long, private val y: Long) {
     init {
@@ -27,7 +27,7 @@ data class ClusterId(private val x: Long, private val y: Long) {
     }
 
     fun getSignedX(): Long {
-        val half = maxClusterId/2
+        val half = maxClusterId /2
         return if (x < half) {
             this.x
         } else {
@@ -36,7 +36,7 @@ data class ClusterId(private val x: Long, private val y: Long) {
     }
 
     fun getSignedY(): Long {
-        val half = maxClusterId/2
+        val half = maxClusterId /2
         return if (y < half) {
             this.y
         } else {
@@ -57,14 +57,14 @@ data class ClusterId(private val x: Long, private val y: Long) {
 
         fun signedClusterId(x: Long, y: Long): ClusterId {
             val unsignedX = if (x < 0) {
-                maxClusterId+x+1
+                maxClusterId +x+1
             } else if (x > maxClusterId) {
                 x - maxClusterId - 1
             } else {
                 x
             }
             val unsignedY = if (y < 0) {
-                maxClusterId+y+1
+                maxClusterId +y+1
             } else if (y > maxClusterId) {
                 y - maxClusterId - 1
             } else {
@@ -98,13 +98,15 @@ data class ClusterId(private val x: Long, private val y: Long) {
     }
 
     fun getNeighbourhood(): Array<ClusterId> {
-        return arrayOf(signedClusterId(x, y-1),
+        return arrayOf(
+            signedClusterId(x, y-1),
             signedClusterId(x+1, y-1),
             signedClusterId(x+1, y),
             signedClusterId(x+1, y+1),
             signedClusterId(x, y+1),
             signedClusterId(x-1, y+1),
             signedClusterId(x-1, y),
-            signedClusterId(x-1, y-1))
+            signedClusterId(x-1, y-1)
+        )
     }
 }

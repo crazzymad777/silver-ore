@@ -1,4 +1,4 @@
-package silver.ore.core.utils
+package silver.ore.core.world.utils
 
 data class ChunkTransformer(val chunkId: UInt) {
     init {

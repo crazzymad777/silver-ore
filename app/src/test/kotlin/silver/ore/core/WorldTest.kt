@@ -2,7 +2,10 @@ package silver.ore.core
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import silver.ore.core.utils.GlobalCubeCoordinates
+import silver.ore.core.world.utils.GlobalCubeCoordinates
+import silver.ore.core.world.Cube
+import silver.ore.core.world.World
+import silver.ore.core.world.WorldConfig
 import kotlin.random.Random
 
 class WorldTest {

@@ -3,9 +3,11 @@ package silver.ore.core
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import silver.ore.core.ClusterId.Companion.signedClusterId
+import silver.ore.core.world.ClusterId.Companion.signedClusterId
 import silver.ore.core.utils.*
-import silver.ore.core.utils.GlobalCubeCoordinates.Companion.fromInternalCoordinates
+import silver.ore.core.world.utils.GlobalCubeCoordinates.Companion.fromInternalCoordinates
+import silver.ore.core.world.ClusterId
+import silver.ore.core.world.utils.*
 import kotlin.random.Random
 import kotlin.random.nextUInt
 

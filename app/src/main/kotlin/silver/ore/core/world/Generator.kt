@@ -1,9 +1,9 @@
-package silver.ore.core
+package silver.ore.core.world
 
-import silver.ore.core.generator.Flat
-import silver.ore.core.generator.OreGenerator
-import silver.ore.core.generator.Sea
-import silver.ore.core.generator.i1
+import silver.ore.core.world.generator.Flat
+import silver.ore.core.world.generator.OreGenerator
+import silver.ore.core.world.generator.Sea
+import silver.ore.core.world.generator.i1
 import kotlin.random.Random
 
 // Выдавать кубы должны генераторы и должен делать это так, чтобы кубы можно было воспроизвести.

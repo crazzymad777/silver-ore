@@ -1,4 +1,4 @@
-package silver.ore.core
+package silver.ore.core.world
 
 data class Tile(val clusterId: ClusterId, val type: TYPE)
 {

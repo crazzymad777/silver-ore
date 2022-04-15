@@ -1,10 +1,10 @@
-package silver.ore.core.generator
+package silver.ore.core.world.generator
 
-import silver.ore.core.AbstractGenerator
-import silver.ore.core.ClusterId
-import silver.ore.core.Cube
-import silver.ore.core.utils.ClusterTransformer
-import silver.ore.core.utils.GlobalCubeCoordinates
+import silver.ore.core.world.AbstractGenerator
+import silver.ore.core.world.ClusterId
+import silver.ore.core.world.Cube
+import silver.ore.core.world.utils.ClusterTransformer
+import silver.ore.core.world.utils.GlobalCubeCoordinates
 
 
 class OreGenerator(private var version: Int = 1, private val seed: Long) : AbstractGenerator() {

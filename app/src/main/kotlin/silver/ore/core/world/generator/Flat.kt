@@ -1,10 +1,10 @@
-package silver.ore.core.generator
+package silver.ore.core.world.generator
 
-import silver.ore.core.ClusterGenerator
-import silver.ore.core.Cube
-import silver.ore.core.Generator
-import silver.ore.core.Material
-import silver.ore.core.utils.GlobalCubeCoordinates
+import silver.ore.core.world.ClusterGenerator
+import silver.ore.core.world.Cube
+import silver.ore.core.world.Generator
+import silver.ore.core.game.Material
+import silver.ore.core.world.utils.GlobalCubeCoordinates
 
 class Flat(val generator: Generator) : ClusterGenerator() {
     override fun getCube(coors: GlobalCubeCoordinates): Cube {

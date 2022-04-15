@@ -1,7 +1,7 @@
-package silver.ore.core
+package silver.ore.core.world
 
-import silver.ore.core.utils.ClusterChunkCoordinates
-import silver.ore.core.utils.ClusterTransformer
+import silver.ore.core.world.utils.ClusterChunkCoordinates
+import silver.ore.core.world.utils.ClusterTransformer
 
 class Cluster(val id: ClusterId, val generator: ClusterGenerator) {
     private val chunks = HashMap<UInt, Chunk>()

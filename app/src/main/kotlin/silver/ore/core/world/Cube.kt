@@ -1,9 +1,10 @@
-package silver.ore.core
+package silver.ore.core.world
 
+import silver.ore.core.game.Material
 import silver.ore.core.game.Furniture
 import silver.ore.core.game.Item
 import silver.ore.core.game.Ore
-import silver.ore.core.generator.Building
+import silver.ore.core.world.generator.Building
 
 class Cube(val wall: Material = Material.AIR, val floor: Material = Material.AIR, private val building: Building? = null, private val furniture: Furniture? = null, private val ore: Ore? = null) {
     fun getItem(): Item? {
