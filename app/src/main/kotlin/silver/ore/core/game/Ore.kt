@@ -1,6 +1,6 @@
 package silver.ore.core.game
 
-open class Ore(private val metal: Material) : Item() {
+open class Ore(val metal: Material) : Item() {
     init {
         if (!metal.isMetal()) {
             throw IllegalArgumentException("$metal is not metal")
