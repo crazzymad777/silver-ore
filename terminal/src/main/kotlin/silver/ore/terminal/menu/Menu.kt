@@ -25,8 +25,15 @@ abstract class Menu(protected val display: AbstractDisplay) {
         entries.add(entry)
     }
 
+    abstract fun draw()
     abstract fun process()
     abstract fun recvKey(key: Int)
     var closed: Boolean = false
     var update: Boolean = false
+    abstract val action: ACTION
+
+    enum class ACTION {
+        ENTER,
+        QUIT
+    }
 }

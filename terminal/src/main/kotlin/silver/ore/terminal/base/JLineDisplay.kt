@@ -49,6 +49,14 @@ class JLineDisplay : AbstractDisplay() {
         display.reset()
     }
 
+    override fun clear() {
+        for (x in 0 until getWidth()) {
+            for (y in 0 until getHeight()) {
+                matrix[y][x] = Glyph()
+            }
+        }
+    }
+
     override fun update() {
         val list = ArrayList<AttributedString>()
         for (row in matrix) {
