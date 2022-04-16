@@ -1,4 +1,4 @@
-package silver.ore.terminal
+package silver.ore.terminal.base
 
 abstract class AbstractTextBuilder {
     abstract fun setForeground(rgb: RgbColor): AbstractTextBuilder

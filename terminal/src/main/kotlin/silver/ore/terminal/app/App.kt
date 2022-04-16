@@ -1,8 +1,10 @@
-package silver.ore.terminal
+package silver.ore.terminal.app
 
 import silver.ore.core.world.World
 import silver.ore.core.world.WorldConfig
 import silver.ore.core.world.utils.GlobalCubeCoordinates
+import silver.ore.terminal.base.JLineTerminal
+import silver.ore.terminal.base.RgbColor
 
 fun main() {
     val terminal = JLineTerminal()
@@ -32,7 +34,7 @@ fun main() {
     var speed = 256
     do {
         terminal.terminal.writer().println("X: $x, Y: $y, Z: $z")
-        println("Chunk: ${world.getChunkByCoordinates(GlobalCubeCoordinates(x, y, z))} / Cluster loaded: ${world.clustersLoaded()} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}")
+        terminal.terminal.writer().println("Chunk: ${world.getChunkByCoordinates(GlobalCubeCoordinates(x, y, z))} / Cluster loaded: ${world.clustersLoaded()} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}")
 //        println("Max colors: ${Colors.DEFAULT_COLORS_256.size}")
 
         val newCoors = GlobalCubeCoordinates(x, y, z)

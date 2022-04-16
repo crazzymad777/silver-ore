@@ -1,9 +1,10 @@
-package silver.ore.terminal
+package silver.ore.terminal.app
 
 import org.jline.terminal.TerminalBuilder
 import org.jline.utils.AttributedStringBuilder
 import org.jline.utils.AttributedStyle
 import silver.ore.core.game.Material
+import silver.ore.terminal.base.RgbColor
 
 fun main() {
     val hashMap = HashMap<Material, RgbColor>()

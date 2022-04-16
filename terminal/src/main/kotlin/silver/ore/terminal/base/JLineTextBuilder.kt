@@ -1,4 +1,4 @@
-package silver.ore.terminal
+package silver.ore.terminal.base
 
 import org.jline.terminal.Terminal
 import org.jline.utils.AttributedStringBuilder

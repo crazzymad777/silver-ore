@@ -1,4 +1,4 @@
-package silver.ore.terminal
+package silver.ore.terminal.base
 
 abstract class AbstractTerminal {
     abstract fun builder(): AbstractTextBuilder
