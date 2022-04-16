@@ -79,6 +79,6 @@ class JLineDisplay : AbstractDisplay() {
             }
             list.add(attributedStringBuilder.toAttributedString())
         }
-        display.update(list,0)
+        display.update(list,-1)
     }
 }
