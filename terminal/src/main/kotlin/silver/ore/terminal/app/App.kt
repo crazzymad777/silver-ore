@@ -3,28 +3,11 @@ package silver.ore.terminal.app
 import silver.ore.core.world.World
 import silver.ore.core.world.WorldConfig
 import silver.ore.core.world.utils.GlobalCubeCoordinates
-import silver.ore.terminal.base.JLineTerminal
+import silver.ore.terminal.base.JLineDisplay
 import silver.ore.terminal.base.RgbColor
 
 fun main() {
-    val terminal = JLineTerminal()
-    val type = terminal.getType()
-
-    if (type == "dumb-color" || type == "dumb") {
-        terminal.terminal.writer().println("Your terminal is $type. Continue to work? (y/n)")
-        terminal.terminal.flush();
-        var integer: Int
-        var char: Char
-        do {
-            integer = terminal.reader.read()
-            char = integer.toChar().lowercaseChar()
-        } while(integer >= 0 && char != 'y' && char != 'n')
-
-        if (integer < 0 || char == 'n') {
-            return
-        }
-    }
-
+    val display = JLineDisplay()
     val world = World(WorldConfig(generatorName = "i1", enableNegativeCoordinates = true))
     val coors = world.getDefaultCoordinates()
     var x = coors.x
@@ -33,9 +16,8 @@ fun main() {
 
     var speed = 256
     do {
-        terminal.terminal.writer().println("X: $x, Y: $y, Z: $z")
-        terminal.terminal.writer().println("Chunk: ${world.getChunkByCoordinates(GlobalCubeCoordinates(x, y, z))} / Cluster loaded: ${world.clustersLoaded()} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}")
-//        println("Max colors: ${Colors.DEFAULT_COLORS_256.size}")
+        display.put(0, 0, silver.ore.terminal.base.Glyph.fromString("X: $x, Y: $y, Z: $z"))
+        display.put(0, 1, silver.ore.terminal.base.Glyph.fromString("Chunk: ${world.getChunkByCoordinates(GlobalCubeCoordinates(x, y, z))} / Cluster loaded: ${world.clustersLoaded()} / Chunks loaded: ${world.chunksLoaded()} / Cubes loaded: ${world.cubesLoaded()}"))
 
         val newCoors = GlobalCubeCoordinates(x, y, z)
         val cluster = world.getCluster(newCoors.getChunkCoordinates())
@@ -47,31 +29,33 @@ fun main() {
         val cubeId = chunk.chunkTransformer.getLocalCubeCoordinates(cluster.clusterTransformer.getClusterCubeCoordinates(newCoors)).getCubeId()
 
 //        terminal.terminal.writer().println("Ore generators loaded: ${world.oreGeneratorsLoaded()}")
-        terminal.terminal.writer().println("ClusterId: $clusterId (${world.map.getTileType(clusterId)}) / ChunkId: $chunkId / Cube: $cubeId")
+        display.put(0, 2, silver.ore.terminal.base.Glyph.fromString("ClusterId: $clusterId (${world.map.getTileType(clusterId)}) / ChunkId: $chunkId / Cube: $cubeId"))
 
         val cube = world.getCube(GlobalCubeCoordinates(x, y, z))
 //        println(cube.fullDisplay())
         val item = cube.getItem()
         if (item != null) {
-            terminal.terminal.writer().println("Item: ${item.getName()}")
+            display.put(0, 3, silver.ore.terminal.base.Glyph.fromString("Item: ${item.getName()}"))
         } else {
-            terminal.terminal.writer().println("No items")
+            display.put(0, 3, silver.ore.terminal.base.Glyph.fromString("No items"))
         }
-        val builder = terminal.builder()
+        var row = 0
         for (i in -16..16) {
+            row = i + 16
+            var column = 0
             for (j in -48..48) {
+                column = j + 48
                 if (i != 0 || j != 0) {
                     val glyph = Glyph(world.getCube(GlobalCubeCoordinates(x + j, y + i, z)))
-                    builder.setForeground(glyph.foreground).append(glyph.char)
+                    display.put(column, 4+row, silver.ore.terminal.base.Glyph(glyph.foreground, glyph.background, glyph.char))
                 } else {
-                    builder.setForeground(RgbColor(255, 0, 0)).append('x')
+                    display.put(column, 4+row, silver.ore.terminal.base.Glyph(RgbColor(255, 0, 0), char = 'x'))
                 }
             }
-            terminal.terminal.writer().println(builder.toAnsi())
-            builder.clear()
         }
-        terminal.terminal.flush();
-        val integer = terminal.reader.read()
+        display.reset()
+        display.update()
+        val integer = display.read()
         val char = integer.toChar()
         when (char) {
             'w' -> {
@@ -112,6 +96,5 @@ fun main() {
                 }
             }
         }
-        terminal.clear()
     } while (char != 'q' && integer != -1)
 }
