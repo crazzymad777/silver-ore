@@ -20,7 +20,7 @@ open class Component(display: AbstractDisplay, private val component: AbstractCo
     }
 
     override fun recvKey(key: Key) {
-        recvKey(key)
+        component.recvKey(key)
     }
 
     override fun resize(width: Int, height: Int) {
