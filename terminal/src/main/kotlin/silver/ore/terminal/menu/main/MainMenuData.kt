@@ -8,13 +8,15 @@ class MainMenuData {
         SELECT_WORLD(1),
         SOURCE_CODE(2),
         SETTINGS(3),
-        QUIT(4)
+        TEST(4),
+        QUIT(5)
     }
 
     val entries = arrayListOf(MenuEntry("Create a new world"),
                               MenuEntry("Select world"),
                               MenuEntry("Source code"),
                               MenuEntry("Settings"),
+                              MenuEntry("Test"),
                               MenuEntry("Quit"))
     private var index = 0
     var selectedEntry: MenuEntry = entries[index]
