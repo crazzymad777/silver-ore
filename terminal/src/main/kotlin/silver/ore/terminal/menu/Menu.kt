@@ -22,6 +22,10 @@ abstract class Menu(protected val display: AbstractDisplay) {
         }
     }
 
+    fun resize() {
+        update = true
+    }
+
     fun push(entry: MenuEntry) {
         entries.add(entry)
     }

@@ -13,6 +13,17 @@ class JLineDisplay : AbstractDisplay() {
         display.resize(terminal.terminal.height, terminal.terminal.width)
     }
 
+    override fun resize(width: Int, height: Int) {
+        matrix = ArrayList()
+        for(y in 0 until height) {
+            val row = ArrayList<Glyph>()
+            for(x in 0 until width) {
+                row.add(Glyph())
+            }
+            matrix.add(row)
+        }
+    }
+
     override fun getWidth(): Int {
         return terminal.terminal.width
     }
@@ -21,7 +32,7 @@ class JLineDisplay : AbstractDisplay() {
         return terminal.terminal.height
     }
 
-    private val matrix = ArrayList<ArrayList<Glyph>>()
+    private var matrix = ArrayList<ArrayList<Glyph>>()
     init {
         for(y in 0 until terminal.terminal.height) {
             val row = ArrayList<Glyph>()
