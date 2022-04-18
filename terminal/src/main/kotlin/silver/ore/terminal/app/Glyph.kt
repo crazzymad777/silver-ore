@@ -6,7 +6,7 @@ import silver.ore.core.game.Ore
 import silver.ore.core.world.Cube
 import silver.ore.terminal.base.RgbColor
 
-class Glyph(val cube: Cube) {
+class Glyph(val cube: Cube, val bottomCube: Cube? = null) {
     var foreground: RgbColor = RgbColor(255, 255, 255)
     val background: RgbColor = RgbColor(0, 0, 0)
     val char: Char = cube.display()
@@ -58,6 +58,18 @@ class Glyph(val cube: Cube) {
         }
     }
 
+    fun getGlyph(): Glyph {
+        if (cube.wall == Material.AIR && cube.floor == Material.AIR) {
+            if (bottomCube != null) {
+                val glyph = Glyph(bottomCube, null)
+                val color = glyph.foreground
+                glyph.foreground = RgbColor(color.r / 4, color.g / 4, color.b / 4)
+                return glyph
+            }
+        }
+        return this
+    }
+
     fun getColor(): RgbColor {
         val item = cube.getItem()
         if (item == null) {
@@ -72,7 +84,6 @@ class Glyph(val cube: Cube) {
             if (cube.wall == Material.WOOD) {
                 return RgbColor(255, 255, 0)
             }
-
             return getMaterialForegroundColor(cube.wall)
         }
         return getItemColor(item)

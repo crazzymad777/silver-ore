@@ -7,6 +7,7 @@ import org.jline.utils.Display
 
 class JLineDisplay : AbstractDisplay() {
     val terminal: JLineTerminal = JLineTerminal()
+    private val keyboard = JLineKeyboard(terminal.terminal, terminal.reader)
     private val display = Display(terminal.terminal, true)
     init {
         display.resize(terminal.terminal.height, terminal.terminal.width)
@@ -31,18 +32,18 @@ class JLineDisplay : AbstractDisplay() {
         }
     }
 
-    override fun put(x: Int, y: Int, glyph: silver.ore.terminal.base.Glyph) {
+    override fun put(x: Int, y: Int, glyph: Glyph) {
         matrix[y][x] = glyph
     }
 
-    override fun put(x: Int, y: Int, glyphs: Array<silver.ore.terminal.base.Glyph>) {
+    override fun put(x: Int, y: Int, glyphs: Array<Glyph>) {
         for (i in x until glyphs.size+x) {
             matrix[y][i] = glyphs[i-x]
         }
     }
 
-    override fun read(): Int {
-        return terminal.reader.read()
+    override fun read(): Key {
+        return keyboard.fetch()
     }
 
     override fun reset() {

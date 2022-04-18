@@ -6,6 +6,8 @@ import silver.ore.core.world.utils.GlobalCubeCoordinates
 import silver.ore.terminal.base.JLineDisplay
 import silver.ore.terminal.base.RgbColor
 
+import silver.ore.terminal.base.Glyph as BaseGlyph
+
 fun main() {
     val display = JLineDisplay()
     val world = World(WorldConfig(generatorName = "i1", enableNegativeCoordinates = true))
@@ -29,15 +31,15 @@ fun main() {
         val cubeId = chunk.chunkTransformer.getLocalCubeCoordinates(cluster.clusterTransformer.getClusterCubeCoordinates(newCoors)).getCubeId()
 
 //        terminal.terminal.writer().println("Ore generators loaded: ${world.oreGeneratorsLoaded()}")
-        display.put(0, 2, silver.ore.terminal.base.Glyph.fromString("ClusterId: $clusterId (${world.map.getTileType(clusterId)}) / ChunkId: $chunkId / Cube: $cubeId"))
+        display.put(0, 2, BaseGlyph.fromString("ClusterId: $clusterId (${world.map.getTileType(clusterId)}) / ChunkId: $chunkId / Cube: $cubeId"))
 
         val cube = world.getCube(GlobalCubeCoordinates(x, y, z))
 //        println(cube.fullDisplay())
         val item = cube.getItem()
         if (item != null) {
-            display.put(0, 3, silver.ore.terminal.base.Glyph.fromString("Item: ${item.getName()}"))
+            display.put(0, 3, BaseGlyph.fromString("Item: ${item.getName()}"))
         } else {
-            display.put(0, 3, silver.ore.terminal.base.Glyph.fromString("No items"))
+            display.put(0, 3, BaseGlyph.fromString("Wall: ${cube.wall} / Floor: ${cube.floor}"))
         }
         var row = 0
         for (i in -16..16) {
@@ -46,16 +48,17 @@ fun main() {
             for (j in -48..48) {
                 column = j + 48
                 if (i != 0 || j != 0) {
-                    val glyph = Glyph(world.getCube(GlobalCubeCoordinates(x + j, y + i, z)))
-                    display.put(column, 4+row, silver.ore.terminal.base.Glyph(glyph.foreground, glyph.background, glyph.char))
+                    val glyph = Glyph(world.getCube(GlobalCubeCoordinates(x + j, y + i, z)),
+                                      world.getCube(GlobalCubeCoordinates(x + j, y + i, z - 1))).getGlyph()
+                    display.put(column, 4+row, BaseGlyph(glyph.foreground, glyph.background, glyph.char))
                 } else {
-                    display.put(column, 4+row, silver.ore.terminal.base.Glyph(RgbColor(255, 0, 0), char = 'x'))
+                    display.put(column, 4+row, BaseGlyph(RgbColor(255, 0, 0), char = 'x'))
                 }
             }
         }
         display.reset()
         display.update()
-        val integer = display.read()
+        val integer = display.read().keycode
         val char = integer.toChar()
         when (char) {
             'w' -> {

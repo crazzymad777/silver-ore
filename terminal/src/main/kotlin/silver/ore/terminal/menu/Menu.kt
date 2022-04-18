@@ -1,6 +1,7 @@
 package silver.ore.terminal.menu
 
 import silver.ore.terminal.base.AbstractDisplay
+import silver.ore.terminal.base.Key
 
 abstract class Menu(protected val display: AbstractDisplay) {
     protected val entries = ArrayList<MenuEntry>()
@@ -27,7 +28,7 @@ abstract class Menu(protected val display: AbstractDisplay) {
 
     abstract fun draw()
     abstract fun process()
-    abstract fun recvKey(key: Int)
+    abstract fun recvKey(key: Key)
     var closed: Boolean = false
     var update: Boolean = false
     abstract val action: ACTION

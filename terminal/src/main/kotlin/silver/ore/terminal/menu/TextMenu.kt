@@ -2,6 +2,7 @@ package silver.ore.terminal.menu
 
 import silver.ore.terminal.base.AbstractDisplay
 import silver.ore.terminal.base.Glyph
+import silver.ore.terminal.base.Key
 
 class TextMenu(display: AbstractDisplay, private val text: String) : Menu(display) {
     override fun draw() {
@@ -15,7 +16,7 @@ class TextMenu(display: AbstractDisplay, private val text: String) : Menu(displa
     override fun process() {
     }
 
-    override fun recvKey(key: Int) {
+    override fun recvKey(key: Key) {
         if (key.toChar() == 'b') {
             closed = true
         }

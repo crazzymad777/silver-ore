@@ -1,6 +1,7 @@
 package silver.ore.terminal.menu
 
 import silver.ore.terminal.base.AbstractDisplay
+import silver.ore.terminal.base.Key
 
 class MainMenu(display: AbstractDisplay) : Menu(display) {
     override val action: ACTION
@@ -62,26 +63,26 @@ class MainMenu(display: AbstractDisplay) : Menu(display) {
         }
     }
 
-    override fun recvKey(key: Int) {
+    override fun recvKey(key: Key) {
         if (menuEntry != null) {
             menuEntry!!.menu?.recvKey(key)
         }
 
-        if (key.toChar() == 'q' || key < 0) {
+        if (key.toChar() == 'q' || key.keycode < 0) {
             closed = true
         }
 
-        if (key.toChar() == 'w') {
+        if (key.toChar() == 'w' || key.binding == Key.BINDING.UP) {
             entry--
             entryChanged()
         }
 
-        if (key.toChar() == 's') {
+        if (key.toChar() == 's' || key.binding == Key.BINDING.DOWN) {
             entry++
             entryChanged()
         }
 
-        if (key == 10) {
+        if (key.keycode == 10 || key.binding == Key.BINDING.ENTER) {
             enter()
         }
     }
