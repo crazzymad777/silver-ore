@@ -30,10 +30,10 @@ abstract class AbstractComponent(private val display: AbstractDisplay) {
         } while(!closed())
     }
 
-    abstract fun closed(): Boolean
-    abstract fun process()
-    abstract fun recvKey(key: Key)
-    abstract fun resize(width: Int, height: Int)
-    abstract fun update(): Boolean
-    abstract fun draw()
+    abstract fun closed(): Boolean //  controller
+    abstract fun process() // controller
+    abstract fun recvKey(key: Key) // controller
+    abstract fun resize(width: Int, height: Int) // view
+    abstract fun update(): Boolean //  controller
+    abstract fun draw()  // view
 }

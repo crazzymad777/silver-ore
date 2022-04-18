@@ -2,7 +2,7 @@ package silver.ore.terminal
 
 import silver.ore.terminal.base.AbstractDisplay
 import silver.ore.terminal.base.Key
-import silver.ore.terminal.menu.Menu
+import silver.ore.terminal.menu.Controller
 
 // Component(JLineDisplay(), MainMenu()).run()
 // Component:
@@ -11,7 +11,7 @@ import silver.ore.terminal.menu.Menu
 // 3) draw child components (if updated)
 // 4) handle key
 
-open class MenuComponent(private val display: AbstractDisplay, private val menu: Menu): AbstractComponent(display) {
+open class MenuComponent(private val display: AbstractDisplay, private val menu: Controller): AbstractComponent(display) {
     override fun closed(): Boolean {
         return menu.closed
     }
@@ -34,6 +34,7 @@ open class MenuComponent(private val display: AbstractDisplay, private val menu:
     }
 
     override fun draw() {
+        menu.draw()
         display.reset()
         display.update()
         menu.update = false // method call?
