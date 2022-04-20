@@ -8,7 +8,7 @@ abstract class Controller {
     abstract fun draw()
     abstract fun process()
     abstract fun recvKey(key: Key)
-    fun resize() {
-        update = true
+    open fun resize() {
+        draw()
     }
 }
