@@ -11,7 +11,11 @@ import silver.ore.terminal.menu.Controller
 // 3) draw child components (if updated)
 // 4) handle key
 
-open class MenuComponent(private val display: AbstractDisplay, private val menu: Controller): AbstractComponent(display) {
+open class MenuComponent(private val display: AbstractDisplay, private val menu: Controller): AbstractComponent() {
+    override fun read(): Key {
+        return display.read()
+    }
+
     override fun closed(): Boolean {
         return menu.closed
     }
@@ -25,7 +29,6 @@ open class MenuComponent(private val display: AbstractDisplay, private val menu:
     }
 
     override fun resize(width: Int, height: Int) {
-        display.resize(width, height)
         menu.resize()
     }
 

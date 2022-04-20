@@ -1,16 +1,27 @@
 package silver.ore.terminal.base
 
+import org.jline.terminal.Terminal
 import org.jline.utils.AttributedString
 import org.jline.utils.AttributedStringBuilder
 import org.jline.utils.AttributedStyle
 import org.jline.utils.Display
 
-class JLineDisplay : AbstractDisplay() {
+class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
     val terminal: JLineTerminal = JLineTerminal()
     private val keyboard = JLineKeyboard(terminal.terminal, terminal.reader)
     private val display = Display(terminal.terminal, true)
     init {
         display.resize(terminal.terminal.height, terminal.terminal.width)
+        terminal.terminal.handle(Terminal.Signal.WINCH, this::handle)
+    }
+
+    fun handle(signal: Terminal.Signal) {
+        if (signal == Terminal.Signal.WINCH) {
+            resize(width = terminal.terminal.width, height = terminal.terminal.height)
+            resizeCallback(terminal.terminal.width, terminal.terminal.height)
+            reset()
+            update()
+        }
     }
 
     override fun resize(width: Int, height: Int) {
@@ -53,11 +64,18 @@ class JLineDisplay : AbstractDisplay() {
         }
     }
 
+    fun put(x: Int, y: Int, string: String) {
+        for (i in x until string.length+x) {
+            matrix[y][i] = Glyph(char = string[i-x])
+        }
+    }
+
     override fun read(): Key {
         return keyboard.fetch()
     }
 
     override fun reset() {
+//        put(0, 0, "${terminal.terminal.width}:${terminal.terminal.height}")
         display.reset()
     }
 

@@ -8,8 +8,12 @@ import silver.ore.terminal.base.RgbColor
 
 import silver.ore.terminal.base.Glyph as BaseGlyph
 
+fun resize(width: Int, height: Int) {
+
+}
+
 fun main() {
-    val display = JLineDisplay()
+    val display = JLineDisplay { x: Int, y: Int -> resize(x, y) }
     val world = World(WorldConfig(generatorName = "i1", enableNegativeCoordinates = true))
     val coors = world.getDefaultCoordinates()
     var x = coors.x
@@ -41,10 +45,10 @@ fun main() {
         } else {
             display.put(0, 3, BaseGlyph.fromString("Wall: ${cube.wall} / Floor: ${cube.floor}"))
         }
-        var row = 0
+        var row: Int
         for (i in -16..16) {
             row = i + 16
-            var column = 0
+            var column: Int
             for (j in -48..48) {
                 column = j + 48
                 if (i != 0 || j != 0) {
