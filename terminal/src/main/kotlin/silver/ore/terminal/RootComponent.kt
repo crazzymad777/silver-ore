@@ -11,11 +11,20 @@ import silver.ore.terminal.menu.main.MainMenuController
 // 3) draw child components (if updated)
 // 4) handle key
 
-open class RootComponent : AbstractComponent() {
+open class RootComponent(type: TYPE = TYPE.MAIN_MENU) : AbstractComponent() {
+    enum class TYPE {
+        MAIN_MENU,
+        GAME
+    }
+
     private val component: AbstractComponent
     val display = JLineDisplay { x: Int, y: Int -> resize(x, y) }
     init {
-        component = MenuComponent(display, MainMenuController(display))
+        component = if (type == TYPE.MAIN_MENU) {
+            MenuComponent(display, MainMenuController(display))
+        } else {
+            GameComponent(display)
+        }
     }
 
     override fun read(): Key {

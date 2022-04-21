@@ -60,14 +60,19 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
 
     override fun put(x: Int, y: Int, glyph: Glyph) {
         if (!suspendMatrix) {
-            matrix[y][x] = glyph
+            if (y >= 0 && y < terminal.terminal.height) {
+                if (x >= 0 && x < terminal.terminal.width) {
+                    matrix[y][x] = glyph
+                }
+            }
         }
     }
 
     override fun put(x: Int, y: Int, glyphs: Array<Glyph>) {
         if (!suspendMatrix) {
             for (i in x until glyphs.size + x) {
-                matrix[y][i] = glyphs[i - x]
+//                matrix[y][i] = glyphs[i - x]
+                put(i, y, glyphs[i - x])
             }
         }
     }
@@ -75,7 +80,8 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
     fun put(x: Int, y: Int, string: String) {
         if (!suspendMatrix) {
             for (i in x until string.length + x) {
-                matrix[y][i] = Glyph(char = string[i - x])
+//                matrix[y][i] = Glyph(char = string[i - x])
+                put(i, y, Glyph(char = string[i - x]))
             }
         }
     }
