@@ -17,6 +17,7 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
 
     fun handle(signal: Terminal.Signal) {
         if (signal == Terminal.Signal.WINCH) {
+            display.resize(terminal.terminal.height, terminal.terminal.width)
             resize(width = terminal.terminal.width, height = terminal.terminal.height)
             resizeCallback(terminal.terminal.width, terminal.terminal.height)
             reset()
