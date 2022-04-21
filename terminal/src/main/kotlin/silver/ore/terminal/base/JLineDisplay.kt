@@ -8,6 +8,7 @@ import org.jline.utils.Display
 
 class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
     val terminal: JLineTerminal = JLineTerminal()
+    private var suspendMatrix: Boolean = false
     private val keyboard = JLineKeyboard(terminal.terminal, terminal.reader)
     private val display = Display(terminal.terminal, true)
     init {
@@ -26,14 +27,16 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
     }
 
     override fun resize(width: Int, height: Int) {
-        matrix = ArrayList()
+        suspendMatrix = true
+        matrix = ArrayList(terminal.terminal.height)
         for(y in 0 until height) {
-            val row = ArrayList<Glyph>()
+            val row = ArrayList<Glyph>(terminal.terminal.width)
             for(x in 0 until width) {
                 row.add(Glyph())
             }
             matrix.add(row)
         }
+        suspendMatrix = false
     }
 
     override fun getWidth(): Int {
@@ -44,10 +47,10 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
         return terminal.terminal.height
     }
 
-    private var matrix = ArrayList<ArrayList<Glyph>>()
+    private var matrix = ArrayList<ArrayList<Glyph>>(terminal.terminal.height)
     init {
         for(y in 0 until terminal.terminal.height) {
-            val row = ArrayList<Glyph>()
+            val row = ArrayList<Glyph>(terminal.terminal.width)
             for(x in 0 until terminal.terminal.width) {
                 row.add(Glyph())
             }
@@ -56,18 +59,24 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
     }
 
     override fun put(x: Int, y: Int, glyph: Glyph) {
-        matrix[y][x] = glyph
+        if (!suspendMatrix) {
+            matrix[y][x] = glyph
+        }
     }
 
     override fun put(x: Int, y: Int, glyphs: Array<Glyph>) {
-        for (i in x until glyphs.size+x) {
-            matrix[y][i] = glyphs[i-x]
+        if (!suspendMatrix) {
+            for (i in x until glyphs.size + x) {
+                matrix[y][i] = glyphs[i - x]
+            }
         }
     }
 
     fun put(x: Int, y: Int, string: String) {
-        for (i in x until string.length+x) {
-            matrix[y][i] = Glyph(char = string[i-x])
+        if (!suspendMatrix) {
+            for (i in x until string.length + x) {
+                matrix[y][i] = Glyph(char = string[i - x])
+            }
         }
     }
 
@@ -81,35 +90,57 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
     }
 
     override fun clear() {
-        for (x in 0 until getWidth()) {
-            for (y in 0 until getHeight()) {
-                matrix[y][x] = Glyph()
+        if (!suspendMatrix) {
+            for (x in 0 until getWidth()) {
+                for (y in 0 until getHeight()) {
+                    matrix[y][x] = Glyph()
+                }
             }
         }
     }
 
     override fun update() {
-        val list = ArrayList<AttributedString>()
-        for (row in matrix) {
-            val attributedStringBuilder = AttributedStringBuilder()
-            var oldForegroundColor = RgbColor(255, 255, 255)
-            var oldBackgroundColor = RgbColor(0, 0, 0)
-            for (glyph in row) {
-                val foregroundColor = glyph.foreground
-                val backgroundColor = glyph.background
-                if (oldForegroundColor != foregroundColor) {
-                    attributedStringBuilder.style(AttributedStyle.DEFAULT.foreground(foregroundColor.r, foregroundColor.g, foregroundColor.b))
-                    oldForegroundColor = foregroundColor
+        if (!suspendMatrix) {
+            val list = ArrayList<AttributedString>(matrix.size)
+            val attributedStringBuilder = AttributedStringBuilder(terminal.terminal.width)
+
+            var row: ArrayList<Glyph>
+            for (i in 0 until matrix.size) {
+                row = matrix[i]
+                var oldForegroundColor = RgbColor(255, 255, 255)
+                var oldBackgroundColor = RgbColor(0, 0, 0)
+
+                var glyph: Glyph
+                for (j in 0 until row.size) {
+                    glyph = row[j]
+                    val foregroundColor = glyph.foreground
+                    val backgroundColor = glyph.background
+                    if (oldForegroundColor != foregroundColor) {
+                        attributedStringBuilder.style(
+                            AttributedStyle.DEFAULT.foreground(
+                                foregroundColor.r,
+                                foregroundColor.g,
+                                foregroundColor.b
+                            )
+                        )
+                        oldForegroundColor = foregroundColor
+                    }
+                    if (oldBackgroundColor != backgroundColor) {
+                        attributedStringBuilder.style(
+                            AttributedStyle.DEFAULT.background(
+                                backgroundColor.r,
+                                backgroundColor.g,
+                                backgroundColor.b
+                            )
+                        )
+                        oldBackgroundColor = backgroundColor
+                    }
+                    attributedStringBuilder.append(glyph.char)
                 }
-                if (oldBackgroundColor != backgroundColor) {
-                    attributedStringBuilder.style(AttributedStyle.DEFAULT.background(backgroundColor.r, backgroundColor.g, backgroundColor.b))
-                    oldBackgroundColor = backgroundColor
-                }
-//                println(glyph.char)
-                attributedStringBuilder.append(glyph.char)
+                list.add(attributedStringBuilder.toAttributedString())
+                attributedStringBuilder.setLength(0)
             }
-            list.add(attributedStringBuilder.toAttributedString())
+            display.update(list, -1)
         }
-        display.update(list,-1)
     }
 }
