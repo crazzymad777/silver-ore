@@ -8,9 +8,9 @@ import org.jline.utils.Display
 
 class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
     val terminal: JLineTerminal = JLineTerminal()
-    private var suspendMatrix: Boolean = false
     private val keyboard = JLineKeyboard(terminal.terminal, terminal.reader)
     private val display = Display(terminal.terminal, true)
+    private val matrix = DisplayMatrix(terminal.terminal.width, terminal.terminal.height)
     init {
         display.resize(terminal.terminal.height, terminal.terminal.width)
         terminal.terminal.handle(Terminal.Signal.WINCH, this::handle)
@@ -27,13 +27,7 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
     }
 
     override fun resize(width: Int, height: Int) {
-        suspendMatrix = true
-        matrix = Array(terminal.terminal.height) {
-            Array(terminal.terminal.width) {
-                Glyph()
-            }
-        }
-        suspendMatrix = false
+        matrix.resize(width, height)
     }
 
     override fun getWidth(): Int {
@@ -44,49 +38,20 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
         return terminal.terminal.height
     }
 
-    private var matrix = Array(terminal.terminal.height) {
-        Array(terminal.terminal.width) {
-            Glyph()
-        }
-    }
-
     override fun put(x: Int, y: Int, glyph: Glyph) {
-        if (!suspendMatrix) {
-            if (y >= 0 && y < terminal.terminal.height) {
-                if (x >= 0 && x < terminal.terminal.width) {
-                    matrix[y][x] = glyph
-                }
-            }
-        }
+        matrix.put(x, y, glyph)
     }
 
     override fun put(x: Int, y: Int, glyphs: Array<Glyph>) {
-        if (!suspendMatrix) {
-            val row = matrix[y]
-            for (i in x until glyphs.size + x) {
-                row[i] = glyphs[i - x]
-//                put(i, y, glyphs[i - x])
-            }
-        }
+        matrix.put(x, y, glyphs)
     }
 
     override fun put(x: Int, y: Int, glyphs: List<Glyph>) {
-        if (!suspendMatrix) {
-            val row = matrix[y]
-            for (i in x until glyphs.size + x) {
-                row[i] = glyphs[i - x]
-//                put(i, y, glyphs[i - x])
-            }
-        }
+        matrix.put(x, y, glyphs)
     }
 
     fun put(x: Int, y: Int, string: String) {
-        if (!suspendMatrix) {
-            for (i in x until string.length + x) {
-                matrix[y][i] = Glyph(char = string[i - x])
-//                put(i, y, Glyph(char = string[i - x]))
-            }
-        }
+        matrix.put(x, y, string)
     }
 
     override fun read(): Key {
@@ -94,30 +59,21 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
     }
 
     override fun reset() {
-//        put(0, 0, "${terminal.terminal.width}:${terminal.terminal.height}")
         display.reset()
     }
 
     override fun clear() {
-        if (!suspendMatrix) {
-            for (x in 0 until getWidth()) {
-                for (y in 0 until getHeight()) {
-                    matrix[y][x] = Glyph()
-                }
-            }
-        }
+        matrix.clear()
     }
 
     override fun update() {
-        if (!suspendMatrix) {
-            val attributedStringBuilder = AttributedStringBuilder(terminal.terminal.width*terminal.terminal.height)
+        if (!matrix.suspendMatrix) {
+            val attributedStringBuilder = AttributedStringBuilder((terminal.terminal.width+1)*terminal.terminal.height)
 
             var oldForegroundColor = RgbColor(255, 255, 255)
             var oldBackgroundColor = RgbColor(0, 0, 0)
-            for (row in matrix) {
-                var glyph: Glyph
-                for (element in row) {
-                    glyph = element
+            for (row in matrix.matrix) {
+                for (glyph in row) {
                     val foregroundColor = glyph.foreground
                     val backgroundColor = glyph.background
                     if (oldForegroundColor != foregroundColor) {
@@ -143,7 +99,6 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
                     attributedStringBuilder.append(glyph.char)
                 }
                 attributedStringBuilder.append(AttributedString.NEWLINE)
-//                attributedStringBuilder.setLength(0)
             }
             display.update(listOf(attributedStringBuilder.toAttributedString()), -1)
         }
