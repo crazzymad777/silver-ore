@@ -3,6 +3,7 @@ package silver.ore.terminal.base
 abstract class AbstractDisplay {
     abstract fun put(x: Int, y: Int, glyph: Glyph)
     abstract fun put(x: Int, y: Int, glyphs: Array<Glyph>)
+    abstract fun put(x: Int, y: Int, glyphs: List<Glyph>)
     abstract fun read(): Key
     abstract fun clear()
     abstract fun reset()

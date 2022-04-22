@@ -115,15 +115,17 @@ class GameComponent(private val display: AbstractDisplay) : AbstractComponent() 
             var column: Int
             for (j in -48..48) {
                 column = j + 48
+                val array = ArrayList<Glyph>(96)
                 if (i != 0 || j != 0) {
                     val glyph = silver.ore.terminal.app.Glyph(
                         world.getCube(GlobalCubeCoordinates(x + j, y + i, z)),
                         world.getCube(GlobalCubeCoordinates(x + j, y + i, z - 1))
                     ).getGlyph()
-                    display.put(column, 4+row, Glyph(glyph.foreground, glyph.background, glyph.char))
+                    array.add(Glyph(glyph.foreground, glyph.background, glyph.char))
                 } else {
-                    display.put(column, 4+row, Glyph(RgbColor(255, 0, 0), char = 'x'))
+                    array.add(Glyph(RgbColor(255, 0, 0), char = 'x'))
                 }
+                display.put(column, 4+row, array)
             }
         }
 

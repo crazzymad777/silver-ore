@@ -28,13 +28,10 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
 
     override fun resize(width: Int, height: Int) {
         suspendMatrix = true
-        matrix = ArrayList(terminal.terminal.height)
-        for(y in 0 until height) {
-            val row = ArrayList<Glyph>(terminal.terminal.width)
-            for(x in 0 until width) {
-                row.add(Glyph())
+        matrix = Array(terminal.terminal.height) {
+            Array(terminal.terminal.width) {
+                Glyph()
             }
-            matrix.add(row)
         }
         suspendMatrix = false
     }
@@ -47,14 +44,9 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
         return terminal.terminal.height
     }
 
-    private var matrix = ArrayList<ArrayList<Glyph>>(terminal.terminal.height)
-    init {
-        for(y in 0 until terminal.terminal.height) {
-            val row = ArrayList<Glyph>(terminal.terminal.width)
-            for(x in 0 until terminal.terminal.width) {
-                row.add(Glyph())
-            }
-            matrix.add(row)
+    private var matrix = Array(terminal.terminal.height) {
+        Array(terminal.terminal.width) {
+            Glyph()
         }
     }
 
@@ -70,9 +62,20 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
 
     override fun put(x: Int, y: Int, glyphs: Array<Glyph>) {
         if (!suspendMatrix) {
+            val row = matrix[y]
             for (i in x until glyphs.size + x) {
-//                matrix[y][i] = glyphs[i - x]
-                put(i, y, glyphs[i - x])
+                row[i] = glyphs[i - x]
+//                put(i, y, glyphs[i - x])
+            }
+        }
+    }
+
+    override fun put(x: Int, y: Int, glyphs: List<Glyph>) {
+        if (!suspendMatrix) {
+            val row = matrix[y]
+            for (i in x until glyphs.size + x) {
+                row[i] = glyphs[i - x]
+//                put(i, y, glyphs[i - x])
             }
         }
     }
@@ -80,8 +83,8 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
     fun put(x: Int, y: Int, string: String) {
         if (!suspendMatrix) {
             for (i in x until string.length + x) {
-//                matrix[y][i] = Glyph(char = string[i - x])
-                put(i, y, Glyph(char = string[i - x]))
+                matrix[y][i] = Glyph(char = string[i - x])
+//                put(i, y, Glyph(char = string[i - x]))
             }
         }
     }
@@ -107,18 +110,14 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
 
     override fun update() {
         if (!suspendMatrix) {
-            val list = ArrayList<AttributedString>(matrix.size)
-            val attributedStringBuilder = AttributedStringBuilder(terminal.terminal.width)
+            val attributedStringBuilder = AttributedStringBuilder(terminal.terminal.width*terminal.terminal.height)
 
-            var row: ArrayList<Glyph>
-            for (i in 0 until matrix.size) {
-                row = matrix[i]
-                var oldForegroundColor = RgbColor(255, 255, 255)
-                var oldBackgroundColor = RgbColor(0, 0, 0)
-
+            var oldForegroundColor = RgbColor(255, 255, 255)
+            var oldBackgroundColor = RgbColor(0, 0, 0)
+            for (row in matrix) {
                 var glyph: Glyph
-                for (j in 0 until row.size) {
-                    glyph = row[j]
+                for (element in row) {
+                    glyph = element
                     val foregroundColor = glyph.foreground
                     val backgroundColor = glyph.background
                     if (oldForegroundColor != foregroundColor) {
@@ -143,10 +142,10 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
                     }
                     attributedStringBuilder.append(glyph.char)
                 }
-                list.add(attributedStringBuilder.toAttributedString())
-                attributedStringBuilder.setLength(0)
+                attributedStringBuilder.append(AttributedString.NEWLINE)
+//                attributedStringBuilder.setLength(0)
             }
-            display.update(list, -1)
+            display.update(listOf(attributedStringBuilder.toAttributedString()), -1)
         }
     }
 }
