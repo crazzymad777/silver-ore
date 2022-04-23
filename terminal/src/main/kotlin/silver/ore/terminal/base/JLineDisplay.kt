@@ -10,9 +10,12 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
     val terminal: JLineTerminal = JLineTerminal()
     private val keyboard = JLineKeyboard(terminal.terminal, terminal.reader)
     private val display = Display(terminal.terminal, true)
-    private val matrix = DisplayMatrix(terminal.terminal.width, terminal.terminal.height)
+
+    private var width = terminal.terminal.width
+    private var height = terminal.terminal.height
+    private val matrix = DisplayMatrix(width, height)
     init {
-        display.resize(terminal.terminal.height, terminal.terminal.width)
+        display.resize(height, width)
         terminal.terminal.handle(Terminal.Signal.WINCH, this::handle)
     }
 
@@ -27,15 +30,17 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
     }
 
     override fun resize(width: Int, height: Int) {
+        this.width = width
+        this.height = height
         matrix.resize(width, height)
     }
 
     override fun getWidth(): Int {
-        return terminal.terminal.width
+        return width
     }
 
     override fun getHeight(): Int {
-        return terminal.terminal.height
+        return height
     }
 
     override fun put(x: Int, y: Int, glyph: Glyph) {
@@ -68,7 +73,8 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
 
     override fun update() {
         if (!matrix.suspendMatrix) {
-            val attributedStringBuilder = AttributedStringBuilder((terminal.terminal.width+1)*terminal.terminal.height)
+            val attributedStringBuilder =
+                AttributedStringBuilder((terminal.terminal.width + 1) * terminal.terminal.height)
 
             var oldForegroundColor = RgbColor(255, 255, 255)
             var oldBackgroundColor = RgbColor(0, 0, 0)
@@ -99,7 +105,7 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
                 }
                 attributedStringBuilder.append(glyph.char)
 
-                if (i%terminal.terminal.width == terminal.terminal.width - 1) {
+                if ((i + 1) % width == 0) {
                     attributedStringBuilder.append(AttributedString.NEWLINE)
                 }
             }
