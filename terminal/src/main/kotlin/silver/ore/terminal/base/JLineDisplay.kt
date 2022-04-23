@@ -72,33 +72,36 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
 
             var oldForegroundColor = RgbColor(255, 255, 255)
             var oldBackgroundColor = RgbColor(0, 0, 0)
-            for (row in matrix.matrix) {
-                for (glyph in row) {
-                    val foregroundColor = glyph.foreground
-                    val backgroundColor = glyph.background
-                    if (oldForegroundColor != foregroundColor) {
-                        attributedStringBuilder.style(
-                            AttributedStyle.DEFAULT.foreground(
-                                foregroundColor.r,
-                                foregroundColor.g,
-                                foregroundColor.b
-                            )
+            val size = matrix.matrix.size
+            for (i in 0 until size) {
+                val glyph = matrix.matrix[i]
+                val foregroundColor = glyph.foreground
+                val backgroundColor = glyph.background
+                if (oldForegroundColor != foregroundColor) {
+                    attributedStringBuilder.style(
+                        AttributedStyle.DEFAULT.foreground(
+                            foregroundColor.r,
+                            foregroundColor.g,
+                            foregroundColor.b
                         )
-                        oldForegroundColor = foregroundColor
-                    }
-                    if (oldBackgroundColor != backgroundColor) {
-                        attributedStringBuilder.style(
-                            AttributedStyle.DEFAULT.background(
-                                backgroundColor.r,
-                                backgroundColor.g,
-                                backgroundColor.b
-                            )
-                        )
-                        oldBackgroundColor = backgroundColor
-                    }
-                    attributedStringBuilder.append(glyph.char)
+                    )
+                    oldForegroundColor = foregroundColor
                 }
-                attributedStringBuilder.append(AttributedString.NEWLINE)
+                if (oldBackgroundColor != backgroundColor) {
+                    attributedStringBuilder.style(
+                        AttributedStyle.DEFAULT.background(
+                            backgroundColor.r,
+                            backgroundColor.g,
+                            backgroundColor.b
+                        )
+                    )
+                    oldBackgroundColor = backgroundColor
+                }
+                attributedStringBuilder.append(glyph.char)
+
+                if (i%terminal.terminal.width == terminal.terminal.width - 1) {
+                    attributedStringBuilder.append(AttributedString.NEWLINE)
+                }
             }
             display.update(listOf(attributedStringBuilder.toAttributedString()), -1)
         }
