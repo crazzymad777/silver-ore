@@ -1,10 +1,11 @@
-package silver.ore.terminal.base
+package silver.ore.terminal.base.jline3
 
 import org.jline.terminal.Terminal
 import org.jline.utils.AttributedString
 import org.jline.utils.AttributedStringBuilder
 import org.jline.utils.AttributedStyle
 import org.jline.utils.Display
+import silver.ore.terminal.base.*
 
 class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
     val terminal: JLineTerminal = JLineTerminal()

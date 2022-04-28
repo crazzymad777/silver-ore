@@ -1,7 +1,7 @@
 package silver.ore.terminal
 
-import silver.ore.terminal.base.JLineDisplay
 import silver.ore.terminal.base.Key
+import silver.ore.terminal.base.jline3.JLineDisplay
 import silver.ore.terminal.menu.main.MainMenuController
 
 // Component(JLineDisplay(), MainMenu()).run()

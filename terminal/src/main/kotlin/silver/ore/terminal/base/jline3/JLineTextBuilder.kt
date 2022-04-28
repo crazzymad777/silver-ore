@@ -1,8 +1,10 @@
-package silver.ore.terminal.base
+package silver.ore.terminal.base.jline3
 
 import org.jline.terminal.Terminal
 import org.jline.utils.AttributedStringBuilder
 import org.jline.utils.AttributedStyle
+import silver.ore.terminal.base.AbstractTextBuilder
+import silver.ore.terminal.base.RgbColor
 
 class JLineTextBuilder(val terminal: Terminal) : AbstractTextBuilder() {
     private var builder = AttributedStringBuilder()

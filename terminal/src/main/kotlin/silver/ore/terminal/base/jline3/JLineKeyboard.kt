@@ -1,4 +1,4 @@
-package silver.ore.terminal.base
+package silver.ore.terminal.base.jline3
 
 import org.jline.keymap.BindingReader
 import org.jline.keymap.KeyMap
@@ -6,6 +6,7 @@ import org.jline.keymap.KeyMap.key
 import org.jline.terminal.Terminal
 import org.jline.utils.InfoCmp
 import org.jline.utils.NonBlockingReader
+import silver.ore.terminal.base.Key
 
 class JLineKeyboard(val terminal: Terminal, reader: NonBlockingReader) {
     val keyMap = KeyMap<Key.BINDING>()

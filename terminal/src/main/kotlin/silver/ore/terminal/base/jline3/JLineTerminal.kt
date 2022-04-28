@@ -1,10 +1,11 @@
-package silver.ore.terminal.base
+package silver.ore.terminal.base.jline3
 
 import org.jline.terminal.Attributes
 import org.jline.terminal.Terminal
 import org.jline.terminal.TerminalBuilder
 import org.jline.utils.InfoCmp
 import org.jline.utils.NonBlockingReader
+import silver.ore.terminal.base.AbstractTerminal
 import kotlin.system.exitProcess
 
 class JLineTerminal : AbstractTerminal() {
@@ -21,7 +22,7 @@ class JLineTerminal : AbstractTerminal() {
         reader = terminal.reader()
         if (terminal.type == "dumb-color" || terminal.type == "dumb") {
             terminal.writer().println("Your terminal is ${terminal.type}. Continue to work? (y/n)")
-            terminal.flush();
+            terminal.flush()
             var integer: Int
             var char: Char
             do {
