@@ -1,7 +1,7 @@
 package silver.ore.terminal
 
 import silver.ore.terminal.base.Key
-import silver.ore.terminal.base.jline3.JLineDisplay
+import silver.ore.terminal.base.jline3.Display
 import silver.ore.terminal.menu.main.MainMenuController
 
 // Component(JLineDisplay(), MainMenu()).run()
@@ -18,7 +18,7 @@ open class RootComponent(type: TYPE = TYPE.MAIN_MENU) : AbstractComponent() {
     }
 
     private val component: AbstractComponent
-    val display = JLineDisplay { x: Int, y: Int -> resize(x, y) }
+    val display = Display { x: Int, y: Int -> resize(x, y) }
     init {
         component = if (type == TYPE.MAIN_MENU) {
             MenuComponent(display, MainMenuController(display))

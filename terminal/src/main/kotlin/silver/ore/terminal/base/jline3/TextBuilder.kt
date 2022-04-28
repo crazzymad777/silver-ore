@@ -6,7 +6,7 @@ import org.jline.utils.AttributedStyle
 import silver.ore.terminal.base.AbstractTextBuilder
 import silver.ore.terminal.base.RgbColor
 
-class JLineTextBuilder(val terminal: Terminal) : AbstractTextBuilder() {
+class TextBuilder(val terminal: Terminal) : AbstractTextBuilder() {
     private var builder = AttributedStringBuilder()
 
     override fun setForeground(rgb: RgbColor): AbstractTextBuilder {

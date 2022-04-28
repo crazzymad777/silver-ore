@@ -1,15 +1,15 @@
 package silver.ore.terminal.base.jline3
 
-import org.jline.terminal.Terminal
 import org.jline.utils.AttributedString
 import org.jline.utils.AttributedStringBuilder
 import org.jline.utils.AttributedStyle
 import org.jline.utils.Display
 import silver.ore.terminal.base.*
+import org.jline.terminal.Terminal as JLineTerminal
 
-class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
-    val terminal: JLineTerminal = JLineTerminal()
-    private val keyboard = JLineKeyboard(terminal.terminal, terminal.reader)
+class Display(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
+    val terminal: Terminal = Terminal()
+    private val keyboard = Keyboard(terminal.terminal, terminal.reader)
     private val display = Display(terminal.terminal, true)
 
     private var width = terminal.terminal.width
@@ -17,11 +17,11 @@ class JLineDisplay(val resizeCallback: (Int, Int) -> Unit) : AbstractDisplay() {
     private val matrix = DisplayMatrix(width, height)
     init {
         display.resize(height, width)
-        terminal.terminal.handle(Terminal.Signal.WINCH, this::handle)
+        terminal.terminal.handle(JLineTerminal.Signal.WINCH, this::handle)
     }
 
-    fun handle(signal: Terminal.Signal) {
-        if (signal == Terminal.Signal.WINCH) {
+    fun handle(signal: JLineTerminal.Signal) {
+        if (signal == JLineTerminal.Signal.WINCH) {
             display.resize(terminal.terminal.height, terminal.terminal.width)
             resize(width = terminal.terminal.width, height = terminal.terminal.height)
             resizeCallback(terminal.terminal.width, terminal.terminal.height)

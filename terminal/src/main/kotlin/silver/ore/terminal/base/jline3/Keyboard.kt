@@ -8,7 +8,7 @@ import org.jline.utils.InfoCmp
 import org.jline.utils.NonBlockingReader
 import silver.ore.terminal.base.Key
 
-class JLineKeyboard(val terminal: Terminal, reader: NonBlockingReader) {
+class Keyboard(val terminal: Terminal, reader: NonBlockingReader) {
     val keyMap = KeyMap<Key.BINDING>()
     init {
         // bindings work perfectly for "linux" but not work for "xterm"

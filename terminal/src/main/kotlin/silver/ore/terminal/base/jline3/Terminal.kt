@@ -8,7 +8,7 @@ import org.jline.utils.NonBlockingReader
 import silver.ore.terminal.base.AbstractTerminal
 import kotlin.system.exitProcess
 
-class JLineTerminal : AbstractTerminal() {
+class Terminal : AbstractTerminal() {
     private val builder: TerminalBuilder = TerminalBuilder.builder()
     val terminal: Terminal = builder.build()
 
@@ -45,7 +45,7 @@ class JLineTerminal : AbstractTerminal() {
         terminal.flush()
     }
 
-    override fun builder(): JLineTextBuilder {
-        return JLineTextBuilder(terminal)
+    override fun builder(): TextBuilder {
+        return TextBuilder(terminal)
     }
 }
