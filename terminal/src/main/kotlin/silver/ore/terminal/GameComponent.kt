@@ -31,8 +31,7 @@ class GameComponent(private val display: AbstractDisplay) : AbstractComponent() 
     }
 
     override fun recvKey(key: Key) {
-        val integer = key.keycode
-        when (integer.toChar()) {
+        when (key.toLowercaseChar()) {
             'w' -> {
                 y--
             }

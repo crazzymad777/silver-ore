@@ -15,4 +15,8 @@ data class Key(val binding: BINDING = BINDING.NO_MATCH, val keycode: Int = 0) {
     fun toChar(): Char {
         return keycode.toChar()
     }
+
+    fun toLowercaseChar(): Char {
+        return keycode.toChar().lowercaseChar()
+    }
 }
