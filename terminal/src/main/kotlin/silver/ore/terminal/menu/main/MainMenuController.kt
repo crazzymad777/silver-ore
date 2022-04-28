@@ -49,16 +49,16 @@ class MainMenuController(val display: AbstractDisplay) : Controller() {
         if (child != null) {
             child.recvKey(key)
         } else {
-            if (key.toChar() == 'q' || key.keycode < 0) {
+            if (key.normalize() == 'q' || key.keycode < 0) {
                 closed = true
             }
 
-            if (key.toChar() == 'w' || key.binding == Key.BINDING.UP) {
+            if (key.normalize() == 'w' || key.binding == Key.BINDING.UP) {
                 data.up()
                 update = true
             }
 
-            if (key.toChar() == 's' || key.binding == Key.BINDING.DOWN) {
+            if (key.normalize() == 's' || key.binding == Key.BINDING.DOWN) {
                 data.down()
                 update = true
             }

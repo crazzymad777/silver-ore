@@ -12,6 +12,8 @@ application {
 }
 
 dependencies {
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.2.0")
+    implementation("com.google.guava:guava:31.1-jre")
     implementation("org.jline:jline:3.21.0")
     implementation(project(":app"))
 }

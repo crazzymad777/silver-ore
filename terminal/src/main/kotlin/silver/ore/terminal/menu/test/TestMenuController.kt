@@ -15,7 +15,7 @@ class TestMenuController(display: AbstractDisplay) : Controller() {
     }
 
     override fun recvKey(key: Key) {
-        if (key.binding == Key.BINDING.BACKSPACE || key.toChar() == 'q' || key.keycode < 0) {
+        if (key.binding == Key.BINDING.BACKSPACE || key.normalize() == 'q' || key.keycode < 0) {
             closed = true
         }
     }

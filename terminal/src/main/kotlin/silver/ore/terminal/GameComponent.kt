@@ -31,7 +31,7 @@ class GameComponent(private val display: AbstractDisplay) : AbstractComponent() 
     }
 
     override fun recvKey(key: Key) {
-        when (key.toLowercaseChar()) {
+        when (key.normalize()) {
             'w' -> {
                 y--
             }

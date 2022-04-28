@@ -28,6 +28,7 @@ class JLineKeyboard(val terminal: Terminal, reader: NonBlockingReader) {
         keyMap.bind(Key.BINDING.LEFT, String(byteArrayOf(27, 91, 68)))
 
         keyMap.nomatch = Key.BINDING.NO_MATCH
+        keyMap.unicode = Key.BINDING.NO_MATCH
     }
 
     private val bindingReader = BindingReader(reader)
