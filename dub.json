@@ -1,0 +1,9 @@
+{
+	"authors": [
+		"Yury Moskoff"
+	],
+	"copyright": "Copyright © 2022, Yury Moskoff",
+	"description": "Rogue-like game",
+	"license": "AGPL-3.0",
+	"name": "silver-ore"
+}
