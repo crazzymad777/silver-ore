@@ -15,6 +15,23 @@ class World {
     return *cube;
   }
 
+  // return chunk
+  int getChunkByCoordinates(GlobalCubeCoordinates coors) {
+    return 0;
+  }
+
+  int clustersLoaded() {
+    return 1;
+  }
+
+  int chunksLoaded() {
+    return 1;
+  }
+
+  int cubesLoaded() {
+    return 1;
+  }
+
   GlobalCubeCoordinates getDefaultCoordinates() {
     return GlobalCubeCoordinates(0, 0, 0);
   }

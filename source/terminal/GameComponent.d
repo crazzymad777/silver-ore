@@ -1,8 +1,10 @@
 module terminal.GameComponent;
 import terminal.AbstractComponent;
 import terminal.base.Key;
+import terminal.app.Glyph;
 
 import std.stdio;
+import std.format;
 
 import core.world.utils;
 import core.world.World;
@@ -46,12 +48,33 @@ class GameComponent : AbstractComponent {
     override void draw() {
       // fill display matrix
 
+      writeln(format("X: %d, Y: %d, Z: %d", coors.x, coors.y, coors.z));
+      writeln(format("Chunk: %d / Cluster loaded: %d / Chunks loaded: %d / Cubes loaded: %d",
+                     world.getChunkByCoordinates(coors),
+                     world.clustersLoaded(),
+                     world.chunksLoaded(),
+                     world.cubesLoaded()
+                     ));
+
+      auto cube = world.getCube(coors);
+      auto item = cube.getItem();
+      if (item != null) {
+         writeln(format("Item: %s", item.get.getName()));
+      } else {
+         writeln(format("Wall: %s / Floor: %s", cube.wall, cube.floor));
+      }
+
       int column = 32;
-      int row = 16;
+      int row = 8;
       for (int j = -row; j < row; j++) {
         for (int i = -column; i < column; i++) {
-          auto cube = world.getCube(GlobalCubeCoordinates(coors.x + i, coors.y + j, coors.z));
-          write(cube.item.display());
+          auto w = 'x';
+          if (i != 0 || j != 0) {
+            cube = world.getCube(GlobalCubeCoordinates(coors.x + i, coors.y + j, coors.z));
+            auto glyph = new Glyph(cube);
+            w = glyph.display();
+          }
+          write(w);
         }
         write("\n");
       }

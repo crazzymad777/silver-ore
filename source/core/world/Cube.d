@@ -5,12 +5,15 @@ import std.typecons;
 
 class Cube {
   Item item = new Item();
+  string floor = "grass";
+  string wall = "grass";
 
-  Nullable!Item getItem() {
-    return Nullable!Item(item);
+  auto getItem() {
+    return Nullable!Item(null);
+    /* return Nullable!Item(item); */
   }
 
-  char display() {
+  auto display() {
     return 'g';
   }
 }
