@@ -1,4 +1,4 @@
-module core.game;
+module core.game.Item;
 
 class Item {
     string getName() {

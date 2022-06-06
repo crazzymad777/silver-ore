@@ -1,6 +1,6 @@
 module core.world.Cube;
 
-import core.game;
+import core.game.Item;
 import std.typecons;
 
 class Cube {

@@ -14,8 +14,16 @@ class Key {
 
     private int keycode;
     private BINDING binding;
-    this(BINDING binding = BINDING.NO_MATCH, int keycode = 0) {
+    this(int keycode = 0, BINDING binding = BINDING.NO_MATCH) {
         this.keycode = keycode;
         this.binding = binding;
+    }
+
+    int getKeycode() {
+      return keycode;
+    }
+
+    int getBinding() {
+      return binding;
     }
 }

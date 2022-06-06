@@ -1,6 +1,7 @@
 module terminal.RootComponent;
 import terminal.AbstractComponent;
 import terminal.GameComponent;
+import terminal.base.NcTerminal;
 import terminal.base.Key;
 
 import std.stdio;
@@ -11,7 +12,7 @@ import core.world.World;
 class RootComponent : AbstractComponent {
     private AbstractComponent component;
     this() {
-      this.component = new GameComponent();
+      this.component = new GameComponent(new NcTerminal());
     }
 
     override void run() {

@@ -1,10 +1,12 @@
 module terminal.GameComponent;
 import terminal.AbstractComponent;
+import terminal.base.ITerminal;
 import terminal.base.Key;
 import terminal.app.Glyph;
 
 import std.stdio;
 import std.format;
+import std.conv;
 
 import core.world.utils;
 import core.world.World;
@@ -13,16 +15,18 @@ class GameComponent : AbstractComponent {
     private auto world = new World();
     private GlobalCubeCoordinates coors;
     private auto updated = true;
-    private auto exited = true; // should be false
+    private auto exited = false;
     private auto speed = 256;
+    private ITerminal terminal;
 
-    this() {
+    this(ITerminal terminal) {
+       this.terminal = terminal;
        this.coors = world.getDefaultCoordinates();
     }
 
     // obtain key
     override Key read() {
-      return new Key();
+      return terminal.readKey();
     }
 
     override bool closed() {
@@ -35,6 +39,22 @@ class GameComponent : AbstractComponent {
 
     override void recvKey(Key key) {
       // handle key
+      char c = to!char(key.getKeycode());
+      if (c == 'q') {
+        exited = true;
+      } else if (c == 'w') {
+        coors.y--;
+      } else if (c == 's') {
+        coors.y++;
+      } else if (c == 'a') {
+        coors.x--;
+      } else if (c == 'd') {
+        coors.x++;
+      } else if (c == 'e') {
+        coors.z++;
+      } else if (c == 'r') {
+        coors.z--;
+      }
     }
 
     override void resize(int width, int height) {
