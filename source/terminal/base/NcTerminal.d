@@ -3,6 +3,7 @@ import terminal.base.ITerminal;
 
 import core.stdc.stdio;
 import nice.curses;
+import std.format;
 
 class NcTerminal : ITerminal {
   private Window window;
@@ -28,7 +29,7 @@ class NcTerminal : ITerminal {
   }
 
   void putchar(char ch) {
-    auto str = new string(ch);
+    auto str = format("%c", ch);
     window.insert(str);
   }
 

@@ -2,8 +2,7 @@ module terminal.RootComponent;
 import terminal.AbstractComponent;
 import terminal.GameComponent;
 
-import terminal.base.NcTerminal;
-import terminal.base.Terminal;
+import terminal.base.ITerminal;
 
 import terminal.base.Key;
 
@@ -15,7 +14,7 @@ import core.world.World;
 class RootComponent : AbstractComponent {
     private AbstractComponent component;
     this() {
-      auto terminal = new NcTerminal();
+      auto terminal = ITerminal.getDefaultTerminal();
       this.component = new GameComponent(terminal);
     }
 
