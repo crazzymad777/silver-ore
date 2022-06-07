@@ -1,6 +1,7 @@
 module terminal.GameComponent;
 import terminal.AbstractComponent;
 import terminal.base.ITerminal;
+import terminal.base.Char;
 import terminal.base.Key;
 import terminal.app.Glyph;
 
@@ -72,8 +73,8 @@ class GameComponent : AbstractComponent {
     override void draw() {
       // fill display matrix
 
-      terminal.println(format("X: %d, Y: %d, Z: %d", coors.x, coors.y, coors.z));
-      terminal.println(format("Chunk: %d / Cluster loaded: %d / Chunks loaded: %d / Cubes loaded: %d",
+      terminal.puts(0, 0, format("X: %d, Y: %d, Z: %d", coors.x, coors.y, coors.z));
+      terminal.puts(1, 0, format("Chunk: %d / Cluster loaded: %d / Chunks loaded: %d / Cubes loaded: %d",
                      world.getChunkByCoordinates(coors),
                      world.clustersLoaded(),
                      world.chunksLoaded(),
@@ -83,9 +84,9 @@ class GameComponent : AbstractComponent {
       auto cube = world.getCube(coors);
       auto item = cube.getItem();
       if (item != null) {
-         terminal.println(format("Item: %s", item.get.getName()));
+         terminal.puts(2, 0, format("Item: %s", item.get.getName()));
       } else {
-         terminal.println(format("Wall: %s / Floor: %s", cube.wall, cube.floor));
+         terminal.puts(2, 0, format("Wall: %s / Floor: %s", cube.wall, cube.floor));
       }
 
       int column = 32;
@@ -98,9 +99,10 @@ class GameComponent : AbstractComponent {
             auto glyph = new Glyph(cube);
             w = glyph.display();
           }
-          terminal.putchar(w);
+          terminal.put(3 + j + row, i + column, Char(w));
+          /* terminal.putchar(w); */
         }
-        terminal.putchar('\n');
+        /* terminal.putchar('\n'); */
       }
     }
 }

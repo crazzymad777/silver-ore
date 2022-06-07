@@ -1,5 +1,6 @@
 module terminal.base.NcTerminal;
 import terminal.base.ITerminal;
+import terminal.base.Char;
 
 import core.stdc.stdio;
 import nice.curses;
@@ -23,14 +24,20 @@ class NcTerminal : ITerminal {
     destroy(curses);
   }
 
-  void println(string str) {
-    window.insert(str);
-    window.insertln();
+  void put(int y, int x, Char glyph) {
+    try {
+      window.addch(y, x, glyph.ch);
+    } catch (NCException e) {
+
+    }
   }
 
-  void putchar(char ch) {
-    auto str = format("%c", ch);
-    window.insert(str);
+  void puts(int y, int x, string str) {
+    try {
+      window.addstr(y, x, str);
+    } catch (NCException e) {
+
+    }
   }
 
   void update() {
