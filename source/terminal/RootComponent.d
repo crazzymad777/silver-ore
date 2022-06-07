@@ -1,7 +1,10 @@
 module terminal.RootComponent;
 import terminal.AbstractComponent;
 import terminal.GameComponent;
+
 import terminal.base.NcTerminal;
+import terminal.base.Terminal;
+
 import terminal.base.Key;
 
 import std.stdio;
@@ -43,6 +46,10 @@ class RootComponent : AbstractComponent {
 
     override bool update() {
       return component.update();
+    }
+
+    override void sync() {
+      component.sync();
     }
 
     override void draw() {

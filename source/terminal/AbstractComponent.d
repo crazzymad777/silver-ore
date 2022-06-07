@@ -17,6 +17,7 @@ abstract class AbstractComponent {
                 draw();
             }
             recvKey(read());
+            sync();
         } while(!closed());
     }
     abstract Key read();
@@ -26,4 +27,5 @@ abstract class AbstractComponent {
     abstract void resize(int width, int height);
     abstract bool update();
     abstract void draw();
+    abstract void sync();
 }

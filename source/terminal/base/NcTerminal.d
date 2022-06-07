@@ -8,13 +8,33 @@ class NcTerminal : ITerminal {
   private Window window;
   private Curses curses;
   this() {
-    Curses.Config cfg = {};
+    Curses.Config cfg = {
+        true,
+        true,
+        true, /* disable echo */
+        Curses.Mode.raw
+    };
     curses = new Curses(cfg);
     window = curses.stdscr;
   }
 
   ~this() {
     destroy(curses);
+  }
+
+  void println(string str) {
+    window.insert(str);
+    window.insertln();
+  }
+
+  void putchar(char ch) {
+    auto str = new string(ch);
+    window.insert(str);
+  }
+
+  void update() {
+    window.refresh();
+    window.clear();
   }
 
   import terminal.base.Key;

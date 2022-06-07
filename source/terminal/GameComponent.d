@@ -65,11 +65,15 @@ class GameComponent : AbstractComponent {
       return updated;
     }
 
+    override void sync() {
+      terminal.update();
+    }
+
     override void draw() {
       // fill display matrix
 
-      writeln(format("X: %d, Y: %d, Z: %d", coors.x, coors.y, coors.z));
-      writeln(format("Chunk: %d / Cluster loaded: %d / Chunks loaded: %d / Cubes loaded: %d",
+      terminal.println(format("X: %d, Y: %d, Z: %d", coors.x, coors.y, coors.z));
+      terminal.println(format("Chunk: %d / Cluster loaded: %d / Chunks loaded: %d / Cubes loaded: %d",
                      world.getChunkByCoordinates(coors),
                      world.clustersLoaded(),
                      world.chunksLoaded(),
@@ -79,9 +83,9 @@ class GameComponent : AbstractComponent {
       auto cube = world.getCube(coors);
       auto item = cube.getItem();
       if (item != null) {
-         writeln(format("Item: %s", item.get.getName()));
+         terminal.println(format("Item: %s", item.get.getName()));
       } else {
-         writeln(format("Wall: %s / Floor: %s", cube.wall, cube.floor));
+         terminal.println(format("Wall: %s / Floor: %s", cube.wall, cube.floor));
       }
 
       int column = 32;
@@ -94,9 +98,9 @@ class GameComponent : AbstractComponent {
             auto glyph = new Glyph(cube);
             w = glyph.display();
           }
-          write(w);
+          terminal.putchar(w);
         }
-        write("\n");
+        terminal.putchar('\n');
       }
     }
 }
