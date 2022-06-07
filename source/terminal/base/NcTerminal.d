@@ -10,11 +10,10 @@ class NcTerminal : ITerminal {
   this() {
     Curses.Config cfg = {};
     curses = new Curses(cfg);
-    window = curses.newWindow(curses.lines, curses.cols, 0, 0);
+    window = curses.stdscr;
   }
 
   ~this() {
-    curses.deleteWindow(window);
     destroy(curses);
   }
 

@@ -12,7 +12,8 @@ import core.world.World;
 class RootComponent : AbstractComponent {
     private AbstractComponent component;
     this() {
-      this.component = new GameComponent(new NcTerminal());
+      auto terminal = new NcTerminal();
+      this.component = new GameComponent(terminal);
     }
 
     override void run() {
