@@ -6,4 +6,3 @@ export void Application() {
     auto component = new RootComponent();
     component.run();
 }
-

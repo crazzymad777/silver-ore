@@ -56,7 +56,7 @@ class Map {
                             ));
 
     auto random = Random(seed);
-    auto p = uniform!ulong(random)/ulong.max;
+    auto p = double(uniform!ulong(random))/ulong.max;
     Tile.TYPE type = void;
     if (p < 0.05) {
       type = Tile.TYPE.TOWN;
