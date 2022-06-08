@@ -1,7 +1,11 @@
 module core.world.utils.Seed;
 
 ulong make(string str) {
-    return 0;
+  import std.digest.sha, core.stdc.string: memcpy;
+  auto hash = sha256Of(str);
+  ulong u = void;
+  memcpy(&u, &hash, u.sizeof);
+  return u;
 }
 
 auto Random(ulong seed) {

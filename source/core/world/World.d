@@ -1,13 +1,17 @@
 module core.world.World;
 
+import core.world.utils.GlobalCubeCoordinates;
 import core.world.WorldConfig;
 import core.world.Cube;
-import core.world.utils.GlobalCubeCoordinates;
 
 class World {
+  import core.world.Map;
+
   private WorldConfig config;
+  private Map map;
   this(WorldConfig config = new WorldConfig()) {
     this.config = config;
+    this.map = new Map(config.seed);
   }
 
   private Cube[GlobalCubeCoordinates] cache;
