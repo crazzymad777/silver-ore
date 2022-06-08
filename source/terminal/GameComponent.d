@@ -12,9 +12,10 @@ import std.conv;
 
 import core.world.utils;
 import core.world.World;
+import core.world.WorldConfig;
 
 class GameComponent : AbstractComponent {
-    private auto world = new World();
+    private World world;
     private GlobalCubeCoordinates coors;
     private auto updated = true;
     private auto exited = false;
@@ -22,6 +23,7 @@ class GameComponent : AbstractComponent {
     private ITerminal terminal;
 
     this(ITerminal terminal) {
+       world = new World();
        this.terminal = terminal;
        this.coors = world.getDefaultCoordinates();
     }

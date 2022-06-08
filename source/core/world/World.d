@@ -1,9 +1,15 @@
 module core.world.World;
 
+import core.world.WorldConfig;
 import core.world.Cube;
 import core.world.utils;
 
 class World {
+  private WorldConfig config;
+  this(WorldConfig config = new WorldConfig()) {
+    this.config = config;
+  }
+
   private Cube[GlobalCubeCoordinates] cache;
 
   Cube getCube(GlobalCubeCoordinates coors) {
