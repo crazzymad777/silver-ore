@@ -13,7 +13,8 @@ class NcTerminal : ITerminal {
   this() {
     Curses.Config cfg = {
         true,
-        false, /* disable nice curses color table init */
+        // false, /* disable nice curses color table init */
+        true,
         true, /* disable echo */
         Curses.Mode.raw
     };
@@ -21,10 +22,16 @@ class NcTerminal : ITerminal {
     window = curses.stdscr;
 
     // init color table
-    import std.traits;
-    foreach (colorA; EnumMembers!TerminalColor)
-        foreach (colorB; EnumMembers!TerminalColor)
+    /* import std.traits;
+    foreach (colorA; EnumMembers!TerminalColor) {
+        foreach (colorB; EnumMembers!TerminalColor) {
+          try {
             curses.colors.addPair(colorA, colorB);
+          } catch (NCException e) {
+
+          }
+        }
+    } */
   }
 
   ~this() {
@@ -59,6 +66,7 @@ class NcTerminal : ITerminal {
   }
 
   void update() {
+    /* puts(0, 0, format("%d", getColorPair(Char('x', TerminalColor.GRAY)))); */
     window.refresh();
     curses.update();
   }

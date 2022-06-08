@@ -1,5 +1,6 @@
 module terminal.GameComponent;
 import terminal.AbstractComponent;
+import terminal.base.TerminalColor;
 import terminal.base.ITerminal;
 import terminal.base.Char;
 import terminal.base.Key;
@@ -73,8 +74,9 @@ class GameComponent : AbstractComponent {
     override void draw() {
       // fill display matrix
 
-      terminal.puts(0, 0, format("X: %d, Y: %d, Z: %d", coors.x, coors.y, coors.z));
-      terminal.puts(1, 0, format("Chunk: %d / Cluster loaded: %d / Chunks loaded: %d / Cubes loaded: %d",
+      int offset = 1;
+      terminal.puts(offset + 0, 0, format("X: %d, Y: %d, Z: %d", coors.x, coors.y, coors.z));
+      terminal.puts(offset + 1, 0, format("Chunk: %d / Cluster loaded: %d / Chunks loaded: %d / Cubes loaded: %d",
                      world.getChunkByCoordinates(coors),
                      world.clustersLoaded(),
                      world.chunksLoaded(),
@@ -84,9 +86,9 @@ class GameComponent : AbstractComponent {
       auto cube = world.getCube(coors);
       auto item = cube.getItem();
       if (item != null) {
-         terminal.puts(2, 0, format("Item: %s", item.get.getName()));
+         terminal.puts(offset + 2, 0, format("Item: %s", item.get.getName()));
       } else {
-         terminal.puts(2, 0, format("Wall: %s / Floor: %s", cube.wall, cube.floor));
+         terminal.puts(offset + 2, 0, format("Wall: %s / Floor: %s", cube.wall, cube.floor));
       }
 
       int column = 32;
@@ -94,12 +96,15 @@ class GameComponent : AbstractComponent {
       for (int j = -row; j < row; j++) {
         for (int i = -column; i < column; i++) {
           auto w = 'x';
+          auto color = TerminalColor.WHITE;
           if (i != 0 || j != 0) {
             cube = world.getCube(GlobalCubeCoordinates(coors.x + i, coors.y + j, coors.z));
             auto glyph = new Glyph(cube);
             w = glyph.display();
+          } else {
+            color = TerminalColor.RED;
           }
-          terminal.put(3 + j + row, i + column, Char(w));
+          terminal.put(offset + 3 + j + row, i + column, Char(w, color, TerminalColor.BLACK));
           /* terminal.putchar(w); */
         }
         /* terminal.putchar('\n'); */
