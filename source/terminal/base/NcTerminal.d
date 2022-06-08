@@ -1,4 +1,5 @@
 module terminal.base.NcTerminal;
+import terminal.base.TerminalColor;
 import terminal.base.ITerminal;
 import terminal.base.Char;
 
@@ -24,9 +25,19 @@ class NcTerminal : ITerminal {
     destroy(curses);
   }
 
+  ulong getColorPair(Char glyph) {
+    auto colors = curses.colors;
+    auto color = colors[glyph.foreground, glyph.background];
+    return color;
+  }
+
+  CChar getCChar(Char glyph) {
+    return CChar(glyph.ch, getColorPair(glyph));
+  }
+
   void put(int y, int x, Char glyph) {
     try {
-      window.addch(y, x, glyph.ch);
+      window.addch(y, x, getCChar(glyph));
     } catch (NCException e) {
 
     }
@@ -42,7 +53,7 @@ class NcTerminal : ITerminal {
 
   void update() {
     window.refresh();
-    window.clear();
+    curses.update();
   }
 
   import terminal.base.Key;
