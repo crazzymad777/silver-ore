@@ -19,5 +19,14 @@ enum TerminalColor: short {
   BLUE,
   MAGENTA,
   CYAN,
-  WHITE
+  WHITE,
+
+  GRAY,
+  LIGHT_RED,
+  LIGHT_GREEN,
+  LIGHT_YELLOW,
+  LIGHT_BLUE,
+  LIGHT_MAGENTA,
+  LIGHT_CYAN,
+  BRIGHT_WHITE
 };

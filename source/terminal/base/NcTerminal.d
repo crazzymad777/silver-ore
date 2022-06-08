@@ -13,12 +13,18 @@ class NcTerminal : ITerminal {
   this() {
     Curses.Config cfg = {
         true,
-        true,
+        false, /* disable nice curses color table init */
         true, /* disable echo */
         Curses.Mode.raw
     };
     curses = new Curses(cfg);
     window = curses.stdscr;
+
+    // init color table
+    import std.traits;
+    foreach (colorA; EnumMembers!TerminalColor)
+        foreach (colorB; EnumMembers!TerminalColor)
+            curses.colors.addPair(colorA, colorB);
   }
 
   ~this() {
@@ -28,6 +34,7 @@ class NcTerminal : ITerminal {
   ulong getColorPair(Char glyph) {
     auto colors = curses.colors;
     auto color = colors[glyph.foreground, glyph.background];
+    /* auto color = 256 + glyph.foreground*2048 + glyph.background*256; */
     return color;
   }
 
