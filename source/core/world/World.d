@@ -2,7 +2,7 @@ module core.world.World;
 
 import core.world.WorldConfig;
 import core.world.Cube;
-import core.world.utils;
+import core.world.utils.GlobalCubeCoordinates;
 
 class World {
   private WorldConfig config;

@@ -10,7 +10,7 @@ import std.stdio;
 import std.format;
 import std.conv;
 
-import core.world.utils;
+import core.world.utils.GlobalCubeCoordinates;
 import core.world.World;
 import core.world.WorldConfig;
 

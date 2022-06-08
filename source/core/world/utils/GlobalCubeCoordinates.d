@@ -1,4 +1,4 @@
-module core.world.utils;
+module core.world.utils.GlobalCubeCoordinates;
 
 struct GlobalCubeCoordinates {
   long x, y, z;

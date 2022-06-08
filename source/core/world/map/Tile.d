@@ -4,7 +4,7 @@ import core.world.map.ClusterId;
 
 struct Tile {
   private ClusterId clusterId;
-  private TYPE type;
+  TYPE type;
 
   enum TYPE {
     TOWN,

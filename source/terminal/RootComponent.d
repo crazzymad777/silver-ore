@@ -8,7 +8,6 @@ import terminal.base.Key;
 
 import std.stdio;
 
-import core.world.utils;
 import core.world.World;
 
 class RootComponent : AbstractComponent {
