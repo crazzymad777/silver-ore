@@ -11,6 +11,7 @@ import core.game.Ore;
 
 class ClusterOreGenerator : IGenerator!ClusterCubeCoordinates {
   Nullable!Cube getCube(ClusterCubeCoordinates coors) {
+      import std.math.exponential: pow;
       if (coors.z <= 124u) {
           auto newX = coors.x;
           auto newY = coors.y;
@@ -20,7 +21,7 @@ class ClusterOreGenerator : IGenerator!ClusterCubeCoordinates {
           auto stone = d.getMaterial("Stone");
           auto cube = new Cube(stone, stone);
           foreach (cluster; clusters) {
-              if (((cluster.x-newX)^2+(cluster.y-newY)^2+(cluster.z-newZ)^2) < (cluster.radius)) {
+              if (((cluster.x-newX).pow(2)+(cluster.y-newY).pow(2)+(cluster.z-newZ).pow(2)) < (cluster.radius.pow(2))) {
                   auto material = cluster.material;
                   auto ore = new Ore(material);
                   cube.setOre(ore);
