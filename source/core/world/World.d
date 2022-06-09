@@ -40,17 +40,14 @@ class World {
     return cluster.getCube(local);
   }
 
-  // return chunk
-  int getChunkByCoordinates(GlobalCubeCoordinates coors) {
-    return 0;
-  }
-
   ulong clustersLoaded() {
     return clusters.length;
   }
 
-  int chunksLoaded() {
-    return 0;
+  ulong chunksLoaded() {
+    import std.algorithm;
+    import std.range;
+    return clusters.values.map!(x => x.chunksLoaded()).sum();
   }
 
   ulong cubesLoaded() {

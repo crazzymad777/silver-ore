@@ -78,8 +78,7 @@ class GameComponent : AbstractComponent {
 
       int offset = 1;
       terminal.puts(offset + 0, 0, format("X: %d, Y: %d, Z: %d", coors.x, coors.y, coors.z));
-      terminal.puts(offset + 1, 0, format("Chunk: %d / Cluster loaded: %d / Chunks loaded: %d / Cubes loaded: %d",
-                     world.getChunkByCoordinates(coors),
+      terminal.puts(offset + 1, 0, format("Cluster loaded: %d / Chunks loaded: %d / Cubes loaded: %d",
                      world.clustersLoaded(),
                      world.chunksLoaded(),
                      world.cubesLoaded()

@@ -114,4 +114,8 @@ class Cluster {
     import std.range;
     return chunks.values.map!(x => x.cubesLoaded()).sum();
   }
+
+  ulong chunksLoaded() {
+    return chunks.length;
+  }
 }
