@@ -3,7 +3,11 @@ module core.game.material.Dispenser;
 import core.game.material.Material;
 import core.game.material.Metal;
 import core.game.material.Grass;
+import core.game.material.Stone;
 import core.game.material.Wood;
+import core.game.material.Soil;
+import core.game.material.Void;
+import core.game.material.Air;
 
 /*
   Low-Lock Singleton Pattern
@@ -15,13 +19,14 @@ import core.game.material.Wood;
 class Dispenser {
   private Material[string] materials;
   private this() {
-    static const auto x = ["Material", "Wood", "Grass", "Metal"];
+    static const auto x = ["Material", "Wood", "Grass", "Metal", "Soil", "Air", "Void", "Stone"];
     static foreach(y; x) {
       materials[y] = new mixin(y)(materials);
     }
   }
 
   Material getMaterial(string name = "Material") {
+    // TODO: check materials contains name
     return materials[name];
   }
 

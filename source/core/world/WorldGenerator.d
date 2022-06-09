@@ -26,7 +26,7 @@ class WorldGenerator {
   }
 
   IGenerator!ClusterCubeCoordinates createClusterGenerator(ClusterId clusterId) {
-    import core.world.generator.DummyGenerator;
-    return new DummyGenerator!ClusterCubeCoordinates();
+    import core.world.generator.FlatGenerator;
+    return new FlatGenerator!ClusterCubeCoordinates();
   }
 }
