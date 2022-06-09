@@ -13,7 +13,8 @@ import core.world.World;
 class RootComponent : AbstractComponent {
     private AbstractComponent component;
     this() {
-      auto terminal = ITerminal.getDefaultTerminal();
+      import terminal.Settings: enableNcTerminal;
+      auto terminal = ITerminal.getDefaultTerminal(!enableNcTerminal);
       this.component = new GameComponent(terminal);
     }
 

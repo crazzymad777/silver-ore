@@ -21,12 +21,12 @@ enum TerminalColor: short {
   CYAN,
   WHITE,
 
-  /* GRAY,
+  GRAY,
   LIGHT_RED,
   LIGHT_GREEN,
   LIGHT_YELLOW,
   LIGHT_BLUE,
   LIGHT_MAGENTA,
   LIGHT_CYAN,
-  BRIGHT_WHITE */
+  BRIGHT_WHITE,
 };

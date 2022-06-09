@@ -73,33 +73,42 @@ class Glyph {
       return glyph;
     }
 
+    import terminal.Settings;
+    const static auto GRASS_COLOR = enable16colors ? TerminalColor.LIGHT_GREEN : TerminalColor.GREEN;
+    const static auto STONE_COLOR = enable16colors ? TerminalColor.GRAY : TerminalColor.BLACK;
+    const static auto WATER_COLOR = enable16colors ? TerminalColor.LIGHT_CYAN : TerminalColor.CYAN;
+    const static auto SAND_COLOR = enable16colors ? TerminalColor.LIGHT_YELLOW : TerminalColor.YELLOW;
+    const static auto GOLD_COLOR = enable16colors ? TerminalColor.LIGHT_YELLOW : TerminalColor.YELLOW;
+    const static auto SILVER_COLOR = enable16colors ? TerminalColor.BRIGHT_WHITE : TerminalColor.WHITE;
+    const static auto IRON_COLOR = enable16colors ? TerminalColor.BRIGHT_WHITE : TerminalColor.WHITE;
+    const static auto COPPER_COLOR = enable16colors ? TerminalColor.LIGHT_RED : TerminalColor.RED;
     static TerminalColor getMaterialForegroundColor(Material material) {
       if (material.name == "GRASS") {
-        return TerminalColor.GREEN;
+        return GRASS_COLOR;
       }
       if (material.name == "WOOD") {
         return TerminalColor.YELLOW;
       }
       if (material.name == "STONE") {
-        return TerminalColor.BLACK;
+        return STONE_COLOR;
       }
       if (material.name == "WATER") {
-        return TerminalColor.CYAN;
+        return WATER_COLOR;
       }
       if (material.name == "SAND") {
-        return TerminalColor.YELLOW;
+        return SAND_COLOR;
       }
       if (material.name == "GOLD") {
-        return TerminalColor.YELLOW;
+        return GOLD_COLOR;
       }
       if (material.name == "SILVER") {
-        return TerminalColor.WHITE;
+        return SILVER_COLOR;
       }
       if (material.name == "IRON") {
-        return TerminalColor.WHITE;
+        return IRON_COLOR;
       }
       if (material.name == "COPPER") {
-        return TerminalColor.RED;
+        return COPPER_COLOR;
       }
       if (material.name == "VOID") {
         return TerminalColor.BLACK;
