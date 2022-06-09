@@ -23,7 +23,22 @@ class Glyph {
       if (cast(Ore) item) {
         auto ore = cast(Ore) item;
         foreground = getMaterialForegroundColor(ore.metal);
-        return 'o';
+        if (ore.metal.name == "GOLD") {
+          return 'g';
+        }
+        if (ore.metal.name == "SILVER") {
+          return '$';
+        }
+        if (ore.metal.name == "IRON") {
+          return 'i';
+        }
+        if (ore.metal.name == "TIN") {
+          return 't';
+        }
+        if (ore.metal.name == "COPPER") {
+          return 'o';
+        }
+        return 'O';
       }
       return 'i';
     }

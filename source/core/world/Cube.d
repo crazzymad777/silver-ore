@@ -26,8 +26,4 @@ class Cube {
     return null;
     /* return Nullable!Item(item); */
   }
-
-  auto display() {
-    return 'g';
-  }
 }

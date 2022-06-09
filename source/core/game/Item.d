@@ -5,8 +5,4 @@ class Item {
   string getName() {
     return name;
   }
-
-  char display() {
-    return 'i';
-  }
 }

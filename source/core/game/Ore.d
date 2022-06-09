@@ -25,8 +25,4 @@ class Ore : Item {
   override string getName() {
     return name;
   }
-
-  override char display() {
-    return 'o';
-  }
 }
