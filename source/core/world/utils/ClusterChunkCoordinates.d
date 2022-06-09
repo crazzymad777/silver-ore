@@ -4,17 +4,13 @@ struct ClusterChunkCoordinates {
   uint x;
   uint y;
   uint z;
-  /* init {
-    if (x >= 16u) {
-      throw IllegalArgumentException("invalid x: $x")
-    }
-    if (y >= 16u) {
-      throw IllegalArgumentException("invalid y: $y")
-    }
-    if (z >= 16u) {
-      throw IllegalArgumentException("invalid z: $z")
-    }
-  } */
+
+  invariant
+  {
+    assert(x < 16);
+    assert(y < 16);
+    assert(z < 16);
+  }
 
   uint getChunkId() {
     return x+y*16u+z*16u*16u;

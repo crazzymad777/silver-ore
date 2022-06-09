@@ -3,23 +3,11 @@ module core.world.map.ClusterId;
 struct ClusterId {
   private long x;
   private long y;
-  /* {
-    if (x < 0) {
-      throw IllegalArgumentException("invalid x: $x")
-    }
 
-    if (y < 0) {
-      throw IllegalArgumentException("invalid y: $y")
-    }
-
-    if (x > maxClusterId) {
-      throw IllegalArgumentException("invalid x: $x")
-    }
-
-    if (y > maxClusterId) {
-      throw IllegalArgumentException("invalid y: $y")
-    }
-  } */
+  invariant {
+    assert(x >= 0 && x < maxClusterId);
+    assert(y >= 0 && y < maxClusterId);
+  }
 
   string toString() {
       // Show signed clusterId

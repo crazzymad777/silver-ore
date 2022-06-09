@@ -1,9 +1,15 @@
 module core.world.utils.GlobalCubeCoordinates;
 
+import core.world.utils.WorldChunkCoordinates;
+
 struct GlobalCubeCoordinates {
   long x, y, z;
   static GlobalCubeCoordinates fromInternalCoordinates(ulong x, ulong y, ulong z) {
       return GlobalCubeCoordinates(x, y, z);
+  }
+
+  WorldChunkCoordinates getChunkCoordinates() {
+    return WorldChunkCoordinates(ulong(x) >> 4, ulong(y) >> 4, ulong(z) >> 4);
   }
 }
 
