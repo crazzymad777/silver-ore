@@ -36,7 +36,8 @@ class World {
     // world -> cluster -> chunk -> cube
     auto chunkCoors = coors.getChunkCoordinates();
     auto cluster = getCluster(chunkCoors.getClusterId());
-    return cluster.getCube(coors);
+    auto local = cluster.transform(coors);
+    return cluster.getCube(local);
   }
 
   // return chunk
@@ -53,8 +54,9 @@ class World {
   }
 
   ulong cubesLoaded() {
-    return 0;
-    /* return clusters; */
+    import std.algorithm;
+    import std.range;
+    return clusters.values.map!(x => x.cubesLoaded()).sum();
   }
 
   auto getDefaultCoordinates() {
