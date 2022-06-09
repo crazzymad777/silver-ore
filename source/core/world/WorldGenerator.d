@@ -1,6 +1,7 @@
 module core.world.WorldGenerator;
 
 class WorldGenerator {
+  import core.world.utils.ClusterCubeCoordinates;
   import core.world.map.ClusterId;
   import core.world.IGenerator;
   import core.world.Map;
@@ -14,18 +15,18 @@ class WorldGenerator {
     this.map = map;
   }
 
-  private IGenerator[ClusterId] generators;
-  IGenerator getGenerator(ClusterId clusterId) {
-    auto generator_ptr = (clusterId in generators);
+  private IGenerator!ClusterCubeCoordinates[ClusterId] clusterGenerators;
+  IGenerator!ClusterCubeCoordinates getClusterGenerator(ClusterId clusterId) {
+    auto generator_ptr = (clusterId in clusterGenerators);
     if (generator_ptr is null) {
-      generators[clusterId] = createGenerator(clusterId);
-      return generators[clusterId];
+      clusterGenerators[clusterId] = createClusterGenerator(clusterId);
+      return clusterGenerators[clusterId];
     }
     return *generator_ptr;
   }
 
-  IGenerator createGenerator(ClusterId clusterId) {
+  IGenerator!ClusterCubeCoordinates createClusterGenerator(ClusterId clusterId) {
     import core.world.generator.DummyGenerator;
-    return new DummyGenerator();
+    return new DummyGenerator!ClusterCubeCoordinates();
   }
 }

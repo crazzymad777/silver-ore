@@ -1,24 +1,24 @@
 module terminal.base.Terminal;
-/* import terminal.base.ITerminal;
+
+import terminal.base.ITerminal;
+import terminal.base.Char;
 import terminal.base.Key;
 
-import core.stdc.stdio;
-import std.stdio;
-
+// stub terminal
 class Terminal : ITerminal {
   Key readKey() {
-    return new Key(getchar());
+    return new Key();
   }
 
-  void println(string str) {
-    writeln(str);
+  void put(int y, int x, Char glyph) {
+
   }
 
-  void putchar(char ch) {
-    write(ch);
+  void puts(int y, int x, string str) {
+
   }
 
   void update() {
 
   }
-} */
+}

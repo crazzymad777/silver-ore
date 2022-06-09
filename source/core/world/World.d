@@ -25,7 +25,7 @@ class World {
   Cluster getCluster(ClusterId clusterId) {
     auto cluster_ptr = (clusterId in clusters);
     if (cluster_ptr is null) {
-      auto generator = this.generator.getGenerator(clusterId);
+      auto generator = this.generator.getClusterGenerator(clusterId);
       clusters[clusterId] = new Cluster(clusterId, generator);
       return clusters[clusterId];
     }

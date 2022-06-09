@@ -38,20 +38,20 @@ class NcTerminal : ITerminal {
     destroy(curses);
   }
 
-  ulong getColorPair(Char* glyph) {
+  ulong getColorPair(const ref Char glyph) {
     auto colors = curses.colors;
     auto color = colors[glyph.foreground, glyph.background];
     /* auto color = 256 + glyph.foreground*2048 + glyph.background*256; */
     return color;
   }
 
-  CChar getCChar(Char* glyph) {
+  CChar getCChar(const ref Char glyph) {
     return CChar(glyph.ch, getColorPair(glyph));
   }
 
   void put(int y, int x, Char glyph) {
     try {
-      window.addch(y, x, getCChar(&glyph));
+      window.addch(y, x, getCChar(glyph));
     } catch (NCException e) {
 
     }

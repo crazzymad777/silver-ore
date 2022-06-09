@@ -12,8 +12,9 @@ struct ClusterChunkCoordinates {
     assert(z < 16);
   }
 
-  uint getChunkId() {
-    return x+y*16u+z*16u*16u;
+  ushort getChunkId() {
+    import std.conv: to;
+    return to!ushort(x+y*16u+z*16u*16u);
   }
 
   /// test getChunkId

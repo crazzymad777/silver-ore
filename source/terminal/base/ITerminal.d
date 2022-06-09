@@ -1,5 +1,6 @@
 module terminal.base.ITerminal;
 import terminal.base.NcTerminal;
+import terminal.base.Terminal;
 import terminal.base.Char;
 import terminal.base.Key;
 
@@ -9,7 +10,10 @@ interface ITerminal {
   void puts(int y, int x, string str);
   void update();
 
-  static ITerminal getDefaultTerminal() {
+  static ITerminal getDefaultTerminal(bool stub = false) {
+    if (stub) {
+      return new Terminal();
+    }
     return new NcTerminal();
   }
 }
