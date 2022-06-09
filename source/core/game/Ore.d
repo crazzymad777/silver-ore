@@ -4,6 +4,7 @@ import core.game.material.Material;
 import core.game.Item;
 
 class Ore : Item {
+  Material metal;
   this(Material metal) {
     assert(metal.isMetal());
     this.name = "unknown ore";
@@ -18,6 +19,7 @@ class Ore : Item {
     } else if (metal.name == "COPPER") {
       this.name = "Chalcocite";
     }
+    this.metal = metal;
   }
 
   override string getName() {

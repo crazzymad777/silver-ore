@@ -29,9 +29,11 @@ class Dispenser {
   }
 
   Material getMaterial(string name = "Material") {
-    // TODO: check materials contains name
     synchronized {
-      return materials[name];
+      if (name in materials) {
+        return materials[name];
+      }
+      return materials["Void"];
     }
   }
 

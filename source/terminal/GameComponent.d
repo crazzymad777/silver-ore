@@ -102,6 +102,7 @@ class GameComponent : AbstractComponent {
             cube = world.getCube(GlobalCubeCoordinates(coors.x + i, coors.y + j, coors.z));
             auto glyph = new Glyph(cube);
             w = glyph.display();
+            color = glyph.foreground;
           } else {
             color = TerminalColor.RED;
           }
