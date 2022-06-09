@@ -34,7 +34,7 @@ struct WorldChunkCoordinates {
     assert(expected == actual);
   }
 
-  ClusterChunkCoordinates getClusterChunkCoordinates()  {
+  auto getClusterChunkCoordinates()  {
     return ClusterChunkCoordinates((x%16u), (y%16u), (z%16u));
   }
 

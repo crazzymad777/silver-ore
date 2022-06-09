@@ -5,24 +5,38 @@ import core.world.WorldConfig;
 import core.world.Cube;
 
 class World {
+  import core.world.map.ClusterId;
+  import core.world.scheme.Cluster;
+  import core.world.WorldGenerator;
   import core.world.Map;
 
+  // N.B.: world generator have own associative array of cluster generators
+  private WorldGenerator generator;
   private WorldConfig config;
   private Map map;
   this(WorldConfig config = new WorldConfig()) {
     this.config = config;
-    this.map = new Map(config.seed);
+    map = new Map(config.seed);
+    generator = new WorldGenerator(config.seed, map, config.generatorName);
   }
 
-  private Cube[GlobalCubeCoordinates] cache;
+  // world contains clusters
+  private Cluster[ClusterId] clusters;
+  Cluster getCluster(ClusterId clusterId) {
+    auto cluster_ptr = (clusterId in clusters);
+    if (cluster_ptr is null) {
+      auto generator = this.generator.getGenerator(clusterId);
+      clusters[clusterId] = new Cluster(clusterId, generator);
+      return clusters[clusterId];
+    }
+    return *cluster_ptr;
+  }
 
   Cube getCube(GlobalCubeCoordinates coors) {
-    auto cube = (coors in cache);
-    if (cube is null) {
-      cache[coors] = new Cube();
-      return cache[coors];
-    }
-    return *cube;
+    // world -> cluster -> chunk -> cube
+    auto chunkCoors = coors.getChunkCoordinates();
+    auto cluster = getCluster(chunkCoors.getClusterId());
+    return cluster.getCube(coors);
   }
 
   // return chunk
@@ -30,19 +44,22 @@ class World {
     return 0;
   }
 
-  int clustersLoaded() {
-    return 1;
+  ulong clustersLoaded() {
+    return clusters.length;
   }
 
   int chunksLoaded() {
-    return 1;
+    return 0;
   }
 
   ulong cubesLoaded() {
-    return cache.length;
+    return 0;
+    /* return clusters; */
   }
 
-  GlobalCubeCoordinates getDefaultCoordinates() {
-    return GlobalCubeCoordinates(0, 0, 0);
+  auto getDefaultCoordinates() {
+    return GlobalCubeCoordinates(long(map.defaultClusterId.getSignedX()*256+128),
+                                 long(map.defaultClusterId.getSignedY()*256+128),
+                                 128);
   }
 }
