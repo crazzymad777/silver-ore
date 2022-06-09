@@ -1,6 +1,7 @@
 module core.world.Cube;
 
 import core.game.material.Material;
+import core.game.Furniture;
 import core.game.Item;
 import core.game.Ore;
 import std.typecons;
@@ -10,6 +11,7 @@ class Cube {
   Material floor;
   Material wall;
   Ore ore;
+  Furniture furniture;
   this(Material wall, Material floor) {
     this.floor = floor;
     this.wall = wall;
@@ -19,11 +21,15 @@ class Cube {
     this.ore = ore;
   }
 
-  auto getItem() {
+  Item getItem() {
+    if (furniture !is null) {
+      return furniture;
+    }
+
     if (ore !is null) {
       return ore;
     }
+
     return null;
-    /* return Nullable!Item(item); */
   }
 }

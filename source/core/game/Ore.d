@@ -21,8 +21,4 @@ class Ore : Item {
     }
     this.metal = metal;
   }
-
-  override string getName() {
-    return name;
-  }
 }
