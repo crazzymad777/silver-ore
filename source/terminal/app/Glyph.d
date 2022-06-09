@@ -4,7 +4,12 @@ import core.world.Cube;
 class Glyph {
     char glyph;
     this(Cube cube) {
-      glyph = getCubeGlyph(cube);
+      auto item = cube.getItem();
+      if (item is null) {
+        glyph = getCubeGlyph(cube);
+      } else {
+        glyph = 'o';
+      }
     }
 
     char getCubeGlyph(Cube cube) {

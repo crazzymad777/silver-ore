@@ -8,6 +8,9 @@ import core.game.material.Wood;
 import core.game.material.Soil;
 import core.game.material.Void;
 import core.game.material.Air;
+import core.game.material.Water;
+import core.game.material.Silt;
+import core.game.material.Sand;
 
 /*
   Low-Lock Singleton Pattern
@@ -17,9 +20,9 @@ import core.game.material.Air;
 */
 
 class Dispenser {
-  private Material[string] materials;
+  static private Material[string] materials;
   private this() {
-    static const auto x = ["Material", "Wood", "Grass", "Metal", "Soil", "Air", "Void", "Stone"];
+    static const auto x = ["Material", "Wood", "Grass", "Metal", "Soil", "Air", "Void", "Stone", "Sand", "Silt", "Water"];
     static foreach(y; x) {
       materials[y] = new mixin(y)(materials);
     }
@@ -27,7 +30,9 @@ class Dispenser {
 
   Material getMaterial(string name = "Material") {
     // TODO: check materials contains name
-    return materials[name];
+    synchronized {
+      return materials[name];
+    }
   }
 
   /* Singleton */

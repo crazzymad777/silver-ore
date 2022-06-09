@@ -1,14 +1,23 @@
 module core.world.generator.FlatGenerator;
 
-import core.world.utils.GlobalCubeCoordinates;
+import core.world.utils.ClusterCubeCoordinates;
 import core.game.material.Dispenser;
 import core.game.material.Material;
 import std.typecons: Nullable;
 import core.world.IGenerator;
 import core.world.Cube;
 
-class FlatGenerator(T) : IGenerator!T {
-  Nullable!Cube getCube(T coors) {
+import core.world.generator.ClusterOreGeneratorId;
+import core.world.generator.ClusterOreGenerator;
+import core.world.map.ClusterId;
+
+class FlatGenerator : IGenerator!ClusterCubeCoordinates {
+  ClusterOreGenerator oreGenerator;
+  this(ClusterId id, ulong seed) {
+    oreGenerator = new ClusterOreGenerator(ClusterOreGeneratorId(id, seed));
+  }
+
+  Nullable!Cube getCube(ClusterCubeCoordinates coors) {
     auto d = Dispenser.get();
 
     Material floor;
@@ -16,10 +25,10 @@ class FlatGenerator(T) : IGenerator!T {
     if (coors.z == 128L) {
       floor = d.getMaterial("Grass");
     } else if (coors.z <= 124L) {
-      /* @Suppress("NAME_SHADOWING") val cube = generator.oreGenerator.getCube(coors)
-      if (cube != null) {
-      return cube
-      } */
+      auto cube = oreGenerator.getCube(coors);
+      if (cube.get !is null) {
+        return cube;
+      }
       wall = d.getMaterial("Stone");
       floor = d.getMaterial("Stone");
     } else if (coors.z > 128L) {

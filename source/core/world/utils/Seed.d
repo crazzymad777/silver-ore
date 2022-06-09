@@ -1,7 +1,7 @@
 module core.world.utils.Seed;
 
 /// hash function
-ulong make(string str) {
+export ulong make(string str) {
   import std.digest.sha, core.stdc.string: memcpy;
   auto hash = sha256Of(str);
   ulong u = void;
@@ -18,7 +18,7 @@ private unittest {
 }
 
 /// get default (for silver ore) random generator
-auto Random(ulong seed) {
+export auto Random(ulong seed) {
   import std.random;
   return Mt19937_64(seed);
 }

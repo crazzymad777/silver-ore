@@ -7,4 +7,8 @@ class Wood : Material {
     this.name = "WOOD";
     super(materials);
   }
+
+  override bool isSolid() {
+    return true;
+  }
 }

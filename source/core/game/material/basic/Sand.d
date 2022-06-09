@@ -1,10 +1,10 @@
-module core.game.material.Stone;
+module core.game.material.Sand;
 
 import core.game.material.Material;
 
-class Stone : Material {
+class Sand : Material {
   package this(Material[string] materials) {
-    this.name = "STONE";
+    this.name = "SAND";
     super(materials);
   }
 

@@ -1,11 +1,12 @@
 module core.game.Item;
 
 class Item {
-    string getName() {
-      return "item";
-    }
+  protected string name = "item";
+  string getName() {
+    return name;
+  }
 
-    char display() {
-      return 'i';
-    }
+  char display() {
+    return 'i';
+  }
 }

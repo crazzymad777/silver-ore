@@ -55,9 +55,9 @@ class GameComponent : AbstractComponent {
       } else if (c == 'd') {
         coors.x++;
       } else if (c == 'e') {
-        coors.z++;
-      } else if (c == 'r') {
         coors.z--;
+      } else if (c == 'r') {
+        coors.z++;
       }
     }
 
@@ -86,8 +86,8 @@ class GameComponent : AbstractComponent {
 
       auto cube = world.getCube(coors);
       auto item = cube.getItem();
-      if (item != null) {
-         terminal.puts(offset + 2, 0, format("Item: %s", item.get.getName()));
+      if (item !is null) {
+         terminal.puts(offset + 2, 0, format("Item: %s", item.getName()));
       } else {
          terminal.puts(offset + 2, 0, format("Wall: %s / Floor: %s", cube.wall, cube.floor));
       }

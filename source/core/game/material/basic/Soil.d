@@ -7,4 +7,8 @@ class Soil : Material {
     this.name = "SOIL";
     super(materials);
   }
+
+  override bool isSolid() {
+    return true;
+  }
 }

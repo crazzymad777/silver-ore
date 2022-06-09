@@ -10,4 +10,12 @@ class Material {
   override string toString() {
     return name;
   }
+
+  bool isMetal() {
+    return false;
+  }
+
+  bool isSolid() {
+    return false;
+  }
 }
