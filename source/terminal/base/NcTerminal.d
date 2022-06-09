@@ -69,6 +69,7 @@ class NcTerminal : ITerminal {
     /* puts(0, 0, format("%d", getColorPair(Char('x', TerminalColor.GRAY)))); */
     window.refresh();
     curses.update();
+    window.clear();
   }
 
   import terminal.base.Key;

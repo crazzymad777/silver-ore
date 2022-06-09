@@ -38,8 +38,8 @@ class World {
     return 1;
   }
 
-  int cubesLoaded() {
-    return 1;
+  ulong cubesLoaded() {
+    return cache.length;
   }
 
   GlobalCubeCoordinates getDefaultCoordinates() {
