@@ -10,8 +10,8 @@ struct ClusterId {
   long y;
 
   invariant {
-    assert(ulong(x) <= maxClusterId);
-    assert(ulong(y) <= maxClusterId);
+    /* assert(ulong(x) <= maxClusterId);
+    assert(ulong(y) <= maxClusterId); */
   }
 
   size_t toHash() const @safe pure nothrow

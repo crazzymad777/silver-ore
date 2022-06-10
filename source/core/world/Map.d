@@ -46,12 +46,28 @@ class Map {
   }
 
   Tile getTile(ClusterId clusterId) {
+    // Map -> Biome -> Tile ?
+    import core.world.map.BiomeCell;
+
     auto tile_ptr = (clusterId in tiles);
     if (tile_ptr !is null) {
       return *tile_ptr;
     }
 
+    int size = 16;
+    BiomeCell cell = new BiomeCell(seed, size, clusterId);
+    BiomeId id = cell.getBiomeIdByClusterId(clusterId);
+
     Tile.TYPE type = Tile.TYPE.FLAT;
+    auto biome_ptr = (id in biomes);
+    if (biome_ptr is null) {
+      biomes[id] = new Biome(id);
+      type = biomes[id].type;
+    } else {
+      type = biome_ptr.type;
+    }
+
+
 
     /* import std.format, core.world.utils.Seed: make, Random;
     import std.random: uniform;
@@ -77,5 +93,9 @@ class Map {
     } */
 
     return tiles[clusterId] = Tile(clusterId, type);
+  }
+
+  ulong biomesLoaded() {
+    return biomes.length;
   }
 }

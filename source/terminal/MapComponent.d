@@ -74,7 +74,8 @@ class MapComponent : AbstractComponent {
 
       int offset = 1;
       terminal.puts(offset + 0, 0, format("ClusterId(X: %d, Y: %d)", clusterId.x, clusterId.y));
-      terminal.puts(offset + 1, 0, format("Cluster loaded: %d",
+      terminal.puts(offset + 1, 0, format("Biomes loaded: %d / Cluster loaded: %d",
+                     world.biomesLoaded(),
                      world.clustersLoaded()
                      ));
 

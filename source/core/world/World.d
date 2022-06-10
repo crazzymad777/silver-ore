@@ -42,11 +42,16 @@ class World {
 
   import core.world.map.Tile;
   export Tile getTile(ClusterId clusterId) {
+    // World -> Map -> Biome -> Tile ?
     return map.getTile(clusterId);
   }
 
   ulong clustersLoaded() {
     return clusters.length;
+  }
+
+  ulong biomesLoaded() {
+    return map.biomesLoaded();
   }
 
   ulong chunksLoaded() {

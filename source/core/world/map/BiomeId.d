@@ -1,10 +1,10 @@
 module core.world.map.BiomeId;
 
 struct BiomeId {
-  int seed;
+  long seed;
   int size;
-  int x;
-  int y;
+  long x;
+  long y;
   int ver = 1;
 
   size_t toHash() const @safe pure nothrow
