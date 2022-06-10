@@ -1,4 +1,4 @@
-module core.world.generator.FlatGenerator;
+module core.world.generator.i1;
 
 import core.world.utils.ClusterCubeCoordinates;
 import core.game.material.Dispenser;
@@ -11,7 +11,7 @@ import core.world.generator.ClusterOreGeneratorId;
 import core.world.generator.ClusterOreGenerator;
 import core.world.map.ClusterId;
 
-class FlatGenerator : IGenerator!ClusterCubeCoordinates {
+class i1 : IGenerator!ClusterCubeCoordinates {
   ClusterOreGenerator oreGenerator;
   this(ClusterId id, ulong seed) {
     oreGenerator = new ClusterOreGenerator(ClusterOreGeneratorId(id, seed));

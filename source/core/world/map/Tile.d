@@ -7,8 +7,10 @@ struct Tile {
   TYPE type;
 
   enum TYPE {
-    TOWN,
     FLAT,
+    DESERT,
+    FOREST,
+    TOWN,
     SEA,
   }
 

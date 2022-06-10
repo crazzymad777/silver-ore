@@ -1,6 +1,6 @@
 import terminal.app.App;
 
-void main()
+void main(string[] args)
 {
 	Application();
 }

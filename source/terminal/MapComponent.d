@@ -1,4 +1,4 @@
-module terminal.GameComponent;
+module terminal.MapComponent;
 import terminal.AbstractComponent;
 import terminal.base.TerminalColor;
 import terminal.base.ITerminal;
@@ -14,18 +14,19 @@ import core.world.utils.GlobalCubeCoordinates;
 import core.world.World;
 import core.world.WorldConfig;
 
-class GameComponent : AbstractComponent {
+class MapComponent : AbstractComponent {
+    import core.world.map.ClusterId;
+    import core.world.map.Tile;
+
     private World world;
-    GlobalCubeCoordinates coors;
+    ClusterId clusterId;
     private auto updated = true;
     private auto exited = false;
-    private auto speed = 256;
     private ITerminal terminal;
 
     this(ITerminal terminal) {
        world = new World();
        this.terminal = terminal;
-       this.coors = world.getDefaultCoordinates();
     }
 
     // obtain key
@@ -47,17 +48,13 @@ class GameComponent : AbstractComponent {
       if (c == 'q') {
         exited = true;
       } else if (c == 'w') {
-        coors.y--;
+        clusterId.y--;
       } else if (c == 's') {
-        coors.y++;
+        clusterId.y++;
       } else if (c == 'a') {
-        coors.x--;
+        clusterId.x--;
       } else if (c == 'd') {
-        coors.x++;
-      } else if (c == 'e') {
-        coors.z--;
-      } else if (c == 'r') {
-        coors.z++;
+        clusterId.x++;
       }
     }
 
@@ -77,20 +74,10 @@ class GameComponent : AbstractComponent {
       // fill display matrix
 
       int offset = 1;
-      terminal.puts(offset + 0, 0, format("X: %d, Y: %d, Z: %d", coors.x, coors.y, coors.z));
-      terminal.puts(offset + 1, 0, format("Cluster loaded: %d / Chunks loaded: %d / Cubes loaded: %d",
-                     world.clustersLoaded(),
-                     world.chunksLoaded(),
-                     world.cubesLoaded()
+      terminal.puts(offset + 0, 0, format("ClusterId(X: %d, Y: %d)", clusterId.x, clusterId.y));
+      terminal.puts(offset + 1, 0, format("Cluster loaded: %d",
+                     world.clustersLoaded()
                      ));
-
-      auto cube = world.getCube(coors);
-      auto item = cube.getItem();
-      if (item !is null) {
-         terminal.puts(offset + 2, 0, format("Item: %s", item.getName()));
-      } else {
-         terminal.puts(offset + 2, 0, format("Wall: %s / Floor: %s", cube.wall, cube.floor));
-      }
 
       int column = 32;
       int row = 8;
@@ -99,14 +86,29 @@ class GameComponent : AbstractComponent {
           auto w = 'x';
           auto color = TerminalColor.WHITE;
           if (i != 0 || j != 0) {
-            cube = world.getCube(GlobalCubeCoordinates(coors.x + i, coors.y + j, coors.z));
-            auto glyph = new Glyph(cube);
-            w = glyph.display();
-            color = glyph.foreground;
+            auto x = clusterId.x + i;
+            auto y = clusterId.y + j;
+            Tile tile = world.getTile(signedClusterId(x, y));
+            if (tile.type == Tile.TYPE.SEA) {
+              color = TerminalColor.CYAN;
+              w = '~';// 's';
+            } else if (tile.type == Tile.TYPE.TOWN) {
+              color = TerminalColor.YELLOW;
+              w = 'T';
+            } else if (tile.type == Tile.TYPE.FLAT) {
+              color = TerminalColor.GREEN;
+              w = '_'; //'f';
+            } else if (tile.type == Tile.TYPE.DESERT) {
+              color = TerminalColor.YELLOW;
+              w = '_'; //'f';
+            } else if (tile.type == Tile.TYPE.FOREST) {
+              color = TerminalColor.GREEN;
+              w = 'F';
+            }
           } else {
             color = TerminalColor.RED;
           }
-          terminal.put(offset + 3 + j + row, i + column, Char(w, color, TerminalColor.BLACK));
+          terminal.put(offset + 2 + j + row, i + column, Char(w, color, TerminalColor.BLACK));
           /* terminal.putchar(w); */
         }
         /* terminal.putchar('\n'); */

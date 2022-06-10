@@ -32,12 +32,17 @@ class World {
     return *cluster_ptr;
   }
 
-  Cube getCube(GlobalCubeCoordinates coors) {
+  export Cube getCube(GlobalCubeCoordinates coors) {
     // world -> cluster -> chunk -> cube
     auto chunkCoors = coors.getChunkCoordinates();
     auto cluster = getCluster(chunkCoors.getClusterId());
     auto local = cluster.transform(coors);
     return cluster.getCube(local);
+  }
+
+  import core.world.map.Tile;
+  export Tile getTile(ClusterId clusterId) {
+    return map.getTile(clusterId);
   }
 
   ulong clustersLoaded() {

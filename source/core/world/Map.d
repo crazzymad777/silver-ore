@@ -58,10 +58,14 @@ class Map {
     auto random = Random(seed);
     auto p = double(uniform!ulong(random))/ulong.max;
     Tile.TYPE type = void;
-    if (p < 0.05) {
+    if (p < 0.00625) {
       type = Tile.TYPE.TOWN;
-    } else if (p < 0.25) {
+    } else if (p < 0.125) {
       type = Tile.TYPE.SEA;
+    } else if (p < 0.25) {
+      type = Tile.TYPE.FOREST;
+    } else if (p < 0.5) {
+      type = Tile.TYPE.DESERT;
     } else {
       type = Tile.TYPE.FLAT;
     }

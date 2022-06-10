@@ -1,13 +1,17 @@
 module core.world.map.ClusterId;
 
+export auto signedClusterId(long x, long y) {
+  return ClusterId.signedClusterId(x, y);
+}
+
 struct ClusterId {
   const static auto maxClusterId = 72057594037927935;
-  private long x;
-  private long y;
+  long x;
+  long y;
 
   invariant {
-    assert(x >= 0 && x < maxClusterId);
-    assert(y >= 0 && y < maxClusterId);
+    assert(ulong(x) <= maxClusterId);
+    assert(ulong(y) <= maxClusterId);
   }
 
   size_t toHash() const @safe pure nothrow
