@@ -11,10 +11,9 @@ import std.format;
 import std.conv;
 
 import core.world.utils.GlobalCubeCoordinates;
-import core.world.World;
-import core.world.WorldConfig;
 
 class MapComponent : AbstractComponent {
+    import core.world.World;
     import core.world.map.ClusterId;
     import core.world.map.Tile;
 
@@ -24,8 +23,8 @@ class MapComponent : AbstractComponent {
     private auto exited = false;
     private ITerminal terminal;
 
-    this(ITerminal terminal) {
-       world = new World();
+    this(ITerminal terminal, World world) {
+       this.world = world;
        this.terminal = terminal;
     }
 

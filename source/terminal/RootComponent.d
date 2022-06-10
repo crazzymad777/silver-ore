@@ -12,6 +12,7 @@ import std.stdio;
 import core.world.World;
 
 class RootComponent : AbstractComponent {
+    private World world;
     private AbstractComponent[] components;
     private int currentId = GAME_ID;
     const int GAME_ID = 0;
@@ -20,10 +21,11 @@ class RootComponent : AbstractComponent {
     private MapComponent map;
     ITerminal terminal;
     this() {
+      world = new World();
       import terminal.Settings: enableNcTerminal;
       terminal = ITerminal.getDefaultTerminal(!enableNcTerminal);
-      game = new GameComponent(terminal);
-      map = new MapComponent(terminal);
+      game = new GameComponent(terminal, world);
+      map = new MapComponent(terminal, world);
       this.components = [game,
                          map];
     }

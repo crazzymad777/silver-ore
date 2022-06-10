@@ -22,8 +22,8 @@ class GameComponent : AbstractComponent {
     private auto speed = 256;
     private ITerminal terminal;
 
-    this(ITerminal terminal) {
-       world = new World();
+    this(ITerminal terminal, World world) {
+       this.world = world;
        this.terminal = terminal;
        this.coors = world.getDefaultCoordinates();
     }
