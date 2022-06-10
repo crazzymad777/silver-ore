@@ -26,9 +26,10 @@ struct ClusterId {
 
   string toString() {
       // Show signed clusterId
+      import std.format;
       auto x = getSignedX();
       auto y = getSignedY();
-      return "ClusterId(x=$x, y=$y)";
+      return format("ClusterId(x=%d, y=%d)", x, y);
   }
 
   long getSignedX() {

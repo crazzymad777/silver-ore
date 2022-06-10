@@ -10,7 +10,7 @@ struct WorldChunkCoordinates {
   ulong z;
 
   ClusterId getClusterId() {
-    return ClusterId(long(x) >> 4, long(y) >> 4);
+    return signedClusterId(long(x) >> 4, long(y) >> 4);
   }
 
   /// test getClusterId
@@ -29,7 +29,7 @@ struct WorldChunkCoordinates {
 
     auto coors = global.getChunkCoordinates();
 
-    auto actual = ClusterId(long(ux)/16, long(uy)/16);
+    auto actual = signedClusterId(long(ux)/16, long(uy)/16);
     auto expected = coors.getClusterId();
     assert(expected == actual);
   }

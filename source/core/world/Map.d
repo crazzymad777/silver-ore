@@ -3,21 +3,25 @@ module core.world.Map;
 import std.datetime.systime;
 
 class Map {
-  import core.world.map.Tile;
   import core.world.map.ClusterId;
+  import core.world.map.BiomeId;
+  import core.world.map.Biome;
+  import core.world.map.Tile;
 
   private Tile[ClusterId] tiles;
+  private Biome[BiomeId] biomes;
   ClusterId defaultClusterId;
   private long seed;
 
   this(long seed = Clock.currTime().toUnixTime()) {
     this.seed = seed;
-    Tile tile;
-    long i, x, y;
+    defaultClusterId = signedClusterId(0, 0);
 
-    int k = 16;
+    /* Tile tile; */
+    /* long i, x, y; */
+    /* int k = 16;
     while (true) {
-      auto clusterId = ClusterId(x+i*k, y+i*k);
+      auto clusterId = signedClusterId(x+i*k, y+i*k);
       tile = getTile(clusterId);
 
       if (tile.type == Tile.TYPE.TOWN) {
@@ -34,7 +38,7 @@ class Map {
           i++;
         }
       }
-    }
+    } */
   }
 
   Tile.TYPE getTileType(ClusterId clusterId) {
@@ -47,7 +51,9 @@ class Map {
       return *tile_ptr;
     }
 
-    import std.format, core.world.utils.Seed: make, Random;
+    Tile.TYPE type = Tile.TYPE.FLAT;
+
+    /* import std.format, core.world.utils.Seed: make, Random;
     import std.random: uniform;
     auto seed = make(format("%d:map_tile:%d:%d",
                             this.seed,
@@ -57,8 +63,8 @@ class Map {
 
     auto random = Random(seed);
     auto p = double(uniform!ulong(random))/ulong.max;
-    Tile.TYPE type = void;
-    if (p < 0.00625) {
+    Tile.TYPE type = void; */
+    /* if (p < 0.00625) {
       type = Tile.TYPE.TOWN;
     } else if (p < 0.125) {
       type = Tile.TYPE.SEA;
@@ -68,7 +74,7 @@ class Map {
       type = Tile.TYPE.DESERT;
     } else {
       type = Tile.TYPE.FLAT;
-    }
+    } */
 
     return tiles[clusterId] = Tile(clusterId, type);
   }
