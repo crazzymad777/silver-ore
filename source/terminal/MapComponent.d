@@ -47,13 +47,15 @@ class MapComponent : AbstractComponent {
       if (c == 'q') {
         exited = true;
       } else if (c == 'w') {
-        clusterId.y--;
+        clusterId.setY(clusterId.getSignedY() - 1);
       } else if (c == 's') {
-        clusterId.y++;
+        clusterId.setY(clusterId.getSignedY() + 1);
       } else if (c == 'a') {
-        clusterId.x--;
+        clusterId.setX(clusterId.getSignedX() - 1);
       } else if (c == 'd') {
-        clusterId.x++;
+        clusterId.setX(clusterId.getSignedX() + 1);
+      } else if (c == 'c') {
+        world.clearBiomes();
       }
     }
 
@@ -73,11 +75,17 @@ class MapComponent : AbstractComponent {
       // fill display matrix
 
       int offset = 1;
-      terminal.puts(offset + 0, 0, format("ClusterId(X: %d, Y: %d)", clusterId.x, clusterId.y));
+      terminal.puts(offset + 0, 0, format("ClusterId(sX: %d, sY: %d, X: %d, Y: %d)",
+      clusterId.getSignedX(), clusterId.getSignedY(),
+      clusterId.getUnsignedX(), clusterId.getUnsignedY()
+      ));
       terminal.puts(offset + 1, 0, format("Biomes loaded: %d / Cluster loaded: %d",
                      world.biomesLoaded(),
                      world.clustersLoaded()
                      ));
+
+      auto biomeId = world.getBiomeId(clusterId);
+      terminal.puts(offset + 2, 0, format("BiomeId: %d, %d", biomeId.x, biomeId.y));
 
       int column = 32;
       int row = 8;
@@ -86,8 +94,8 @@ class MapComponent : AbstractComponent {
           auto w = 'x';
           auto color = TerminalColor.WHITE;
           if (i != 0 || j != 0) {
-            auto x = clusterId.x + i;
-            auto y = clusterId.y + j;
+            auto x = clusterId.getSignedX() + i;
+            auto y = clusterId.getSignedY() + j;
             Tile tile = world.getTile(signedClusterId(x, y));
             if (tile.type == Tile.TYPE.SEA) {
               color = TerminalColor.CYAN;
@@ -108,7 +116,7 @@ class MapComponent : AbstractComponent {
           } else {
             color = TerminalColor.RED;
           }
-          terminal.put(offset + 2 + j + row, i + column, Char(w, color, TerminalColor.BLACK));
+          terminal.put(offset + 3 + j + row, i + column, Char(w, color, TerminalColor.BLACK));
           /* terminal.putchar(w); */
         }
         /* terminal.putchar('\n'); */

@@ -13,8 +13,14 @@ import core.world.map.ClusterId;
 
 class FlatGenerator : IGenerator!ClusterCubeCoordinates {
   ClusterOreGenerator oreGenerator;
-  this(ClusterId id, ulong seed) {
+  enum TYPE {
+    GRASS,
+    SAND
+  }
+  private TYPE type;
+  this(ClusterId id, ulong seed, TYPE type = TYPE.GRASS) {
     oreGenerator = new ClusterOreGenerator(ClusterOreGeneratorId(id, seed));
+    this.type = type;
   }
 
   Nullable!Cube getCube(ClusterCubeCoordinates coors) {
@@ -23,7 +29,7 @@ class FlatGenerator : IGenerator!ClusterCubeCoordinates {
     Material floor;
     Material wall = d.getMaterial("Air");
     if (coors.z == 128L) {
-      floor = d.getMaterial("Grass");
+      floor = d.getMaterial(type == TYPE.GRASS ? "Grass" : "Sand");
     } else if (coors.z <= 124L) {
       auto cube = oreGenerator.getCube(coors);
       if (cube.get !is null) {
@@ -35,8 +41,8 @@ class FlatGenerator : IGenerator!ClusterCubeCoordinates {
       wall = d.getMaterial("Air");
       floor = d.getMaterial("Air");
     } else {
-      wall = d.getMaterial("Soil");
-      floor = d.getMaterial("Soil");
+      wall = d.getMaterial(type == TYPE.GRASS ? "Soil" : "Sand");
+      floor = d.getMaterial(type == TYPE.GRASS ? "Soil" : "Sand");
     }
     return Nullable!Cube(new Cube(wall, floor));
   }

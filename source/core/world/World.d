@@ -6,6 +6,7 @@ import core.world.Cube;
 
 class World {
   import core.world.map.ClusterId;
+  import core.world.map.BiomeId;
   import core.world.scheme.Cluster;
   import core.world.WorldGenerator;
   import core.world.Map;
@@ -50,8 +51,16 @@ class World {
     return clusters.length;
   }
 
+  void clearBiomes() {
+    map.clearBiomes();
+  }
+
   ulong biomesLoaded() {
     return map.biomesLoaded();
+  }
+
+  BiomeId getBiomeId(ClusterId clusterId) {
+    return map.getBiomeId(clusterId);
   }
 
   ulong chunksLoaded() {

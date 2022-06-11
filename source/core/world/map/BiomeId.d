@@ -9,7 +9,13 @@ struct BiomeId {
 
   size_t toHash() const @safe pure nothrow
   {
-    return x + y + seed + size + ver;
+    auto hash = 7L;
+    hash = 31 * hash + x;
+    hash = 31 * hash + y;
+    hash = 31 * hash + seed;
+    hash = 31 * hash + size;
+    hash = 31 * hash + ver;
+    return hash;
   }
 
   bool opEquals(ref const BiomeId other) const @safe pure nothrow

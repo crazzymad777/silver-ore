@@ -41,6 +41,17 @@ class Map {
     } */
   }
 
+  void clearBiomes() {
+    biomes.clear();
+  }
+
+  BiomeId getBiomeId(ClusterId clusterId) {
+    import core.world.map.BiomeCell;
+    int size = 8;
+    BiomeCell cell = new BiomeCell(seed, size, clusterId);
+    return cell.getBiomeIdByClusterId(clusterId);
+  }
+
   Tile.TYPE getTileType(ClusterId clusterId) {
     return getTile(clusterId).type;
   }
@@ -54,7 +65,7 @@ class Map {
       return *tile_ptr;
     }
 
-    int size = 16;
+    int size = 8;
     BiomeCell cell = new BiomeCell(seed, size, clusterId);
     BiomeId id = cell.getBiomeIdByClusterId(clusterId);
 

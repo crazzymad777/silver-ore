@@ -59,8 +59,8 @@ class RootComponent : AbstractComponent {
           terminal.puts(0, 0, "Enable game");
           currentId = GAME_ID;
 
-          auto x = game.coors.x%256 + map.clusterId.x*256;
-          auto y = game.coors.y%256 + map.clusterId.y*256;
+          auto x = game.coors.x%256 + map.clusterId.getSignedX()*256;
+          auto y = game.coors.y%256 + map.clusterId.getSignedY()*256;
           game.coors = GlobalCubeCoordinates(x, y, game.coors.z);
         }
       } else {

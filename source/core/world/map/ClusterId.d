@@ -6,12 +6,20 @@ export auto signedClusterId(long x, long y) {
 
 struct ClusterId {
   const static auto maxClusterId = 72057594037927935;
-  long x;
-  long y;
+  private long x;
+  private long y;
+
+  void setX(long x) {
+    this.x = signed(x);
+  }
+
+  void setY(long y) {
+    this.y = signed(y);
+  }
 
   invariant {
-    /* assert(ulong(x) <= maxClusterId);
-    assert(ulong(y) <= maxClusterId); */
+    assert(ulong(x) <= maxClusterId);
+    assert(ulong(y) <= maxClusterId);
   }
 
   size_t toHash() const @safe pure nothrow
@@ -34,12 +42,14 @@ struct ClusterId {
 
   long getSignedX() {
       auto half = maxClusterId / 2;
-      return (x < half) ? this.x : (-this.x+half*2)*-1-2;
+      auto x = this.x;
+      return (x < half) ? x : (-x+half*2)*-1-2;
   }
 
   long getSignedY() {
       auto half = maxClusterId / 2;
-      return (y < half) ? this.y : (-this.y+half*2)*-1-2;
+      auto y = this.y;
+      return (y < half) ? y : (-y+half*2)*-1-2;
   }
 
   long getUnsignedX() {
@@ -50,23 +60,20 @@ struct ClusterId {
       return y;
   }
 
-  static auto signedClusterId(long x, long y) {
-    ulong unsignedX = void, unsignedY = void;
-    if (x < 0) {
-      unsignedX = maxClusterId + x + 1;
-    } else if (x > maxClusterId) {
-      unsignedX = x - maxClusterId - 1;
+  static auto signed(long value) {
+    ulong unsigned = void;
+    if (value < 0) {
+      unsigned = maxClusterId + value + 1;
+    } else if (value > maxClusterId) {
+      unsigned = value - maxClusterId - 1;
     } else {
-      unsignedX = x;
+      unsigned = value;
     }
+    return unsigned;
+  }
 
-    if (y < 0) {
-      unsignedY = maxClusterId + y + 1;
-    } else if (y > maxClusterId) {
-      unsignedY = y - maxClusterId - 1;
-    } else {
-      unsignedY = y;
-    }
+  static auto signedClusterId(long x, long y) {
+    ulong unsignedX = signed(x), unsignedY = signed(y);
     return ClusterId(unsignedX, unsignedY);
   }
 
