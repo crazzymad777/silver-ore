@@ -34,11 +34,21 @@ class World {
   }
 
   export Cube getCube(GlobalCubeCoordinates coors) {
+    import core.game.material.Dispenser;
     // world -> cluster -> chunk -> cube
+
+    if (coors.z >= 256 || coors.z < 0) {
+      return new Cube(Dispenser.get().getMaterial("Void"), Dispenser.get().getMaterial("Void"));
+    }
+
     auto chunkCoors = coors.getChunkCoordinates();
     auto cluster = getCluster(chunkCoors.getClusterId());
     auto local = cluster.transform(coors);
-    return cluster.getCube(local);
+    auto cube = cluster.getCube(local);
+    if (cube is null) {
+      cube = new Cube(Dispenser.get().getMaterial("Void"), Dispenser.get().getMaterial("Void"));
+    }
+    return cube;
   }
 
   import core.world.map.Tile;
