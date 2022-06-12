@@ -21,6 +21,10 @@ class Cube {
     this.ore = ore;
   }
 
+  void setFurniture(Furniture furniture) {
+    this.furniture = furniture;
+  }
+
   Item getItem() {
     if (furniture !is null) {
       return furniture;

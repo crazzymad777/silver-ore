@@ -53,24 +53,21 @@ class BuildingGenerator : IGenerator!ClusterCubeCoordinates {
 
   Nullable!Cube getCube(ClusterCubeCoordinates coors) {
     import core.game.material.Dispenser;
-    /* auto cube = new Cube(Dispenser.get().getMaterial("Air"), Dispenser.get().getMaterial("Wood"));
-    return Nullable!Cube(cube); */
 
     Building building;
     foreach (build; buildings) {
-        if (build.check(coors)) {
-            building = build;
-            break;
-        }
+      if (build.check(coors)) {
+        building = build;
+        break;
+      }
     }
 
     if (building !is null) {
-      /* auto cube = new Cube(Dispenser.get().getMaterial("Air"), Dispenser.get().getMaterial("Wood"));
-      return Nullable!Cube(cube); */
-        auto furniture = building.getFurniture(coors);
-        auto wall = building.getWall(coors);
-        auto cube = new Cube(wall, Dispenser.get().getMaterial("Wood"));
-        return Nullable!Cube(cube);
+      auto furniture = building.getFurniture(coors);
+      auto wall = building.getWall(coors);
+      auto cube = new Cube(wall, Dispenser.get().getMaterial("Wood"));
+      cube.setFurniture(furniture);
+      return Nullable!Cube(cube);
     }
 
     return Nullable!Cube(null);
