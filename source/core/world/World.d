@@ -37,8 +37,10 @@ class World {
     import core.game.material.Dispenser;
     // world -> cluster -> chunk -> cube
 
-    if (coors.z >= 256 || coors.z < 0) {
+    if (coors.z >= 256) {
       return new Cube(Dispenser.get().getMaterial("Void"), Dispenser.get().getMaterial("Void"));
+    } else if (coors.z < 0) {
+      return new Cube(Dispenser.get().getMaterial("Crust"), Dispenser.get().getMaterial("Crust"));
     }
 
     auto chunkCoors = coors.getChunkCoordinates();

@@ -113,40 +113,4 @@ class SeaGenerator : IGenerator!ClusterCubeCoordinates {
     }
     return Nullable!Cube(new Cube(wall, floor));
   }
-
-// TODO: change type to ClusterCubeCoordinates!!
-/* override fun getCube(coors: GlobalCubeCoordinates): Cube {
-var floor: Material
-var wall: Material = Material.AIR
-val level = getLevel()
-
-val ucoors = GlobalCubeCoordinates(((coors.x.toULong())%256u).toLong(),
-                     ((coors.y.toULong())%256u).toLong(), coors.z)
-val depth = getDepth(ucoors)
-val bottom = level-depth
-
-if (ucoors.z in bottom..level) {
-floor = Material.WATER
-} else if (ucoors.z <= bottom-4) {
-@Suppress("NAME_SHADOWING") val cube = generator.oreGenerator.getCube(coors)
-if (cube != null) {
-return cube
-}
-wall = Material.STONE
-floor = Material.STONE
-} else if (coors.z > level) {
-wall = Material.AIR
-floor = Material.AIR
-} else {
-wall = Material.SILT
-floor = Material.SILT
-if (ucoors.x%256 < 5 || ucoors.x%256 > 250 || ucoors.y%256 < 5 || ucoors.y%256 > 250) {
-if (depth < 5) {
-wall = Material.SAND
-floor = Material.SAND
-}
-}
-}
-return Cube(wall, floor)
-} */
 }

@@ -18,7 +18,9 @@ class Glyph {
     }
 
     char getItemChar(Item item) {
+      import core.game.Furniture;
       import core.game.Ore;
+
       assert(item !is null);
       if (cast(Ore) item) {
         auto ore = cast(Ore) item;
@@ -40,6 +42,34 @@ class Glyph {
         }
         return 'O';
       }
+
+      if (cast(Furniture) item) {
+        auto furniture = cast(Furniture) item;
+        foreground = TerminalColor.RED;
+
+        if (item.getName() == "bed") {
+          return 'B';
+        }
+        if (item.getName() == "chair") {
+          return 'c';
+        }
+        if (item.getName() == "chest") {
+          return 'G';
+        }
+        if (item.getName() == "closet") {
+          return 'H';
+        }
+        if (item.getName() == "door") {
+          return 'D';
+        }
+        if (item.getName() == "table") {
+          return 'T';
+        }
+        if (item.getName() == "stairs") {
+          return 'X';
+        }
+        return 'F';
+      }
       return 'i';
     }
 
@@ -55,6 +85,7 @@ class Glyph {
       }
 
       if (cube.wall.name == "WOOD") {
+        foreground = getMaterialForegroundColor(cube.wall);
         return '+';
       }
       foreground = getMaterialForegroundColor(cube.wall);
@@ -80,6 +111,8 @@ class Glyph {
           return 'z';
       } else if (str == "SAND") {
           return '.';
+      } else if (str == "CRUST") {
+          return 'C';
       }
       return ' ';
     }
@@ -136,6 +169,9 @@ class Glyph {
       }
       if (material.name == "SOIL") {
         return TerminalColor.YELLOW;
+      }
+      if (material.name == "CRUST") {
+        return TerminalColor.RED;
       }
       return TerminalColor.MAGENTA;
   }

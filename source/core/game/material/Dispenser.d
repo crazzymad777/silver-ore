@@ -11,6 +11,7 @@ import core.game.material.Air;
 import core.game.material.Water;
 import core.game.material.Silt;
 import core.game.material.Sand;
+import core.game.material.Crust;
 
 /*
   Low-Lock Singleton Pattern
@@ -22,7 +23,7 @@ import core.game.material.Sand;
 class Dispenser {
   static private Material[string] materials;
   private this() {
-    static const auto x = ["Material", "Wood", "Grass", "Metal", "Soil", "Air", "Void", "Stone", "Sand", "Silt", "Water"];
+    static const auto x = ["Material", "Wood", "Grass", "Metal", "Soil", "Air", "Void", "Stone", "Sand", "Silt", "Water", "Crust"];
     static foreach(y; x) {
       materials[y] = new mixin(y)(materials);
     }
