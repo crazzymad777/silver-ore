@@ -67,8 +67,8 @@ class SeaGenerator : IGenerator!ClusterCubeCoordinates {
     if (Tile.isSea(map.getTileType(neighbourhood[dir]))) {
       dis = 0;
     } else {
-      int disX = abs(offsetX);
-      int disY = abs(offsetY);
+      int disX = abs(offsetX)/2;
+      int disY = abs(offsetY)/2;
       dis = max(-disX-disY, -64);
     }
 
