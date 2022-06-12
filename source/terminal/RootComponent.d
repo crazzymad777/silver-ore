@@ -56,11 +56,15 @@ class RootComponent : AbstractComponent {
           map.clusterId = coors.getChunkCoordinates().getClusterId();
         } else if (currentId == MAP_ID) {
           import core.world.utils.GlobalCubeCoordinates;
+          import std.math;
           terminal.puts(0, 0, "Enable game");
           currentId = GAME_ID;
 
-          auto x = game.coors.x%256 + map.clusterId.getSignedX()*256;
-          auto y = game.coors.y%256 + map.clusterId.getSignedY()*256;
+          auto clusterX = map.clusterId.getSignedX();
+          auto clusterY = map.clusterId.getSignedY();
+
+          auto x = abs(game.coors.x%256) + clusterX*256;
+          auto y = abs(game.coors.y%256) + clusterY*256;
           game.coors = GlobalCubeCoordinates(x, y, game.coors.z);
         }
       } else {
