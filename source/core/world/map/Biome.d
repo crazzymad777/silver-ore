@@ -3,10 +3,20 @@ module core.world.map.Biome;
 import core.world.map.BiomeId;
 
 class Biome {
+  import core.world.map.BiomeCell;
   import core.world.map.Tile;
 
   private BiomeId id;
-  Tile.TYPE type;
+  private BiomeCell cell;
+  TYPE type;
+  enum TYPE {
+    FLAT,
+    DESERT,
+    FOREST,
+    TOWN_IN_FLAT,
+    SEA,
+  };
+
   this(BiomeId id) {
     this.id = id;
     import std.format, core.world.utils.Seed: make, Random;
@@ -21,13 +31,36 @@ class Biome {
     auto p = double(uniform!ulong(random))/ulong.max;
 
     if (p < 0.0625) {
-      type = Tile.TYPE.SEA;
+      type = TYPE.SEA;
     } else if (p < 0.125) {
-      type = Tile.TYPE.FOREST;
+      type = TYPE.FOREST;
     } else if (p < 0.5 - 0.125) {
-      type = Tile.TYPE.DESERT;
+      type = TYPE.DESERT;
+    } else if (p < 0.5 - 0.125 + 0.0625) {
+      type = TYPE.TOWN_IN_FLAT;
     } else {
-      type = Tile.TYPE.FLAT;
+      type = TYPE.FLAT;
     }
+
+    cell = new BiomeCell(id);
+  }
+
+  import core.world.map.ClusterId;
+  Tile.TYPE getTileType(ClusterId clusterId) {
+    if (type == TYPE.FLAT) {
+      return Tile.TYPE.FLAT;
+    } else if (type == TYPE.DESERT) {
+      return Tile.TYPE.DESERT;
+    } else if (type == TYPE.FOREST) {
+      return Tile.TYPE.FOREST;
+    } else if (type == TYPE.TOWN_IN_FLAT) {
+      if (cell.biome_center == clusterId) {
+        return Tile.TYPE.TOWN;
+      }
+      return Tile.TYPE.FLAT;
+    } else if (type == TYPE.SEA) {
+      return Tile.TYPE.SEA;
+    }
+    assert(false);
   }
 }

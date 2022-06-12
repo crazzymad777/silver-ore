@@ -17,9 +17,9 @@ class Map {
     this.seed = seed;
     defaultClusterId = signedClusterId(0, 0);
 
-    /* Tile tile; */
-    /* long i, x, y; */
-    /* int k = 16;
+    /* Tile tile;
+    long i, x, y;
+    int k = 16;
     while (true) {
       auto clusterId = signedClusterId(x+i*k, y+i*k);
       tile = getTile(clusterId);
@@ -45,9 +45,9 @@ class Map {
     biomes.clear();
   }
 
+  private int size = 8;
   BiomeId getBiomeId(ClusterId clusterId) {
     import core.world.map.BiomeCell;
-    int size = 8;
     BiomeCell cell = new BiomeCell(seed, size, clusterId);
     return cell.getBiomeIdByClusterId(clusterId);
   }
@@ -65,7 +65,6 @@ class Map {
       return *tile_ptr;
     }
 
-    int size = 8;
     BiomeCell cell = new BiomeCell(seed, size, clusterId);
     BiomeId id = cell.getBiomeIdByClusterId(clusterId);
 
@@ -73,9 +72,9 @@ class Map {
     auto biome_ptr = (id in biomes);
     if (biome_ptr is null) {
       biomes[id] = new Biome(id);
-      type = biomes[id].type;
+      type = biomes[id].getTileType(clusterId);
     } else {
-      type = biome_ptr.type;
+      type = biome_ptr.getTileType(clusterId);
     }
 
 

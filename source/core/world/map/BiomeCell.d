@@ -50,7 +50,7 @@ class BiomeCell {
     import std.math;
 
     loadNeighbourhood();
-    int power = 2;
+    int power = 4;
     auto distances = cells.map!(cell => cell.biome_center).map!(other =>
       /* tuple(pow(clusterId.x-other.x, power), pow(clusterId.y-other.y, power)) */
       pow(pow(clusterId.getSignedX()-other.getSignedX(), power) + pow(clusterId.getSignedY()-other.getSignedY(), power), 1.0/power)
