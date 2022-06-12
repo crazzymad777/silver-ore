@@ -35,7 +35,8 @@ struct WorldChunkCoordinates {
   }
 
   auto getClusterChunkCoordinates()  {
-    return ClusterChunkCoordinates((x%16u), (y%16u), (z%16u));
+    import std.math;
+    return ClusterChunkCoordinates((x & 0b1111), (y & 0b1111), (z & 0b1111));
   }
 
   /// test getClusterChunkCoordinates

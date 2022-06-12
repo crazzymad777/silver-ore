@@ -65,6 +65,11 @@ class World {
     map.clearBiomes();
   }
 
+  void clearClusters() {
+    clusters.clear();
+    generator.clusterGenerators.clear();
+  }
+
   ulong biomesLoaded() {
     return map.biomesLoaded();
   }

@@ -15,7 +15,7 @@ class WorldGenerator {
     this.map = map;
   }
 
-  private IGenerator!ClusterCubeCoordinates[ClusterId] clusterGenerators;
+  package IGenerator!ClusterCubeCoordinates[ClusterId] clusterGenerators;
   IGenerator!ClusterCubeCoordinates getClusterGenerator(ClusterId clusterId) {
     auto generator_ptr = (clusterId in clusterGenerators);
     if (generator_ptr is null) {
@@ -27,6 +27,7 @@ class WorldGenerator {
 
   IGenerator!ClusterCubeCoordinates createClusterGenerator(ClusterId clusterId) {
     import core.world.generator.FlatGenerator;
+    import core.world.generator.SeaGenerator;
     import core.world.generator.i1;
     import core.world.map.Tile;
 
@@ -35,6 +36,8 @@ class WorldGenerator {
       return new FlatGenerator(clusterId, seed, FlatGenerator.TYPE.SAND);
     } else if (type == Tile.TYPE.TOWN) {
       return new i1(clusterId, seed);
+    } else if (type == Tile.TYPE.SEA) {
+      return new SeaGenerator(clusterId, seed, map);
     }
     return new FlatGenerator(clusterId, seed, FlatGenerator.TYPE.GRASS);
   }
