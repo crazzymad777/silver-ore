@@ -28,12 +28,13 @@ class SeaGenerator : IGenerator!ClusterCubeCoordinates {
     import core.world.map.Tile;
     import std.algorithm;
     import std.math;
+    import std.conv;
 
     assert(coors.x >= 0);
     assert(coors.y >= 0);
 
-    auto offsetX = coors.x-128;
-    auto offsetY = coors.y-128;
+    auto offsetX = to!int(coors.x)-128;
+    auto offsetY = to!int(coors.y)-128;
 
     // seems working
     double relation;
