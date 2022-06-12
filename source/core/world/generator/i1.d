@@ -12,12 +12,26 @@ import core.world.generator.ClusterOreGenerator;
 import core.world.map.ClusterId;
 
 class i1 : IGenerator!ClusterCubeCoordinates {
+  import core.world.generator.town.HumanTown;
+
   ClusterOreGenerator oreGenerator;
+  HumanTown town;
   this(ClusterId id, ulong seed) {
+    import core.world.utils.Seed: make, Random;
+    import std.format;
+
     oreGenerator = new ClusterOreGenerator(ClusterOreGeneratorId(id, seed));
+    auto town_seed = make(format("%d:i1:%d:%d", seed, id.getSignedX(), id.getSignedY()));
+    auto rnd = Random(town_seed);
+    town = new HumanTown(rnd);
   }
 
   Nullable!Cube getCube(ClusterCubeCoordinates coors) {
+    auto townCube = town.getCube(coors);
+    if (townCube.get !is null) {
+      return townCube;
+    }
+
     auto d = Dispenser.get();
 
     Material floor;
@@ -41,17 +55,3 @@ class i1 : IGenerator!ClusterCubeCoordinates {
     return Nullable!Cube(new Cube(wall, floor));
   }
 }
-
-/* private val flatWorld = World(WorldConfig(generatorName = "flat"))
-
-@Test fun testFlatWorld() {
-    // randomize x and y
-    val getCube: (Long) -> Cube = {
-        flatWorld.getCube(GlobalCubeCoordinates(Random.nextLong(0, 255), Random.nextLong(0, 255), it))
-    }
-
-    assertEquals("STONE:STONE", getCube(124).displayTest())
-    assertEquals("SOIL:SOIL", getCube(125).displayTest())
-    assertEquals("AIR:GRASS", getCube(128).displayTest())
-    assertEquals("AIR:AIR", getCube(130).displayTest())
-} */

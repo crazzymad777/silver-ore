@@ -27,11 +27,14 @@ class WorldGenerator {
 
   IGenerator!ClusterCubeCoordinates createClusterGenerator(ClusterId clusterId) {
     import core.world.generator.FlatGenerator;
+    import core.world.generator.i1;
     import core.world.map.Tile;
 
     auto type = map.getTileType(clusterId);
     if (type == Tile.TYPE.DESERT) {
       return new FlatGenerator(clusterId, seed, FlatGenerator.TYPE.SAND);
+    } else if (type == Tile.TYPE.TOWN) {
+      return new i1(clusterId, seed);
     }
     return new FlatGenerator(clusterId, seed, FlatGenerator.TYPE.GRASS);
   }
