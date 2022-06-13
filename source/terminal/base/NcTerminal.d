@@ -18,10 +18,11 @@ class NcTerminal : ITerminal {
     import terminal.Settings;
 
     Curses.Config cfg = {
-        true,
-        !enable16colors, /* disable nice curses color table init */
-        true, /* disable echo */
-        Curses.Mode.raw
+        useColors: true,
+        useStdColors: !enable16colors, /* disable nice curses color table init */
+        disableEcho: true, /* disable echo */
+        mode: Curses.Mode.raw,
+        cursLevel: 0
     };
     curses = new Curses(cfg);
     window = curses.stdscr;
