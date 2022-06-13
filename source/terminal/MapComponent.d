@@ -75,9 +75,8 @@ class MapComponent : AbstractComponent {
       // fill display matrix
 
       int offset = 1;
-      terminal.puts(offset + 0, 0, format("ClusterId(sX: %d, sY: %d, X: %d, Y: %d)",
-      clusterId.getSignedX(), clusterId.getSignedY(),
-      clusterId.getUnsignedX(), clusterId.getUnsignedY()
+      terminal.puts(offset + 0, 0, format("ClusterId(X: %d, Y: %d)",
+      clusterId.getSignedX(), clusterId.getSignedY()
       ));
       terminal.puts(offset + 1, 0, format("Biomes loaded: %d / Cluster loaded: %d",
                      world.biomesLoaded(),

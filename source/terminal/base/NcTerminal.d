@@ -77,8 +77,8 @@ class NcTerminal : ITerminal {
 
   void update() {
     /* puts(0, 0, format("%d", getColorPair(Char('x', TerminalColor.GRAY)))); */
-    window.refresh();
-    curses.update();
+    /* window.refresh(); */
+    /* curses.update(); */
 
     // with window clear tty is blinking
     window.clear();

@@ -79,7 +79,7 @@ class GameComponent : AbstractComponent {
       // fill display matrix
 
       int offset = 1;
-      terminal.puts(offset + 0, 0, format("X: %d (%d), Y: %d (%d), Z: %d (%d)", coors.x, coors.x%256, coors.y, coors.y%256, coors.z, coors.z%256));
+      terminal.puts(offset + 0, 0, format("X: %d, Y: %d, Z: %d", coors.x, coors.y, coors.z));
       terminal.puts(offset + 1, 0, format("Cluster loaded: %d / Chunks loaded: %d / Cubes loaded: %d",
                      world.clustersLoaded(),
                      world.chunksLoaded(),
