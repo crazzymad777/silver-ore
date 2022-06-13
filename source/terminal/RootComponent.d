@@ -23,7 +23,7 @@ class RootComponent : AbstractComponent {
     this() {
       world = new World();
       import terminal.Settings: enableNcTerminal;
-      terminal = ITerminal.getDefaultTerminal(!enableNcTerminal);
+      terminal = ITerminal.getDefaultTerminal(!enableNcTerminal, this);
       game = new GameComponent(terminal, world);
       map = new MapComponent(terminal, world);
       this.components = [game,
@@ -46,7 +46,7 @@ class RootComponent : AbstractComponent {
     override void recvKey(Key key) {
       import std.conv: to;
 
-      char c = to!char(key.getKeycode());
+      dchar c = to!dchar(key.getKeycode());
       if (c == 'm') {
         if (currentId == GAME_ID) {
           terminal.puts(0, 0, "Enable map");
@@ -72,7 +72,10 @@ class RootComponent : AbstractComponent {
     }
 
     override void resize(int width, int height) {
-      components[currentId].resize(width, height);
+      /* foreach (component; components) {
+        component.resize(width, height);
+      } */
+      /* components[currentId].resize(width, height); */
     }
 
     override bool update() {

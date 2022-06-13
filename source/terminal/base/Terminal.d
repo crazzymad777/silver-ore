@@ -4,8 +4,18 @@ import terminal.base.ITerminal;
 import terminal.base.Char;
 import terminal.base.Key;
 
+import terminal.AbstractComponent;
+
 // stub terminal
 class Terminal : ITerminal {
+  this(AbstractComponent component = null) {
+
+  }
+
+  ~this() {
+
+  }
+
   Key readKey() {
     return new Key();
   }
@@ -20,5 +30,13 @@ class Terminal : ITerminal {
 
   void update() {
 
+  }
+
+  int width() {
+    return 80;
+  }
+
+  int height() {
+    return 60;
   }
 }

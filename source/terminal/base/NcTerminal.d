@@ -1,5 +1,6 @@
 module terminal.base.NcTerminal;
 import terminal.base.TerminalColor;
+import terminal.AbstractComponent;
 import terminal.base.ITerminal;
 import terminal.base.Char;
 
@@ -10,7 +11,10 @@ import std.format;
 class NcTerminal : ITerminal {
   private Window window;
   private Curses curses;
-  this() {
+
+  AbstractComponent component;
+  const static KEY_RESIZE = Key.resize;
+  this(AbstractComponent component = null) {
     import terminal.Settings;
 
     Curses.Config cfg = {
@@ -35,6 +39,8 @@ class NcTerminal : ITerminal {
           }
       }
     }
+
+    this.component = component;
   }
 
   ~this() {
@@ -77,8 +83,23 @@ class NcTerminal : ITerminal {
     window.clear();
   }
 
-  import terminal.base.Key;
-  Key readKey() {
-    return new Key(window.getch());
+  import Terminal = terminal.base.Key;
+  Terminal.Key readKey() {
+    auto key = window.getch();
+    if (key == KEY_RESIZE) {
+      if (component !is null) {
+        component.resize(window.width(), window.height());
+      }
+      return new Terminal.Key();
+    }
+    return new Terminal.Key(key);
+  }
+
+  int width() {
+    return window.width();
+  }
+
+  int height() {
+    return window.height();
   }
 }

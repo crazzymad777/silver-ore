@@ -43,7 +43,7 @@ class MapComponent : AbstractComponent {
 
     override void recvKey(Key key) {
       // handle key
-      char c = to!char(key.getKeycode());
+      dchar c = to!dchar(key.getKeycode());
       if (c == 'q') {
         exited = true;
       } else if (c == 'w') {
@@ -87,8 +87,8 @@ class MapComponent : AbstractComponent {
       auto biomeId = world.getBiomeId(clusterId);
       terminal.puts(offset + 2, 0, format("BiomeId: %d, %d", biomeId.x, biomeId.y));
 
-      int column = 32;
-      int row = 8;
+      int column = terminal.width()/2;
+      int row = (terminal.height()-4)/2;
       for (int j = -row; j < row; j++) {
         for (int i = -column; i < column; i++) {
           auto w = 'x';
