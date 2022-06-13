@@ -80,6 +80,8 @@ class Glyph {
           return ',';
         } else if (cube.floor.name == "WOOD") {
           return '_';
+        } else if (cube.floor.name == "STONE") {
+          return '_';
         }
         return getChar(cube.floor.name);
       }
