@@ -56,19 +56,17 @@ class PaladinComponent : AbstractComponent {
         world.apocalypse();
         exited = true;
       } else if (c == 'w') {
-        /* coors.y--; */
         world.getPaladin().move(0, -1);
       } else if (c == 's') {
-        /* coors.y++; */
         world.getPaladin().move(0, 1);
       } else if (c == 'a') {
-        /* coors.x--; */
         world.getPaladin().move(-1);
       } else if (c == 'd') {
-        /* coors.x++; */
         world.getPaladin().move(1);
       } else if (c == '0') {
         showTicks = !showTicks;
+      } else if (c == 'f') {
+        world.follow();
       }
     }
 
@@ -89,8 +87,12 @@ class PaladinComponent : AbstractComponent {
 
         auto hero = world.getPaladin();
         auto coors = hero.position;
-        auto cube = world.getCube(coors);
-        auto item = cube.getItem();
+
+        import core.game.Mob;
+        import core.game.animals.Lion;
+        import core.game.monsters.Monster;
+
+        auto mobs = world.getMobs();
 
         if (showTicks) terminal.puts(0, terminal.width()*2/3 + 1, format("World tick: %d / Cubes loaded: %d", world.count, world.cubesLoaded()));
 
@@ -117,31 +119,29 @@ class PaladinComponent : AbstractComponent {
             auto color = TerminalColor.WHITE;
             auto lookAt = GlobalCubeCoordinates(coors.x + i, coors.y + j, coors.z);
             if (world.checkVisible(hero.position, lookAt)) {
-              if (i != 0 || j != 0) {
-                import core.game.Mob;
-
-                auto mobs = world.getMobs();
-
-                Mob entity;
-                foreach (mob; mobs) {
-                  if (mob.position == lookAt) {
-                    entity = mob;
-                    break;
-                  }
+              Mob entity;
+              foreach (mob; mobs) {
+                if (mob.position == lookAt) {
+                  entity = mob;
+                  break;
                 }
+              }
 
-                if (entity is null) {
-                  cube = world.getCube(lookAt);
-                  auto glyph = new Glyph(cube);
-                  w = glyph.display();
-                  color = glyph.foreground;
-                } else {
-                  w = 'S';
-                  color = TerminalColor.RED;
-                }
+              if (entity is null) {
+                auto cube = world.getCube(lookAt);
+                auto glyph = new Glyph(cube);
+                w = glyph.display();
+                color = glyph.foreground;
               } else {
-                color = TerminalColor.RED;
-                w = 'P';
+                w = entity.getName()[0];
+                color = TerminalColor.WHITE;
+                if (entity == hero) {
+                  color = TerminalColor.WHITE;
+                } else if (cast(Monster) entity) {
+                  color = TerminalColor.RED;
+                } else if (cast(Lion) entity) {
+                  color = TerminalColor.YELLOW;
+                }
               }
             } else {
               color = TerminalColor.BLACK;

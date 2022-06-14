@@ -13,19 +13,37 @@ class World : IWorld {
     import core.time;
     import custom.paladin.world.TextState;
     import core.game.humanoids.Humanoid;
+    import core.game.animals.Lion;
 
     TextState textState;
     this() {
       import core.game.monsters.GiantSpider;
-      import core.game.animals.Lion;
 
       before = MonoTime.currTime;
       paladin = new Humanoid(this);
-      mobs ~= new GiantSpider(this);
-      mobs ~= new Lion(this);
+      auto lion = new Lion(this);
       mobs ~= paladin;
+      mobs ~= lion;
+      mobs ~= new GiantSpider(this);
+
+      lion.friends ~= paladin;
+      lion.followed = paladin;
 
       textState = new TextState();
+    }
+
+    Mob[] friends() {
+      return [mobs[1]];
+    }
+
+    void follow() {
+      auto mob = mobs[1];
+      auto lion = cast(Lion) mob;
+      if (lion.followed is null) {
+        lion.followed = paladin;
+      } else {
+        lion.followed = null;
+      }
     }
 
     long count = 0;
