@@ -22,18 +22,36 @@ class World : IWorld {
       before = MonoTime.currTime;
       paladin = new Humanoid(this);
       auto lion = new Lion(this);
-      auto spider = new GiantSpider(this);
+
+      auto spider1 = new GiantSpider(this);
+      spider1.position = GlobalCubeCoordinates(0, -16, 0);
+      spider1.newPosition = GlobalCubeCoordinates(0, -16, 0);
+
+      auto spider2 = new GiantSpider(this);
+      spider2.position = GlobalCubeCoordinates(0, -16, 0);
+      spider2.newPosition = GlobalCubeCoordinates(0, -16, 0);
+
+      auto spider3 = new GiantSpider(this);
+      spider3.position = GlobalCubeCoordinates(0, -16, 0);
+      spider3.newPosition = GlobalCubeCoordinates(0, -16, 0);
+
       mobs ~= paladin;
       mobs ~= lion;
-      mobs ~= spider;
+      mobs ~= spider1;
+      mobs ~= spider2;
+      mobs ~= spider3;
 
       paladin.friends ~= lion;
-      paladin.foes ~= spider;
+      paladin.foes ~= spider1;
+      paladin.foes ~= spider2;
+      paladin.foes ~= spider3;
 
       lion.friends ~= paladin;
       lion.followed = paladin;
 
-      spider.foes ~= paladin;
+      spider1.foes ~= paladin;
+      spider2.foes ~= paladin;
+      spider3.foes ~= paladin;
 
       textState = new TextState();
     }

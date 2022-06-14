@@ -62,7 +62,7 @@ class Animal : Mob {
       if (mob != this) {
         auto dx = abs(mob.position.x-this.position.x);
         auto dy = abs(mob.position.y-this.position.y);
-        if (dx <= 1 || dy <= 1) {
+        if (dx <= 1 && dy <= 1) {
           if (mob.isAlive()) {
             if (isFoe(mob)) {
 
