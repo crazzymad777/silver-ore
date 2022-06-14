@@ -1,4 +1,4 @@
-module custom.paladin.world.World;
+module custom.paladin.core.World;
 
 import core.world.utils.GlobalCubeCoordinates;
 import custom.paladin.world.Generator;
@@ -66,7 +66,11 @@ class World : IWorld {
       if (lion.followed is null) {
         lion.followed = paladin;
       } else {
-        lion.followed = null;
+        if (lion.followed == paladin) {
+          lion.followed = null;
+        } else {
+          lion.followed = paladin;
+        }
       }
     }
 

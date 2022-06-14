@@ -80,6 +80,7 @@ class Animal : Mob {
                   damage = uniform!"[]"(1, this.damageDice);
                 }
                 mob.takeDamage(damage, this);
+                this.triggeredFoe = mob;
                 break;
               }
               this.dropStamina();
@@ -94,7 +95,7 @@ class Animal : Mob {
     auto mob = world.getMob(GlobalCubeCoordinates(position.x + x, position.y + y, position.z + z));
     if (mob !is null) {
       if (Animal animal = cast(Animal) mob) {
-        if (animal.isFoe(this)) {
+        if (animal.isAlive() && animal.isFoe(this)) {
           return false;
         }
       }

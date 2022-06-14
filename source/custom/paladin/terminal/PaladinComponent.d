@@ -12,11 +12,11 @@ import std.format;
 import std.conv;
 
 import core.world.utils.GlobalCubeCoordinates;
-import custom.paladin.world.World;
+import custom.paladin.core.Game;
 import core.world.WorldConfig;
 
 class PaladinComponent : AbstractComponent {
-    private World world;
+    private Game game;
     private auto updated = true;
     private auto exited = false;
     private ITerminal terminal;
@@ -25,7 +25,7 @@ class PaladinComponent : AbstractComponent {
       import terminal.Settings: enableNcTerminal;
       ITerminal terminal = ITerminal.getDefaultTerminal(!enableNcTerminal, this);
 
-      this.world = new World();
+      this.game = new Game();
       this.terminal = terminal;
       /* this.coors = world.getDefaultCoordinates(); */
     }
@@ -45,7 +45,7 @@ class PaladinComponent : AbstractComponent {
     }
 
     override void process() {
-      world.process();
+      game.world.process();
     }
 
     bool showTicks = false;
@@ -53,22 +53,22 @@ class PaladinComponent : AbstractComponent {
       // handle key
       dchar c = to!dchar(key.getKeycode());
       if (c == 'q') {
-        world.apocalypse();
+        game.world.apocalypse();
         exited = true;
       } else if (c == 'w') {
-        world.getPaladin().move(0, -1);
+        game.world.getPaladin().move(0, -1);
       } else if (c == 's') {
-        world.getPaladin().move(0, 1);
+        game.world.getPaladin().move(0, 1);
       } else if (c == 'a') {
-        world.getPaladin().move(-1);
+        game.world.getPaladin().move(-1);
       } else if (c == 'd') {
-        world.getPaladin().move(1);
+        game.world.getPaladin().move(1);
       } else if (c == '0') {
         showTicks = !showTicks;
       } else if (c == 'f') {
-        world.follow();
+        game.world.follow();
       } else if (c == 'p') {
-        world.getPaladin().attack();
+        game.world.getPaladin().attack();
       }
     }
 
@@ -86,9 +86,9 @@ class PaladinComponent : AbstractComponent {
 
     override void draw() {
         // fill display matrix
-
+        int width = terminal.width()*1/2;
         import core.game.animals.Animal;
-        Animal hero = cast(Animal) world.getPaladin();
+        Animal hero = cast(Animal) game.world.getPaladin();
         auto coors = hero.position;
 
         import core.game.Mob;
@@ -96,64 +96,63 @@ class PaladinComponent : AbstractComponent {
         import core.game.animals.Lion;
         import core.game.monsters.Monster;
 
-        auto mobs = world.getMobs();
+        auto mobs = game.world.getMobs();
 
-        if (showTicks) terminal.puts(0, terminal.width()*2/3 + 1, format("World tick: %d / Cubes loaded: %d", world.count, world.cubesLoaded()));
+        if (showTicks) terminal.puts(0, terminal.width()*2/3 + 1, format("World tick: %d / Cubes loaded: %d", game.world.count, game.world.cubesLoaded()));
 
-        terminal.puts(2, terminal.width()*2/3 + 1,
+        terminal.puts(2, width + 1,
                       format("You're %s", hero.getName()));
 
-        terminal.puts(3, terminal.width()*2/3 + 1,
-                      format("You're in %s...", "the Dark Maze of Dungeon"));
-
-        terminal.puts(4, terminal.width()*2/3 + 1,
-                         format("%s", world.textState.getStamina(hero.stamina, hero.maxStamina)),
-                         world.textState.getStaminaColor(hero.stamina, hero.maxStamina)
+        terminal.puts(3, width + 1,
+                         format("+ %s", game.world.textState.getStamina(hero.stamina, hero.maxStamina)),
+                         game.world.textState.getStaminaColor(hero.stamina, hero.maxStamina)
                          );
-        terminal.puts(5, terminal.width()*2/3 + 1,
-                         format("%s", world.textState.getHealth(hero.hitpoints, hero.maxHitpoints)),
-                         world.textState.getHealthColor(hero.hitpoints, hero.maxHitpoints)
+        terminal.puts(4, width + 1,
+                         format("+ %s", game.world.textState.getHealth(hero.hitpoints, hero.maxHitpoints)),
+                         game.world.textState.getHealthColor(hero.hitpoints, hero.maxHitpoints)
                          );
 
-        auto frens = world.friends() ~ hero.getTriggeredFoe();
+        auto frens = game.world.getMobs();
         for (int i = 0; i < frens.length; i++) {
           if (frens[i] !is null) {
           auto fren = frens[i];
-          terminal.puts(6 + i*5, terminal.width()*2/3 + 1,
-                        format("Your %s is %s", hero.isFoe(fren) ? "foe" : "friend", fren.getName()));
+          if (fren == hero) {
+            terminal.puts(2 + i*4, width + 1,
+                          format("You're %s", hero.getName()));
+          } else {
+            terminal.puts(2 + i*4, width + 1,
+                          format("Your %s is %s", hero.isFoe(fren) ? "foe" : "friend", fren.getName()));
+          }
 
-          terminal.puts(7 + i*5, terminal.width()*2/3 + 1,
-                        format("They're in %s...", "the Dark Maze of Dungeon"));
-
-          terminal.puts(8 + i*5, terminal.width()*2/3 + 1,
-                           format("%s", world.textState.getStamina(fren.stamina, fren.maxStamina)),
-                           world.textState.getStaminaColor(fren.stamina, fren.maxStamina)
+          terminal.puts(3 + i*4, width + 1,
+                           format("+ %s", game.world.textState.getStamina(fren.stamina, fren.maxStamina)),
+                           game.world.textState.getStaminaColor(fren.stamina, fren.maxStamina)
                            );
 
-          terminal.puts(9 + i*5, terminal.width()*2/3 + 1,
-                           format("%s (%d)", world.textState.getHealth(fren.hitpoints, fren.maxHitpoints), fren.hitpoints),
-                           world.textState.getHealthColor(fren.hitpoints, fren.maxHitpoints)
+          terminal.puts(4 + i*4, width + 1,
+                           format("+ %s (%d)", game.world.textState.getHealth(fren.hitpoints, fren.maxHitpoints), fren.hitpoints),
+                           game.world.textState.getHealthColor(fren.hitpoints, fren.maxHitpoints)
                            );
 
            if (cast(Animal) fren) {
              Animal animal = cast(Animal) fren;
              if (animal.followed !is null) {
-               terminal.puts(10 + i*5, terminal.width()*2/3 + 1,
-                                format("They follow %s", animal.followed != hero ? animal.followed.getName() : "you")
+               terminal.puts(5 + i*4, width + 1,
+                                format("+ They follow %s", animal.followed != hero ? animal.followed.getName() : "you")
                                 );
              }
            }
           }
         }
 
-        int column = (terminal.width()*2/3)/2;
+        int column = (width)/2;
         int row = (terminal.height())/2;
         for (int j = -row; j < row; j++) {
           for (int i = -column; i < column; i++) {
             auto w = 'x';
             auto color = TerminalColor.WHITE;
             auto lookAt = GlobalCubeCoordinates(coors.x + i, coors.y + j, coors.z);
-            if (world.checkVisible(hero.position, lookAt)) {
+            if (game.world.checkVisible(hero.position, lookAt) || !hero.isAlive()) {
               Mob entity;
               foreach (mob; mobs) {
                 if (mob.position == lookAt) {
@@ -163,7 +162,7 @@ class PaladinComponent : AbstractComponent {
               }
 
               if (entity is null) {
-                auto cube = world.getCube(lookAt);
+                auto cube = game.world.getCube(lookAt);
                 auto glyph = new Glyph(cube);
                 w = glyph.display();
                 color = glyph.foreground;
