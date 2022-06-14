@@ -10,6 +10,7 @@ class Animal : Mob {
   Mob triggeredFoe;
   Mob followed;
   bool disableAI = false;
+  long attackedTick;
   this(IGame game) {
     super(game);
     this.name = "animal";
@@ -17,6 +18,7 @@ class Animal : Mob {
   }
 
   override void takeDamage(int damage, Mob mob) {
+    attackedTick = game.getTick();
     foreach (fren; friends) {
       if(cast(Animal) fren) {
         Animal animal = cast(Animal) fren;

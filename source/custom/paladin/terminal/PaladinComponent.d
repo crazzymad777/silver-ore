@@ -52,23 +52,39 @@ class PaladinComponent : AbstractComponent {
     override void recvKey(Key key) {
       // handle key
       dchar c = to!dchar(key.getKeycode());
+
+      bool prepend = false;
       if (c == 'q') {
         /* game.apocalypse(); */
         exited = true;
       } else if (c == 'w') {
         game.getPaladin().move(0, -1);
+        prepend = true;
       } else if (c == 's') {
         game.getPaladin().move(0, 1);
+        prepend = true;
       } else if (c == 'a') {
         game.getPaladin().move(-1);
+        prepend = true;
       } else if (c == 'd') {
         game.getPaladin().move(1);
+        prepend = true;
       } else if (c == '0') {
         showTicks = !showTicks;
+        prepend = true;
       } else if (c == 'f') {
         game.follow();
+        prepend = true;
       } else if (c == 'p') {
         game.getPaladin().attack();
+        prepend = true;
+      }
+      if (prepend || key.getKeycode() == 0) {
+        import std.conv: to;
+        if (key.getKeycode() == 0) {
+          c = ' ';
+        }
+        sequence = to!string(c) ~ sequence;
       }
     }
 
@@ -84,6 +100,7 @@ class PaladinComponent : AbstractComponent {
       terminal.update();
     }
 
+    string sequence;
     override void draw() {
         // fill display matrix
         int width = terminal.width()*1/2;
@@ -100,16 +117,24 @@ class PaladinComponent : AbstractComponent {
 
         if (showTicks) terminal.puts(0, width + 1, format("World tick: %d / Cubes loaded: %d", game.count, game.world.cubesLoaded()));
 
+        import std.utf;
+        string t;
+        if (sequence.length > width) {
+          t = sequence[sequence.stride() .. width];
+        } else {
+          t = sequence;
+        }
+        terminal.puts(0, width + 1, format("%s", t));
         int k = 0;
         foreach(entry; game.stats.entries.byKeyValue()) {
           terminal.puts(2 + k*5, width + width/2 + 1,
                         format("%s", entry.key));
           terminal.puts(3 + k*5, width + width/2 + 1,
-                        format(" - Hits: %d", entry.value.hits));
-          terminal.puts(4 + k*5, width + width/2 + 1,
-                        format(" - Taken hits: %d", entry.value.hitsTaken));
-          terminal.puts(5 + k*5, width + width/2 + 1,
                         format(" - Damage: %d", entry.value.damage));
+          terminal.puts(4 + k*5, width + width/2 + 1,
+                        format(" - Hits: %d", entry.value.hits));
+          terminal.puts(5 + k*5, width + width/2 + 1,
+                        format(" - Taken hits: %d", entry.value.hitsTaken));
           terminal.puts(6 + k*5, width + width/2 + 1,
                         format(" - Taken damage: %d", entry.value.damageTaken));
           k++;
@@ -179,6 +204,12 @@ class PaladinComponent : AbstractComponent {
                     color = TerminalColor.RED;
                   } else if (cast(Lion) entity) {
                     color = TerminalColor.YELLOW;
+                  }
+                }
+
+                if (Animal animal = cast(Animal) entity) {
+                  if (animal.attackedTick + 5 > game.getTick()) {
+                    color = TerminalColor.MAGENTA;
                   }
                 }
               }
