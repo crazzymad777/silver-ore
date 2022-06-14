@@ -1,6 +1,7 @@
 module custom.paladin.world.Generator;
 
 import core.world.utils.GlobalCubeCoordinates;
+import core.game.furniture.Door;
 import core.world.Cube;
 
 class Generator {
@@ -15,6 +16,10 @@ class Generator {
     return *cube_ptr;
   }
 
+  long cubesLoaded() {
+    return cubes.length;
+  }
+
   Cube generateCube(GlobalCubeCoordinates coors) {
     import core.game.material.Dispenser;
     import std.math;
@@ -22,9 +27,18 @@ class Generator {
     if (abs(coors.x) <= 8) {
       if (abs(coors.y) <= 8) {
         if (abs(coors.x) == 8 || abs(coors.y) == 8) {
-          return new Cube(Dispenser.get().getMaterial("Stone"), Dispenser.get().getMaterial("Stone"));
+          if (!(coors.x == 0 && coors.y == -8)) {
+            return new Cube(Dispenser.get().getMaterial("Stone"), Dispenser.get().getMaterial("Stone"));
+          } else {
+            auto cube = new Cube(Dispenser.get().getMaterial("Air"), Dispenser.get().getMaterial("Stone"));
+            cube.setFurniture(new Door());
+            return cube;
+          }
         }
       }
+    }
+    if (abs(coors.x%16) == 8 || abs(coors.y%16) == 8) {
+      return new Cube(Dispenser.get().getMaterial("Stone"), Dispenser.get().getMaterial("Stone"));
     }
     return new Cube(Dispenser.get().getMaterial("Air"), Dispenser.get().getMaterial("Stone"));
   }

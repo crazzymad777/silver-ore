@@ -26,6 +26,7 @@ class NcTerminal : ITerminal {
     };
     curses = new Curses(cfg);
     window = curses.stdscr;
+    window.timeout(100);
 
     // init color table
     static if (enable16colors) {
@@ -86,14 +87,18 @@ class NcTerminal : ITerminal {
 
   import Terminal = terminal.base.Key;
   Terminal.Key readKey() {
-    auto key = window.getch();
-    if (key == KEY_RESIZE) {
-      if (component !is null) {
-        component.resize(window.width(), window.height());
+    try {
+      auto key = window.getch();
+      if (key == KEY_RESIZE) {
+        if (component !is null) {
+          component.resize(window.width(), window.height());
+        }
+        return new Terminal.Key();
       }
+      return new Terminal.Key(key);
+    } catch (NCException e) {
       return new Terminal.Key();
     }
-    return new Terminal.Key(key);
   }
 
   int width() {

@@ -7,62 +7,75 @@ import core.world.IWorld;
 import core.game.humanoids.Humanoid;
 import core.game.Mob;
 
-import core.thread.osthread;
-
-class DerivedThread : Thread
-{
-    shared bool* isEndOfTime;
-    World world;
-    this(shared(bool)* isEndOfTime, World world)
-    {
-        this.isEndOfTime = isEndOfTime;
-        this.world = world;
-        super(&run);
-    }
-
-private:
-    void run()
-    {
-        import core.time;
-        // Derived thread running.
-        while (!*isEndOfTime) {
-          Thread.sleep( dur!("msecs")(100) );
-          world.process();
-          world.count++;
-        }
-    }
-}
+import terminal.AbstractComponent;
+import core.Observer;
 
 class World : IWorld {
+    import core.time;
     this() {
-      auto derived = new DerivedThread(&isEndOfTime, this).start();
+      /* new Observer(component, this); */
+      before = MonoTime.currTime;
+      paladin = new Humanoid(this);
     }
 
-    int count = 0;
+    long count = 0;
     private Generator generator = new Generator();
-    private Humanoid paladin = new Humanoid();
+    private Humanoid paladin;
     Cube getCube(GlobalCubeCoordinates coors) {
       return generator.getCube(coors);
     }
 
+    MonoTime before;
     void process() {
-      paladin.process(this);
+      MonoTime after = MonoTime.currTime;
+      Duration timeElapsed = after - before;
+      if (timeElapsed.total!"msecs" > 100) {
+        paladin.process();
+        count++;
+        before = MonoTime.currTime;
+      }
+    }
+
+    long getTick() {
+      return count;
     }
 
     bool checkColision(GlobalCubeCoordinates a, GlobalCubeCoordinates b) {
       return getCube(b).wall.isSolid();
     }
 
-    void checkVisible(GlobalCubeCoordinates coors) {
+    bool checkVisible(GlobalCubeCoordinates a, GlobalCubeCoordinates b) {
+      import std.math;
 
+      /* return true; */
+      /* if (abs(b.x) <= 8 && abs(b.y) <= 8) {
+        return true;
+      } */
+
+      if (abs(b.x) <= 1 && abs(b.y-(-8)) <= 1) {
+        return true;
+      }
+
+      if (abs(a.x-b.x) > 1 || abs(a.y-b.y) > 1) {
+        return false;
+      }
+      return true;
+    }
+
+    long cubesLoaded() {
+      return generator.cubesLoaded();
     }
 
     Mob getPaladin() {
       return paladin;
     }
 
-    shared bool isEndOfTime = false;
+    bool isEndOfTime = false;
     void apocalypse() {
       isEndOfTime = true;
+    }
+
+    bool hasApocalypseHappened() {
+      return isEndOfTime;
     }
 }
