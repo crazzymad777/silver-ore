@@ -1,12 +1,12 @@
 module core.game.animals.Lion;
 
 import core.game.Mob;
-import core.world.IWorld;
+import core.game.IGame;
 import core.game.animals.Animal;
 
 class Lion : Animal {
-  this(IWorld world) {
-    super(world);
+  this(IGame game) {
+    super(game);
     this.name = "lion";
     this.maxStamina = 32;
     this.stamina = this.maxStamina;

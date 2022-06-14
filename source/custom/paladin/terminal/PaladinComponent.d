@@ -45,7 +45,7 @@ class PaladinComponent : AbstractComponent {
     }
 
     override void process() {
-      game.world.process();
+      game.process();
     }
 
     bool showTicks = false;
@@ -53,22 +53,22 @@ class PaladinComponent : AbstractComponent {
       // handle key
       dchar c = to!dchar(key.getKeycode());
       if (c == 'q') {
-        game.world.apocalypse();
+        /* game.apocalypse(); */
         exited = true;
       } else if (c == 'w') {
-        game.world.getPaladin().move(0, -1);
+        game.getPaladin().move(0, -1);
       } else if (c == 's') {
-        game.world.getPaladin().move(0, 1);
+        game.getPaladin().move(0, 1);
       } else if (c == 'a') {
-        game.world.getPaladin().move(-1);
+        game.getPaladin().move(-1);
       } else if (c == 'd') {
-        game.world.getPaladin().move(1);
+        game.getPaladin().move(1);
       } else if (c == '0') {
         showTicks = !showTicks;
       } else if (c == 'f') {
-        game.world.follow();
+        game.follow();
       } else if (c == 'p') {
-        game.world.getPaladin().attack();
+        game.getPaladin().attack();
       }
     }
 
@@ -88,7 +88,7 @@ class PaladinComponent : AbstractComponent {
         // fill display matrix
         int width = terminal.width()*1/2;
         import core.game.animals.Animal;
-        Animal hero = cast(Animal) game.world.getPaladin();
+        Animal hero = cast(Animal) game.getPaladin();
         auto coors = hero.position;
 
         import core.game.Mob;
@@ -96,23 +96,23 @@ class PaladinComponent : AbstractComponent {
         import core.game.animals.Lion;
         import core.game.monsters.Monster;
 
-        auto mobs = game.world.getMobs();
+        auto mobs = game.getMobs();
 
-        if (showTicks) terminal.puts(0, terminal.width()*2/3 + 1, format("World tick: %d / Cubes loaded: %d", game.world.count, game.world.cubesLoaded()));
+        if (showTicks) terminal.puts(0, terminal.width()*2/3 + 1, format("World tick: %d / Cubes loaded: %d", game.count, game.world.cubesLoaded()));
 
         terminal.puts(2, width + 1,
                       format("You're %s", hero.getName()));
 
         terminal.puts(3, width + 1,
-                         format("+ %s", game.world.textState.getStamina(hero.stamina, hero.maxStamina)),
-                         game.world.textState.getStaminaColor(hero.stamina, hero.maxStamina)
+                         format("+ %s", game.textState.getStamina(hero.stamina, hero.maxStamina)),
+                         game.textState.getStaminaColor(hero.stamina, hero.maxStamina)
                          );
         terminal.puts(4, width + 1,
-                         format("+ %s", game.world.textState.getHealth(hero.hitpoints, hero.maxHitpoints)),
-                         game.world.textState.getHealthColor(hero.hitpoints, hero.maxHitpoints)
+                         format("+ %s", game.textState.getHealth(hero.hitpoints, hero.maxHitpoints)),
+                         game.textState.getHealthColor(hero.hitpoints, hero.maxHitpoints)
                          );
 
-        auto frens = game.world.getMobs();
+        auto frens = game.getMobs();
         for (int i = 0; i < frens.length; i++) {
           if (frens[i] !is null) {
           auto fren = frens[i];
@@ -125,13 +125,13 @@ class PaladinComponent : AbstractComponent {
           }
 
           terminal.puts(3 + i*4, width + 1,
-                           format("+ %s", game.world.textState.getStamina(fren.stamina, fren.maxStamina)),
-                           game.world.textState.getStaminaColor(fren.stamina, fren.maxStamina)
+                           format("+ %s", game.textState.getStamina(fren.stamina, fren.maxStamina)),
+                           game.textState.getStaminaColor(fren.stamina, fren.maxStamina)
                            );
 
           terminal.puts(4 + i*4, width + 1,
-                           format("+ %s (%d)", game.world.textState.getHealth(fren.hitpoints, fren.maxHitpoints), fren.hitpoints),
-                           game.world.textState.getHealthColor(fren.hitpoints, fren.maxHitpoints)
+                           format("+ %s (%d)", game.textState.getHealth(fren.hitpoints, fren.maxHitpoints), fren.hitpoints),
+                           game.textState.getHealthColor(fren.hitpoints, fren.maxHitpoints)
                            );
 
            if (cast(Animal) fren) {

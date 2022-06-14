@@ -1,7 +1,7 @@
 module core.game.animals.Animal;
 
 import core.game.Mob;
-import core.world.IWorld;
+import core.game.IGame;
 import core.world.utils.GlobalCubeCoordinates;
 
 class Animal : Mob {
@@ -10,8 +10,8 @@ class Animal : Mob {
   Mob triggeredFoe;
   Mob followed;
   bool disableAI = false;
-  this(IWorld world) {
-    super(world);
+  this(IGame game) {
+    super(game);
     this.name = "animal";
     this.damageDice = 1;
   }
@@ -64,7 +64,7 @@ class Animal : Mob {
     import std.math, std.conv: to;
     import std.random;
 
-    auto mobs = world.getMobs();
+    auto mobs = game.getMobs();
     foreach (mob; mobs) {
       if (mob != this) {
         auto dx = abs(mob.position.x-this.position.x);
@@ -92,7 +92,7 @@ class Animal : Mob {
   }
 
   override bool move(int x = 0, int y = 0, int z = 0) {
-    auto mob = world.getMob(GlobalCubeCoordinates(position.x + x, position.y + y, position.z + z));
+    auto mob = game.getMob(GlobalCubeCoordinates(position.x + x, position.y + y, position.z + z));
     if (mob !is null) {
       if (Animal animal = cast(Animal) mob) {
         if (animal.isAlive() && animal.isFoe(this)) {

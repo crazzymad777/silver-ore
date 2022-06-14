@@ -1,11 +1,11 @@
 module core.game.humanoids.Humanoid;
 
 import core.game.animals.Animal;
-import core.world.IWorld;
+import core.game.IGame;
 
 class Humanoid : Animal {
-  this(IWorld world) {
-    super(world);
+  this(IGame game) {
+    super(game);
     this.name = "humanoid";
     this.maxStamina = 32;
     this.stamina = this.maxStamina;

@@ -1,15 +1,16 @@
 module core.game.monsters.GiantSpider;
 
 import core.game.Mob;
-import core.world.IWorld;
+import core.game.IGame;
 import core.game.monsters.Monster;
 
 class GiantSpider : Monster {
   static spiderCount = 0;
-  this(IWorld world) {
+  this(IGame game) {
+    super(game);
+
     spiderCount++;
     import std.format;
-    super(world);
     this.name = format("giant spider (%d)", spiderCount);
     this.maxStamina = 32;
     this.stamina = this.maxStamina;

@@ -2,11 +2,11 @@ module core.game.monsters.Monster;
 
 import core.game.animals.Animal;
 import core.game.Mob;
-import core.world.IWorld;
+import core.game.IGame;
 
 class Monster : Animal {
-  this(IWorld world) {
-    super(world);
+  this(IGame game) {
+    super(game);
     this.name = "monster";
     this.damageDice = 8;
   }
