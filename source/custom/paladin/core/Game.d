@@ -8,10 +8,21 @@ import core.game.IGame;
 class Game : IGame {
   import custom.paladin.world.TextState;
   import core.game.humanoids.Humanoid;
+  import custom.paladin.core.Stats;
   import core.time;
 
   World world;
   TextState textState;
+  Stats stats = new Stats();
+
+  void takenDamage(Mob mob, Mob damager, int damage) {
+    stats.entries[mob.getName()].hitsTaken++;
+    stats.entries[mob.getName()].damageTaken += damage;
+
+    stats.entries[damager.getName()].hits++;
+    stats.entries[damager.getName()].damage += damage;
+  }
+
   long count = 0;
   private Humanoid paladin;
   private Mob[] mobs;
@@ -53,6 +64,12 @@ class Game : IGame {
     spider1.foes ~= paladin;
     spider2.foes ~= paladin;
     spider3.foes ~= paladin;
+
+    stats.addEntry(paladin.getName());
+    stats.addEntry(lion.getName());
+    stats.addEntry(spider1.getName());
+    stats.addEntry(spider2.getName());
+    stats.addEntry(spider3.getName());
 
     textState = new TextState();
   }

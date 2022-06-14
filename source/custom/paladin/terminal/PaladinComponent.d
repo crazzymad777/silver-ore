@@ -98,19 +98,22 @@ class PaladinComponent : AbstractComponent {
 
         auto mobs = game.getMobs();
 
-        if (showTicks) terminal.puts(0, terminal.width()*2/3 + 1, format("World tick: %d / Cubes loaded: %d", game.count, game.world.cubesLoaded()));
+        if (showTicks) terminal.puts(0, width + 1, format("World tick: %d / Cubes loaded: %d", game.count, game.world.cubesLoaded()));
 
-        terminal.puts(2, width + 1,
-                      format("You're %s", hero.getName()));
-
-        terminal.puts(3, width + 1,
-                         format("+ %s", game.textState.getStamina(hero.stamina, hero.maxStamina)),
-                         game.textState.getStaminaColor(hero.stamina, hero.maxStamina)
-                         );
-        terminal.puts(4, width + 1,
-                         format("+ %s", game.textState.getHealth(hero.hitpoints, hero.maxHitpoints)),
-                         game.textState.getHealthColor(hero.hitpoints, hero.maxHitpoints)
-                         );
+        int k = 0;
+        foreach(entry; game.stats.entries.byKeyValue()) {
+          terminal.puts(2 + k*5, width + width/2 + 1,
+                        format("%s", entry.key));
+          terminal.puts(3 + k*5, width + width/2 + 1,
+                        format(" - Hits: %d", entry.value.hits));
+          terminal.puts(4 + k*5, width + width/2 + 1,
+                        format(" - Taken hits: %d", entry.value.hitsTaken));
+          terminal.puts(5 + k*5, width + width/2 + 1,
+                        format(" - Damage: %d", entry.value.damage));
+          terminal.puts(6 + k*5, width + width/2 + 1,
+                        format(" - Taken damage: %d", entry.value.damageTaken));
+          k++;
+        }
 
         auto frens = game.getMobs();
         for (int i = 0; i < frens.length; i++) {

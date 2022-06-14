@@ -28,6 +28,7 @@ class Mob : Item {
   void takeDamage(int damage, Mob mob) {
     hitpoints -= damage;
     dropStamina();
+    game.takenDamage(this, mob, damage);
   }
 
   void dropStamina() {
