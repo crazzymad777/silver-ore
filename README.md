@@ -10,7 +10,7 @@
 ## Run
 
 ### Run custom game "Paladin in Dark Maze of Dungeon":  
-`./silve-ore paladin`  
+`./silver-ore paladin`  
 
 `W,A,S,D` - movement  
 `P` - attack  
