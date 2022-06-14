@@ -29,6 +29,14 @@ class Mob : Item {
     hitpoints -= damage;
   }
 
+  bool isFoe(Mob mob) {
+    return false;
+  }
+
+  void attack() {
+
+  }
+
   bool isAlive() {
     return hitpoints > 0;
   }

@@ -27,6 +27,8 @@ class World : IWorld {
       mobs ~= lion;
       mobs ~= spider;
 
+      paladin.friends ~= lion;
+
       lion.friends ~= paladin;
       lion.followed = paladin;
 

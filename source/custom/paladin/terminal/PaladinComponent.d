@@ -118,7 +118,7 @@ class PaladinComponent : AbstractComponent {
         for (int i = 0; i < frens.length; i++) {
           auto fren = frens[i];
           terminal.puts(6 + i*5, terminal.width()*2/3 + 1,
-                        format("Your friend is %s", fren.getName()));
+                        format("Your %s is %s", hero.isFoe(fren) ? "foe" : "friend", fren.getName()));
 
           terminal.puts(7 + i*5, terminal.width()*2/3 + 1,
                         format("They're in %s...", "the Dark Maze of Dungeon"));
@@ -129,7 +129,7 @@ class PaladinComponent : AbstractComponent {
                            );
 
           terminal.puts(9 + i*5, terminal.width()*2/3 + 1,
-                           format("%s", world.textState.getHealth(fren.hitpoints, fren.maxHitpoints)),
+                           format("%s (%d)", world.textState.getHealth(fren.hitpoints, fren.maxHitpoints), fren.hitpoints),
                            world.textState.getHealthColor(fren.hitpoints, fren.maxHitpoints)
                            );
 

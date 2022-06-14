@@ -1,9 +1,9 @@
 module core.game.humanoids.Humanoid;
 
-import core.game.Mob;
+import core.game.animals.Animal;
 import core.world.IWorld;
 
-class Humanoid : Mob {
+class Humanoid : Animal {
   this(IWorld world) {
     super(world);
     this.name = "humanoid";
@@ -15,5 +15,10 @@ class Humanoid : Mob {
 
     // For Paladin with Hammer 8
     this.damageDice = 8;
+    this.disableAI = true;
+  }
+
+  override void process() {
+    super.process();
   }
 }

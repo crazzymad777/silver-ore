@@ -7,6 +7,7 @@ class Animal : Mob {
   Mob[] friends;
   Mob[] foes;
   Mob followed;
+  bool disableAI = false;
   this(IWorld world) {
     super(world);
     this.name = "animal";
@@ -14,14 +15,14 @@ class Animal : Mob {
   }
 
   override void takeDamage(int damage, Mob mob) {
-    /* if(!isFoe(mob) && !isFriend(mob)) {
+    if(!isFoe(mob) && !isFriend(mob)) {
       foes ~= mob;
-    } */
+    }
     super.takeDamage(damage, mob);
   }
 
   // TODO: make some team system
-  bool isFoe(Mob mob) {
+  override bool isFoe(Mob mob) {
     import std.algorithm: canFind;
     if (foes.canFind(mob)) {
       return true;
@@ -37,7 +38,7 @@ class Animal : Mob {
     return false;
   }
 
-  void attack() {
+  override void attack() {
     import std.math, std.conv: to;
     import std.random;
 
@@ -70,21 +71,23 @@ class Animal : Mob {
     import std.math, std.conv: to;
     import std.random;
 
-    if (isAlive()) {
-      attack();
+    if (!disableAI) {
+      if (isAlive()) {
+        attack();
 
-      if (followed is null) {
-        if (uniform!"[)"(0, 7) == 0) {
-          move(uniform!"[]"(-1, 1), uniform!"[]"(-1, 1));
-        }
-      } else {
-        auto dx = followed.position.x-this.position.x;
-        auto dy = followed.position.y-this.position.y;
-        auto disX = abs(dx);
-        auto disY = abs(dy);
+        if (followed is null) {
+          if (uniform!"[)"(0, 7) == 0) {
+            move(uniform!"[]"(-1, 1), uniform!"[]"(-1, 1));
+          }
+        } else {
+          auto dx = followed.position.x-this.position.x;
+          auto dy = followed.position.y-this.position.y;
+          auto disX = abs(dx);
+          auto disY = abs(dy);
 
-        if (disX+disY > 3) {
-          move(to!int(sgn(dx)), to!int(sgn(dy)));
+          if (disX+disY > 3) {
+            move(to!int(sgn(dx)), to!int(sgn(dy)));
+          }
         }
       }
     }

@@ -30,7 +30,7 @@ class TextState {
     } else if (k <= 0.6){
       return "Modest health";
     } else if (k <= 0.8){
-      return "Strong helth";
+      return "Strong health";
     }
     return "Very strong health";
   }
