@@ -1,6 +1,6 @@
 ## Install
 
-`sudo pacman -S dub dmd`__
+`sudo pacman -S dub dmd`  
 `git clone https://gitlab.com/freedom-pride-chat/silver-ore.git`
 
 ## Build
@@ -9,19 +9,19 @@
 
 ## Run
 
-Run custom game "Paladin in Dark Maze of Dungeon":__
-`./silve-ore paladin`__
+### Run custom game "Paladin in Dark Maze of Dungeon":  
+`./silve-ore paladin`  
 
-`W,A,S,D` - movement__
-`P` - attack__
-`F` - toggle pet following__
+`W,A,S,D` - movement  
+`P` - attack  
+`F` - toggle pet following  
 
-Run Silver Ore:
-`./silver-ore`__
-`W,A,S,D` - movement__
-`E,R` - Z-movement__
-`M` - toggle map__
-`C` - clear cache__
+### Run Silver Ore:
+`./silver-ore`  
+`W,A,S,D` - movement  
+`E,R` - Z-movement  
+`M` - toggle map  
+`C` - clear cache  
 
 ## License
 
