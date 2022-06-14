@@ -27,7 +27,15 @@ class Mob : Item {
 
   void takeDamage(int damage, Mob mob) {
     hitpoints -= damage;
-    stamina -= damage;
+    dropStamina();
+  }
+
+  void dropStamina() {
+    if (stamina + 8 < maxStamina/2) {
+      stamina = 0;
+    } else {
+      stamina /= 2;
+    }
   }
 
   bool isFoe(Mob mob) {
@@ -59,6 +67,11 @@ class Mob : Item {
       }
     }
     if (stamina < maxStamina && restCount > 16 && isAlive()) stamina++;
+    if (isAlive() && world.getTick() % 16 == 0) {
+      if (hitpoints < maxHitpoints) {
+        hitpoints++;
+      }
+    }
     lastCount = tick;
   }
 

@@ -2,6 +2,7 @@ module core.game.animals.Animal;
 
 import core.game.Mob;
 import core.world.IWorld;
+import core.world.utils.GlobalCubeCoordinates;
 
 class Animal : Mob {
   Mob[] friends;
@@ -66,7 +67,7 @@ class Animal : Mob {
             if (isFoe(mob)) {
 
               // armor
-              if (uniform!"[]"(0, 32) == 0) {
+              if (uniform!"[]"(0, 8) == 0) {
                 int damage = 0;
                 if (this.damageDice > 0) {
                   damage = uniform!"[]"(1, this.damageDice);
@@ -74,11 +75,24 @@ class Animal : Mob {
                 mob.takeDamage(damage, this);
                 break;
               }
+              this.dropStamina();
             }
           }
         }
       }
     }
+  }
+
+  override bool move(int x = 0, int y = 0, int z = 0) {
+    auto mob = world.getMob(GlobalCubeCoordinates(position.x + x, position.y + y, position.z + z));
+    if (mob !is null) {
+      if (Animal animal = cast(Animal) mob) {
+        if (animal.isFoe(this)) {
+          return false;
+        }
+      }
+    }
+    return super.move(x, y, z);
   }
 
   override void process() {

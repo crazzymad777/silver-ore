@@ -82,6 +82,16 @@ class World : IWorld {
       return count;
     }
 
+    Mob getMob(GlobalCubeCoordinates b) {
+      auto mobs = getMobs();
+      foreach (mob; mobs) {
+        if (mob.position == b) {
+          return mob;
+        }
+      }
+      return null;
+    }
+
     bool checkColision(GlobalCubeCoordinates a, GlobalCubeCoordinates b) {
       return getCube(b).wall.isSolid();
     }
