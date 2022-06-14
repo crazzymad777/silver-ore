@@ -15,10 +15,24 @@ class Animal : Mob {
   }
 
   override void takeDamage(int damage, Mob mob) {
+    foreach (fren; friends) {
+      if(cast(Animal) fren) {
+        Animal animal = cast(Animal) fren;
+        animal.followed = mob;
+        animal.foes ~= mob;
+      }
+    }
+
     if(!isFoe(mob) && !isFriend(mob)) {
       foes ~= mob;
     }
     super.takeDamage(damage, mob);
+  }
+
+  void trigger(Mob mob) {
+    if(!isFoe(mob) && !isFriend(mob)) {
+      foes ~= mob;
+    }
   }
 
   // TODO: make some team system
@@ -52,7 +66,7 @@ class Animal : Mob {
             if (isFoe(mob)) {
 
               // armor
-              if (world.getTick()%8 == 0) {
+              if (uniform!"[]"(0, 32) == 0) {
                 int damage = 0;
                 if (this.damageDice > 0) {
                   damage = uniform!"[]"(1, this.damageDice);
@@ -75,11 +89,10 @@ class Animal : Mob {
       if (isAlive()) {
         attack();
 
-        if (followed is null) {
-          if (uniform!"[)"(0, 7) == 0) {
-            move(uniform!"[]"(-1, 1), uniform!"[]"(-1, 1));
-          }
-        } else {
+
+        bool customMove = true;
+        if (followed !is null) {
+          customMove = false;
           auto dx = followed.position.x-this.position.x;
           auto dy = followed.position.y-this.position.y;
           auto disX = abs(dx);
@@ -87,6 +100,18 @@ class Animal : Mob {
 
           if (disX+disY > 3) {
             move(to!int(sgn(dx)), to!int(sgn(dy)));
+          } else {
+            customMove = true;
+          }
+
+          if (this.isFoe(followed) && !followed.isAlive()) {
+            followed = null;
+          }
+        }
+
+        if (customMove) {
+          if (uniform!"[)"(0, 7) == 0) {
+            move(uniform!"[]"(-1, 1), uniform!"[]"(-1, 1));
           }
         }
       }

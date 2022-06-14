@@ -27,6 +27,7 @@ class Mob : Item {
 
   void takeDamage(int damage, Mob mob) {
     hitpoints -= damage;
+    stamina -= damage;
   }
 
   bool isFoe(Mob mob) {
@@ -57,7 +58,7 @@ class Mob : Item {
         position = newPosition;
       }
     }
-    if (stamina < maxStamina && restCount > 16) stamina++;
+    if (stamina < maxStamina && restCount > 16 && isAlive()) stamina++;
     lastCount = tick;
   }
 

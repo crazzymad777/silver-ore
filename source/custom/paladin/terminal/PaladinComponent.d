@@ -114,7 +114,7 @@ class PaladinComponent : AbstractComponent {
                          world.textState.getHealthColor(hero.hitpoints, hero.maxHitpoints)
                          );
 
-        auto frens = world.friends();
+        auto frens = world.friends() ~ world.getMobs()[2];
         for (int i = 0; i < frens.length; i++) {
           auto fren = frens[i];
           terminal.puts(6 + i*5, terminal.width()*2/3 + 1,
@@ -167,12 +167,14 @@ class PaladinComponent : AbstractComponent {
               } else {
                 w = entity.getName()[0];
                 color = TerminalColor.WHITE;
-                if (entity == hero) {
-                  color = TerminalColor.WHITE;
-                } else if (cast(Monster) entity) {
-                  color = TerminalColor.RED;
-                } else if (cast(Lion) entity) {
-                  color = TerminalColor.YELLOW;
+                if (entity.isAlive()) {
+                  if (entity == hero) {
+                    color = TerminalColor.GREEN;
+                  } else if (cast(Monster) entity) {
+                    color = TerminalColor.RED;
+                  } else if (cast(Lion) entity) {
+                    color = TerminalColor.YELLOW;
+                  }
                 }
               }
             } else {
