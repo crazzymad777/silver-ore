@@ -12,5 +12,8 @@ class Humanoid : Mob {
 
     this.maxHitpoints = 32;
     this.hitpoints = this.maxHitpoints;
+
+    // For Paladin with Hammer 8
+    this.damageDice = 8;
   }
 }

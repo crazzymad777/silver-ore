@@ -22,12 +22,15 @@ class World : IWorld {
       before = MonoTime.currTime;
       paladin = new Humanoid(this);
       auto lion = new Lion(this);
+      auto spider = new GiantSpider(this);
       mobs ~= paladin;
       mobs ~= lion;
-      mobs ~= new GiantSpider(this);
+      mobs ~= spider;
 
       lion.friends ~= paladin;
       lion.followed = paladin;
+
+      spider.foes ~= paladin;
 
       textState = new TextState();
     }
@@ -54,7 +57,7 @@ class World : IWorld {
       return generator.getCube(coors);
     }
 
-    Mob[] getMobs() {
+    Mob[] getMobs(GlobalCubeCoordinates coors = GlobalCubeCoordinates(0, 0, 0)) {
       return mobs;
     }
 

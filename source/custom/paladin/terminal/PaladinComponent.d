@@ -67,6 +67,8 @@ class PaladinComponent : AbstractComponent {
         showTicks = !showTicks;
       } else if (c == 'f') {
         world.follow();
+      } else if (c == 'p') {
+        world.getPaladin().attack();
       }
     }
 

@@ -13,6 +13,8 @@ class GiantSpider : Monster {
 
     this.maxHitpoints = 32;
     this.hitpoints = this.maxHitpoints;
+
+    this.damageDice = 8;
   }
 
   override void process() {
