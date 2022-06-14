@@ -66,6 +66,7 @@ class World : IWorld {
         foreach(mob; mobs) {
           mob.process();
         }
+
         count++;
         before = MonoTime.currTime;
       }

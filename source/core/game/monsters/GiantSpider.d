@@ -8,7 +8,7 @@ class GiantSpider : Monster {
   this(IWorld world) {
     super(world);
     this.name = "giant spider";
-    this.maxStamina = 64;
+    this.maxStamina = 32;
     this.stamina = this.maxStamina;
 
     this.maxHitpoints = 32;

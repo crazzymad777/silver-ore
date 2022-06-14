@@ -8,7 +8,7 @@ class Lion : Animal {
   this(IWorld world) {
     super(world);
     this.name = "lion";
-    this.maxStamina = 96;
+    this.maxStamina = 32;
     this.stamina = this.maxStamina;
 
     this.maxHitpoints = 32;

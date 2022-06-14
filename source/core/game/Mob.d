@@ -46,8 +46,9 @@ class Mob : Item {
     auto tick = world.getTick();
     if (lastCount != tick) {
       if (stamina > 0) {
-        stamina--;
+        stamina -= 2;
       }
+      lastCount = tick;
     }
   }
 }

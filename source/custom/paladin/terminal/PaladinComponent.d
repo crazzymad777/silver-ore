@@ -111,6 +111,25 @@ class PaladinComponent : AbstractComponent {
                          world.textState.getHealthColor(hero.hitpoints, hero.maxHitpoints)
                          );
 
+        auto frens = world.friends();
+        for (int i = 0; i < frens.length; i++) {
+          auto fren = frens[i];
+          terminal.puts(6 + i*4, terminal.width()*2/3 + 1,
+                        format("Your friend is %s", fren.getName()));
+
+          terminal.puts(7 + i*4, terminal.width()*2/3 + 1,
+                        format("They're in %s...", "the Dark Maze of Dungeon"));
+
+          terminal.puts(8 + i*4, terminal.width()*2/3 + 1,
+                           format("%s", world.textState.getStamina(fren.stamina, fren.maxStamina)),
+                           world.textState.getStaminaColor(fren.stamina, fren.maxStamina)
+                           );
+          terminal.puts(9 + i*4, terminal.width()*2/3 + 1,
+                           format("%s", world.textState.getHealth(fren.hitpoints, fren.maxHitpoints)),
+                           world.textState.getHealthColor(fren.hitpoints, fren.maxHitpoints)
+                           );
+        }
+
         int column = (terminal.width()*2/3)/2;
         int row = (terminal.height())/2;
         for (int j = -row; j < row; j++) {
