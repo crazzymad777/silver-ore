@@ -12,10 +12,13 @@ import core.Observer;
 
 class World : IWorld {
     import core.time;
+    import custom.paladin.world.TextState;
+    TextState textState;
     this() {
       /* new Observer(component, this); */
       before = MonoTime.currTime;
       paladin = new Humanoid(this);
+      textState = new TextState();
     }
 
     long count = 0;

@@ -48,6 +48,7 @@ class PaladinComponent : AbstractComponent {
       world.process();
     }
 
+    bool showTicks = false;
     override void recvKey(Key key) {
       // handle key
       dchar c = to!dchar(key.getKeycode());
@@ -66,6 +67,8 @@ class PaladinComponent : AbstractComponent {
       } else if (c == 'd') {
         /* coors.x++; */
         world.getPaladin().move(1);
+      } else if (c == '0') {
+        showTicks = !showTicks;
       }
     }
 
@@ -84,26 +87,27 @@ class PaladinComponent : AbstractComponent {
     override void draw() {
         // fill display matrix
 
-
-        /* terminal.puts(offset + 0, 0, format("X: %d, Y: %d, Z: %d", coors.x, coors.y, coors.z)); */
-        /* terminal.puts(offset + 1, 0, format("Cluster loaded: %d / Chunks loaded: %d / Cubes loaded: %d",
-                       world.clustersLoaded(),
-                       world.chunksLoaded(),
-                       world.cubesLoaded()
-                       )); */
-
         auto hero = world.getPaladin();
         auto coors = hero.position;
         auto cube = world.getCube(coors);
         auto item = cube.getItem();
-        /* if (item !is null) {
-           terminal.puts(offset + 2, 0, format("Item: %s", item.getName()));
-        } else {
-           terminal.puts(offset + 2, 0, format("Wall: %s / Floor: %s", cube.wall, cube.floor));
-        } */
-        terminal.puts(0, terminal.width()*2/3 + 1, format("World tick: %d / Cubes loaded: %d", world.count, world.cubesLoaded()));
-        terminal.puts(1, terminal.width()*2/3 + 1, format("Your stamina: %d/%d", hero.stamina, hero.maxStamina));
-        terminal.puts(2, terminal.width()*2/3 + 1, format("Your HP: %d/%d", hero.hitpoints, hero.maxHitpoints));
+
+        if (showTicks) terminal.puts(0, terminal.width()*2/3 + 1, format("World tick: %d / Cubes loaded: %d", world.count, world.cubesLoaded()));
+
+        terminal.puts(2, terminal.width()*2/3 + 1,
+                      format("You're %s", hero.getName()));
+
+        terminal.puts(3, terminal.width()*2/3 + 1,
+                      format("You're in %s...", "the Dark Maze of Dungeon"));
+
+        terminal.puts(4, terminal.width()*2/3 + 1,
+                         format("%s", world.textState.getStamina(hero.stamina, hero.maxStamina)),
+                         world.textState.getStaminaColor(hero.stamina, hero.maxStamina)
+                         );
+        terminal.puts(5, terminal.width()*2/3 + 1,
+                         format("%s", world.textState.getHealth(hero.hitpoints, hero.maxHitpoints)),
+                         world.textState.getHealthColor(hero.hitpoints, hero.maxHitpoints)
+                         );
 
         int column = (terminal.width()*2/3)/2;
         int row = (terminal.height())/2;

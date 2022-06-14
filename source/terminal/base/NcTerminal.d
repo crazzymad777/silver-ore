@@ -76,6 +76,14 @@ class NcTerminal : ITerminal {
     }
   }
 
+  void puts(int y, int x, string str, TerminalColor color) {
+    try {
+      window.addstr(y, x, str, curses.colors[color, TerminalColor.BLACK]);
+    } catch (NCException e) {
+
+    }
+  }
+
   void update() {
     /* puts(0, 0, format("%d", getColorPair(Char('x', TerminalColor.GRAY)))); */
     /* window.refresh(); */

@@ -3,6 +3,7 @@ module terminal.base.Terminal;
 import terminal.base.ITerminal;
 import terminal.base.Char;
 import terminal.base.Key;
+import terminal.base.TerminalColor;
 
 import terminal.AbstractComponent;
 
@@ -25,6 +26,10 @@ class Terminal : ITerminal {
   }
 
   void puts(int y, int x, string str) {
+
+  }
+
+  void puts(int y, int x, string str, TerminalColor color) {
 
   }
 
