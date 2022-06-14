@@ -4,7 +4,6 @@ import core.world.utils.GlobalCubeCoordinates;
 import custom.paladin.world.Generator;
 import core.world.Cube;
 import core.world.IWorld;
-import core.game.humanoids.Humanoid;
 import core.game.Mob;
 
 import terminal.AbstractComponent;
@@ -13,19 +12,32 @@ import core.Observer;
 class World : IWorld {
     import core.time;
     import custom.paladin.world.TextState;
+    import core.game.humanoids.Humanoid;
+
     TextState textState;
     this() {
-      /* new Observer(component, this); */
+      import core.game.monsters.GiantSpider;
+      import core.game.animals.Lion;
+
       before = MonoTime.currTime;
       paladin = new Humanoid(this);
+      mobs ~= new GiantSpider(this);
+      mobs ~= new Lion(this);
+      mobs ~= paladin;
+
       textState = new TextState();
     }
 
     long count = 0;
     private Generator generator = new Generator();
     private Humanoid paladin;
+    private Mob[] mobs;
     Cube getCube(GlobalCubeCoordinates coors) {
       return generator.getCube(coors);
+    }
+
+    Mob[] getMobs() {
+      return mobs;
     }
 
     MonoTime before;
@@ -33,7 +45,9 @@ class World : IWorld {
       MonoTime after = MonoTime.currTime;
       Duration timeElapsed = after - before;
       if (timeElapsed.total!"msecs" > 100) {
-        paladin.process();
+        foreach(mob; mobs) {
+          mob.process();
+        }
         count++;
         before = MonoTime.currTime;
       }
@@ -59,7 +73,9 @@ class World : IWorld {
         return true;
       }
 
-      if (abs(a.x-b.x) > 1 || abs(a.y-b.y) > 1) {
+      float disX = pow(a.x-b.x, 2);
+      float disY = pow(a.y-b.y, 2);
+      if (sqrt(disX+disY) > 7) {
         return false;
       }
       return true;

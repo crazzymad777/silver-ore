@@ -1,14 +1,14 @@
-module core.game.monsters.GiantSpider;
+module core.game.animals.Lion;
 
 import core.game.Mob;
 import core.world.IWorld;
-import core.game.monsters.Monster;
+import core.game.animals.Animal;
 
-class GiantSpider : Monster {
+class Lion : Animal {
   this(IWorld world) {
     super(world);
-    this.name = "giant spider";
-    this.maxStamina = 64;
+    this.name = "lion";
+    this.maxStamina = 96;
     this.stamina = this.maxStamina;
 
     this.maxHitpoints = 32;

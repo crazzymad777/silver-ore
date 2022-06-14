@@ -45,7 +45,7 @@ class Glyph {
 
       if (cast(Furniture) item) {
         auto furniture = cast(Furniture) item;
-        foreground = TerminalColor.RED;
+        foreground = TerminalColor.YELLOW;
 
         if (item.getName() == "bed") {
           return 'B';

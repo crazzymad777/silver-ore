@@ -6,9 +6,11 @@ import core.world.IWorld;
 class Humanoid : Mob {
   this(IWorld world) {
     super(world);
-    this.maxStamina = 32;
-    this.maxHitpoints = 32;
-    this.hitpoints = 32;
     this.name = "humanoid";
+    this.maxStamina = 32;
+    this.stamina = this.maxStamina;
+
+    this.maxHitpoints = 32;
+    this.hitpoints = this.maxHitpoints;
   }
 }

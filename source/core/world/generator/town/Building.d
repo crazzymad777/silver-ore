@@ -214,7 +214,7 @@ class Building {
           return new Bed();
         }
         if (element.furniture == "Closet") {
-          return new Bed();
+          return new Closet();
         }
         if (element.furniture == "Chest") {
           return new Chest();

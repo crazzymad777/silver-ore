@@ -118,10 +118,27 @@ class PaladinComponent : AbstractComponent {
             auto lookAt = GlobalCubeCoordinates(coors.x + i, coors.y + j, coors.z);
             if (world.checkVisible(hero.position, lookAt)) {
               if (i != 0 || j != 0) {
-                cube = world.getCube(lookAt);
-                auto glyph = new Glyph(cube);
-                w = glyph.display();
-                color = glyph.foreground;
+                import core.game.Mob;
+
+                auto mobs = world.getMobs();
+
+                Mob entity;
+                foreach (mob; mobs) {
+                  if (mob.position == lookAt) {
+                    entity = mob;
+                    break;
+                  }
+                }
+
+                if (entity is null) {
+                  cube = world.getCube(lookAt);
+                  auto glyph = new Glyph(cube);
+                  w = glyph.display();
+                  color = glyph.foreground;
+                } else {
+                  w = 'S';
+                  color = TerminalColor.RED;
+                }
               } else {
                 color = TerminalColor.RED;
                 w = 'P';
