@@ -7,6 +7,7 @@ import core.world.utils.GlobalCubeCoordinates;
 class Animal : Mob {
   Mob[] friends;
   Mob[] foes;
+  Mob triggeredFoe;
   Mob followed;
   bool disableAI = false;
   this(IWorld world) {
@@ -24,16 +25,22 @@ class Animal : Mob {
       }
     }
 
-    if(!isFoe(mob) && !isFriend(mob)) {
-      foes ~= mob;
-    }
+    trigger(mob);
     super.takeDamage(damage, mob);
   }
 
   void trigger(Mob mob) {
-    if(!isFoe(mob) && !isFriend(mob)) {
-      foes ~= mob;
+    if (!isFriend(mob)) {
+      if(!isFoe(mob)) {
+        foes ~= mob;
+      }
+      followed = mob;
+      triggeredFoe = mob;
     }
+  }
+
+  Mob getTriggeredFoe() {
+    return triggeredFoe;
   }
 
   // TODO: make some team system

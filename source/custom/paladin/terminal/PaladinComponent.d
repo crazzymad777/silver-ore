@@ -87,7 +87,8 @@ class PaladinComponent : AbstractComponent {
     override void draw() {
         // fill display matrix
 
-        auto hero = world.getPaladin();
+        import core.game.animals.Animal;
+        Animal hero = cast(Animal) world.getPaladin();
         auto coors = hero.position;
 
         import core.game.Mob;
@@ -114,8 +115,9 @@ class PaladinComponent : AbstractComponent {
                          world.textState.getHealthColor(hero.hitpoints, hero.maxHitpoints)
                          );
 
-        auto frens = world.friends() ~ world.getMobs()[2];
+        auto frens = world.friends() ~ hero.getTriggeredFoe();
         for (int i = 0; i < frens.length; i++) {
+          if (frens[i] !is null) {
           auto fren = frens[i];
           terminal.puts(6 + i*5, terminal.width()*2/3 + 1,
                         format("Your %s is %s", hero.isFoe(fren) ? "foe" : "friend", fren.getName()));
@@ -141,6 +143,7 @@ class PaladinComponent : AbstractComponent {
                                 );
              }
            }
+          }
         }
 
         int column = (terminal.width()*2/3)/2;

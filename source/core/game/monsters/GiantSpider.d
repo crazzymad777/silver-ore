@@ -5,9 +5,12 @@ import core.world.IWorld;
 import core.game.monsters.Monster;
 
 class GiantSpider : Monster {
+  static spiderCount = 0;
   this(IWorld world) {
+    spiderCount++;
+    import std.format;
     super(world);
-    this.name = "giant spider";
+    this.name = format("giant spider (%d)", spiderCount);
     this.maxStamina = 32;
     this.stamina = this.maxStamina;
 
