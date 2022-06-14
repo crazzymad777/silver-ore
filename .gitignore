@@ -9,3 +9,13 @@ build
 
 #
 .DS_Store
+
+# D
+silver-ore-test-library
+dub.selections.json
+silver-ore
+.dub
+
+silver-ore.dlangidews
+silver-ore.dlangidews.wssettings
+silver-ore.settings
