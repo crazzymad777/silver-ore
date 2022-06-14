@@ -129,4 +129,16 @@ class Game : IGame {
   Mob getPaladin() {
     return paladin;
   }
+
+  bool EndCondition() {
+    if (!mobs[2].isAlive() && !mobs[3].isAlive() && !mobs[4].isAlive()) {
+      return true;
+    }
+
+    if (!paladin.isAlive()) {
+      return true;
+    }
+
+    return false;
+  }
 }

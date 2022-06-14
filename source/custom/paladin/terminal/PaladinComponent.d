@@ -54,7 +54,11 @@ class PaladinComponent : AbstractComponent {
       dchar c = to!dchar(key.getKeycode());
 
       bool prepend = false;
-      if (c == 'q') {
+      if (c == 'r') {
+        if (game.EndCondition()) {
+          game = new Game();
+        }
+      } if (c == 'q') {
         /* game.apocalypse(); */
         exited = true;
       } else if (c == 'w') {
@@ -180,7 +184,7 @@ class PaladinComponent : AbstractComponent {
             auto w = 'x';
             auto color = TerminalColor.WHITE;
             auto lookAt = GlobalCubeCoordinates(coors.x + i, coors.y + j, coors.z);
-            if (game.world.checkVisible(hero.position, lookAt) || !hero.isAlive()) {
+            if (game.world.checkVisible(hero.position, lookAt) || !hero.isAlive() || game.EndCondition()) {
               Mob entity;
               foreach (mob; mobs) {
                 if (mob.position == lookAt) {
