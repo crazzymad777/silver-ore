@@ -89,6 +89,7 @@ class PaladinComponent : AbstractComponent {
         auto coors = hero.position;
 
         import core.game.Mob;
+        import core.game.animals.Animal;
         import core.game.animals.Lion;
         import core.game.monsters.Monster;
 
@@ -114,20 +115,30 @@ class PaladinComponent : AbstractComponent {
         auto frens = world.friends();
         for (int i = 0; i < frens.length; i++) {
           auto fren = frens[i];
-          terminal.puts(6 + i*4, terminal.width()*2/3 + 1,
+          terminal.puts(6 + i*5, terminal.width()*2/3 + 1,
                         format("Your friend is %s", fren.getName()));
 
-          terminal.puts(7 + i*4, terminal.width()*2/3 + 1,
+          terminal.puts(7 + i*5, terminal.width()*2/3 + 1,
                         format("They're in %s...", "the Dark Maze of Dungeon"));
 
-          terminal.puts(8 + i*4, terminal.width()*2/3 + 1,
+          terminal.puts(8 + i*5, terminal.width()*2/3 + 1,
                            format("%s", world.textState.getStamina(fren.stamina, fren.maxStamina)),
                            world.textState.getStaminaColor(fren.stamina, fren.maxStamina)
                            );
-          terminal.puts(9 + i*4, terminal.width()*2/3 + 1,
+
+          terminal.puts(9 + i*5, terminal.width()*2/3 + 1,
                            format("%s", world.textState.getHealth(fren.hitpoints, fren.maxHitpoints)),
                            world.textState.getHealthColor(fren.hitpoints, fren.maxHitpoints)
                            );
+
+           if (cast(Animal) fren) {
+             Animal animal = cast(Animal) fren;
+             if (animal.followed !is null) {
+               terminal.puts(10 + i*5, terminal.width()*2/3 + 1,
+                                format("They follow %s", animal.followed != hero ? animal.followed.getName() : "you")
+                                );
+             }
+           }
         }
 
         int column = (terminal.width()*2/3)/2;

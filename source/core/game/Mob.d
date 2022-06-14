@@ -14,6 +14,7 @@ class Mob : Item {
   int maxHitpoints = 1;
   int maxStamina = 3;
   int stamina = 3;
+  int restCount = 0;
 
   IWorld world;
   long lastCount = 0;
@@ -23,13 +24,22 @@ class Mob : Item {
   }
 
   void process() {
+    if (position == newPosition) {
+      restCount++;
+    } else {
+      if (restCount >= 16) {
+        restCount = 16;
+      }
+      if (restCount > 0) restCount--;
+    }
+
     auto tick = world.getTick();
     if (stamina > 0 || tick % 3 == 0) {
       if (!world.checkColision(position, newPosition)) {
         position = newPosition;
       }
     }
-    if (stamina < maxStamina) stamina++;
+    if (stamina < maxStamina && restCount > 16) stamina++;
     lastCount = tick;
   }
 
@@ -38,17 +48,17 @@ class Mob : Item {
     atomicOp!"+="(newPosition.x, x);
     atomicOp!"+="(newPosition.y, y);
     atomicOp!"+="(newPosition.z, z); */
-    newPosition = position;
-    newPosition.x += x;
-    newPosition.y += y;
-    newPosition.z += z;
+    auto coors = GlobalCubeCoordinates(position.x + x, position.y + y, position.z + z);
+    if (!world.checkColision(position, coors)) {
+      newPosition = coors;
 
-    auto tick = world.getTick();
-    if (lastCount != tick) {
-      if (stamina > 0) {
-        stamina -= 2;
+      auto tick = world.getTick();
+      if (lastCount != tick) {
+        if (stamina > 0) {
+          stamina -= 2;
+        }
+        lastCount = tick;
       }
-      lastCount = tick;
     }
   }
 }
