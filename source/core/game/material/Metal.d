@@ -9,10 +9,14 @@ import core.game.material.Copper;
 import core.game.material.Tin;
 
 class Metal : Material {
+  package this() {
+    super();
+  }
+
   package this(Material[string] materials) {
-    static const auto x = ["Gold", "Silver", "Iron", "Copper", "Tin"];
-    static foreach(y; x) {
-      materials[y] = new mixin(y)(materials);
+    import std.meta;
+    foreach(y; AliasSeq!(Gold, Silver, Iron, Copper, Tin)) {
+      materials[y.stringof] = new y(materials);
     }
     this.name = "METAL";
     super(materials);

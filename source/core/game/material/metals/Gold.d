@@ -3,18 +3,9 @@ module core.game.material.Gold;
 import core.game.material.Material;
 import core.game.material.Metal;
 
-// extends Metal will crash :(
-class Gold : Material {
+class Gold : Metal {
   package this(Material[string] materials) {
     this.name = "GOLD";
-    super(materials);
-  }
-
-  override bool isMetal() {
-    return true;
-  }
-
-  override bool isSolid() {
-    return true;
+    super();
   }
 }
