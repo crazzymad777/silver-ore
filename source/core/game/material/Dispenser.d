@@ -13,19 +13,12 @@ import core.game.material.Silt;
 import core.game.material.Sand;
 import core.game.material.Crust;
 
-/*
-  Low-Lock Singleton Pattern
-  Singleton source: https://wiki.dlang.org/Low-Lock_Singleton_Pattern
-  From David Simcha's D-Specific Design Patterns talk at DConf 2013.
-  D-lang wiki footer: Content is available under GNU Free Documentation License 1.3 or later unless otherwise noted.
-*/
-
 class Dispenser {
   static private Material[string] materials;
   private this() {
-    static const auto x = ["Material", "Wood", "Grass", "Metal", "Soil", "Air", "Void", "Stone", "Sand", "Silt", "Water", "Crust"];
-    static foreach(y; x) {
-      materials[y] = new mixin(y)(materials);
+    import std.meta;
+    foreach(y; AliasSeq!(Material, Wood, Grass, Metal, Soil, Air, Void, Stone, Sand, Silt, Water, Crust)) {
+      materials[y.stringof] = new y(materials);
     }
   }
 
@@ -38,7 +31,12 @@ class Dispenser {
     }
   }
 
-  /* Singleton */
+  /*
+    Low-Lock Singleton Pattern
+    Singleton source: https://wiki.dlang.org/Low-Lock_Singleton_Pattern
+    From David Simcha's D-Specific Design Patterns talk at DConf 2013.
+    D-lang wiki footer: Content is available under GNU Free Documentation License 1.3 or later unless otherwise noted.
+  */
   // Cache instantiation flag in thread-local bool
   // Thread local
   private static bool instantiated_;
