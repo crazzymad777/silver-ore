@@ -5,6 +5,6 @@ import core.game.material.Material;
 class Grass : Material {
   package this(Material[string] materials) {
     this.name = "GRASS";
-    super(materials);
+    super();
   }
 }

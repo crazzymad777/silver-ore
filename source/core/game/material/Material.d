@@ -2,7 +2,7 @@ module core.game.material.Material;
 
 class Material {
   package this() {
-    
+
   }
 
   package this(Material[string] materials) {

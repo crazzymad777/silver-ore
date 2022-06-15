@@ -19,7 +19,7 @@ class Metal : Material {
       materials[y.stringof] = new y(materials);
     }
     this.name = "METAL";
-    super(materials);
+    super();
   }
 
   override bool isMetal() {

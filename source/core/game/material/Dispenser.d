@@ -17,7 +17,7 @@ class Dispenser {
   static private Material[string] materials;
   private this() {
     import std.meta;
-    foreach(y; AliasSeq!(Material, Wood, Grass, Metal, Soil, Air, Void, Stone, Sand, Silt, Water, Crust)) {
+    foreach(y; AliasSeq!(Wood, Grass, Metal, Soil, Air, Void, Stone, Sand, Silt, Water, Crust)) {
       materials[y.stringof] = new y(materials);
     }
   }

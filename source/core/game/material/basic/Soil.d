@@ -5,7 +5,7 @@ import core.game.material.Material;
 class Soil : Material {
   package this(Material[string] materials) {
     this.name = "SOIL";
-    super(materials);
+    super();
   }
 
   override bool isSolid() {
