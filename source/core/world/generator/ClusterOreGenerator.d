@@ -11,7 +11,7 @@ import core.game.Ore;
 
 class ClusterOreGenerator : IGenerator!ClusterCubeCoordinates {
   Nullable!Cube getCube(ClusterCubeCoordinates coors) {
-      import std.math.exponential: pow;
+      import std.math: pow;
       if (coors.z <= 124u) {
           auto newX = coors.x;
           auto newY = coors.y;
