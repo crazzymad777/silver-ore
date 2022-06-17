@@ -25,7 +25,7 @@ class BiomeCell {
     this.size = id.size;
     import core.world.utils.Seed: make, Random;
     import std.random: uniform, dice;
-    import std.format, std.math.trigonometry, std.math.constants;
+    import std.format, std.math;
     import std.conv;
     start = signedClusterId(id.x*size, id.y*size);
     // Are clusterId.getSignedX() & clusterId.getSignedY() reproducible? Are start reproducible?
