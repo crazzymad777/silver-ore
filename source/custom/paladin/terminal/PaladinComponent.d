@@ -153,7 +153,7 @@ class PaladinComponent : AbstractComponent {
                           format("You're %s", hero.getName()));
           } else {
             terminal.puts(2 + i*4, width + 1,
-                          format("%s is %s", hero.isFoe(fren) ? "foe" : "friend", fren.getName()));
+                          format("%s is %s", fren.getName(), hero.isFoe(fren) ? "foe" : "friend"));
           }
 
           terminal.puts(3 + i*4, width + 1,
@@ -179,52 +179,58 @@ class PaladinComponent : AbstractComponent {
 
         int column = (width)/2;
         int row = (terminal.height())/2;
-        for (int j = -row; j < row; j++) {
+        for (int j = -row; j <= row; j++) {
           for (int i = -column; i < column; i++) {
             auto w = 'x';
-            auto color = TerminalColor.WHITE;
+            auto color = TerminalColor.BLACK;
             auto lookAt = GlobalCubeCoordinates(coors.x + i, coors.y + j, coors.z);
-            if (controller.checkVisible(hero.position, lookAt) || !hero.isAlive() || controller.endCondition()) {
-              Mob entity;
-              foreach (mob; mobs) {
-                if (mob.position == lookAt) {
-                  entity = mob;
-                  break;
-                }
-              }
 
-              if (entity is null) {
-                auto cube = controller.getCube(lookAt);
-                auto glyph = new Glyph(cube);
-                w = glyph.display();
-                color = glyph.foreground;
+            import std.math: abs;
+            if (row-abs(j) >= 3 && column-abs(i) >= 3) {
+              if (controller.checkVisible(hero.position, lookAt) || !hero.isAlive() || controller.endCondition()) {
+                Mob entity;
+                foreach (mob; mobs) {
+                  if (mob.position == lookAt) {
+                    entity = mob;
+                    break;
+                  }
+                }
+
+                if (entity is null) {
+                  auto cube = controller.getCube(lookAt);
+                  auto glyph = new Glyph(cube);
+                  w = glyph.display();
+                  color = glyph.foreground;
+                } else {
+                  w = entity.getName()[0];
+                  color = TerminalColor.WHITE;
+                  if (entity.isAlive()) {
+                    if (entity == hero) {
+                      color = TerminalColor.GREEN;
+                    } else if (cast(Monster) entity) {
+                      color = TerminalColor.RED;
+                    } else if (cast(Lion) entity) {
+                      color = TerminalColor.YELLOW;
+                    }
+                  }
+
+                  if (Animal animal = cast(Animal) entity) {
+                    if (animal.attackedTick + 5 > controller.getTick()) {
+                      color = TerminalColor.MAGENTA;
+                    }
+                  }
+                }
               } else {
-                w = entity.getName()[0];
-                color = TerminalColor.WHITE;
-                if (entity.isAlive()) {
-                  if (entity == hero) {
-                    color = TerminalColor.GREEN;
-                  } else if (cast(Monster) entity) {
-                    color = TerminalColor.RED;
-                  } else if (cast(Lion) entity) {
-                    color = TerminalColor.YELLOW;
-                  }
-                }
-
-                if (Animal animal = cast(Animal) entity) {
-                  if (animal.attackedTick + 5 > controller.getTick()) {
-                    color = TerminalColor.MAGENTA;
-                  }
-                }
+                color = TerminalColor.BLACK;
+                w = ' ';
               }
             } else {
-              color = TerminalColor.BLACK;
-              w = ' ';
+              if (hero.attackedTick + 5 > controller.getTick()) {
+                color = TerminalColor.RED;
+              }
             }
             terminal.put(j + row, i + column, Char(w, color, TerminalColor.BLACK));
-            /* terminal.putchar(w); */
           }
-          /* terminal.putchar('\n'); */
         }
     }
 
