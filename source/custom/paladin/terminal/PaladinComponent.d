@@ -153,7 +153,7 @@ class PaladinComponent : AbstractComponent {
                           format("You're %s", hero.getName()));
           } else {
             terminal.puts(2 + i*4, width + 1,
-                          format("Your %s is %s", hero.isFoe(fren) ? "foe" : "friend", fren.getName()));
+                          format("%s is %s", hero.isFoe(fren) ? "foe" : "friend", fren.getName()));
           }
 
           terminal.puts(3 + i*4, width + 1,
