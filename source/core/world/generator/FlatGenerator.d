@@ -48,6 +48,18 @@ class FlatGenerator : IGenerator!ClusterCubeCoordinates {
   }
 }
 
+/* private unittest {
+  import std.typecons;
+  auto generator = new FlatGenerator(ClusterId(0, 0), 0);
+  auto getCube(int z) {
+    import std.random;
+    auto coors = ClusterCubeCoordinates(uniform(0, 256), uniform(0, 256), z);
+    return generator.getCube(coors);
+  }
+
+  auto expected = [tuple!(Dispenser.get().getMaterial("Stone"), Dispenser.get().getMaterial("Stone"))];
+} */
+
 /* private val flatWorld = World(WorldConfig(generatorName = "flat"))
 
 @Test fun testFlatWorld() {
