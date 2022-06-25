@@ -26,34 +26,36 @@ class Game : IGame {
   }
 
   long count = 0;
+  EngineMessenger messenger;
   private Humanoid paladin;
   private Lion pet;
   private Engine engine;
   this() {
+    messenger = new EngineMessenger(GAME_ACTOR_ID);
     engine = new Engine();
     world = new World();
 
-    engine.feed(EngineMessenger.assignWorld(GAME_ACTOR_ID, world));
+    engine.feed(messenger.assignWorld(world));
 
     import core.game.monsters.GiantSpider;
 
     paladin = new Humanoid(this);
     auto lion = new Lion(this);
     pet = lion;
-    engine.feed(EngineMessenger.assignMob(GAME_ACTOR_ID, paladin));
-    engine.feed(EngineMessenger.assignMob(GAME_ACTOR_ID, lion));
+    engine.feed(messenger.assignMob(paladin));
+    engine.feed(messenger.assignMob(lion));
 
     auto spider1 = new GiantSpider(this);
-    engine.feed(EngineMessenger.assignMob(GAME_ACTOR_ID, spider1));
-    engine.feed(EngineMessenger.mobSetPosition(GAME_ACTOR_ID, spider1, GlobalCubeCoordinates(0, -16, 0)));
+    engine.feed(messenger.assignMob(spider1));
+    engine.feed(messenger.mobSetPosition(spider1, GlobalCubeCoordinates(0, -16, 0)));
 
     auto spider2 = new GiantSpider(this);
-    engine.feed(EngineMessenger.assignMob(GAME_ACTOR_ID, spider2));
-    engine.feed(EngineMessenger.mobSetPosition(GAME_ACTOR_ID, spider2, GlobalCubeCoordinates(0, -16, 0)));
+    engine.feed(messenger.assignMob(spider2));
+    engine.feed(messenger.mobSetPosition(spider2, GlobalCubeCoordinates(0, -16, 0)));
 
     auto spider3 = new GiantSpider(this);
-    engine.feed(EngineMessenger.assignMob(GAME_ACTOR_ID, spider3));
-    engine.feed(EngineMessenger.mobSetPosition(GAME_ACTOR_ID, spider3, GlobalCubeCoordinates(0, -16, 0)));
+    engine.feed(messenger.assignMob(spider3));
+    engine.feed(messenger.mobSetPosition(spider3, GlobalCubeCoordinates(0, -16, 0)));
 
     // TODO: messaging
     paladin.friends ~= lion;
@@ -82,7 +84,7 @@ class Game : IGame {
   }
 
   void follow() {
-    engine.feed(EngineMessenger.toggleMobFollow(GAME_ACTOR_ID, pet, paladin));
+    engine.feed(messenger.toggleMobFollow(pet, paladin));
   }
 
   Mob[] getMobs(GlobalCubeCoordinates coors = GlobalCubeCoordinates(0, 0, 0)) {
@@ -90,7 +92,7 @@ class Game : IGame {
   }
 
   void process() {
-    engine.feed(EngineMessenger.process(GAME_ACTOR_ID));
+    engine.feed(messenger.process());
     count = engine.count;
   }
 
