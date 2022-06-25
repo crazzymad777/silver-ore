@@ -22,32 +22,68 @@ struct EngineMessage {
   //           -2 for Game
   //           other for clients
   long actor_id;
+  long number;
   Action action;
   Argument[] args;
 }
 
+struct MessageHead {
+  long actor_id;
+  long number;
+}
+
+struct AssignWorldMessage {
+  MessageHead head;
+  IWorld world;
+}
+
+struct AssignMobMessage {
+  MessageHead head;
+  Mob mob;
+}
+
+struct ProcessMessage {
+  MessageHead head;
+}
+
+struct ToggleMobFollowMessage {
+  MessageHead head;
+  Mob pet;
+  Mob owner;
+}
+
 class EngineMessenger {
-  // still awful code
-  static EngineMessage assignWorld(int id, IWorld world) {
-    EngineMessage.Argument arg1 = {world: world};
-    return EngineMessage(id, EngineMessage.Action.ASSIGN_WORLD, [arg1]);
+  static long message_count = 0;
+
+  static void newMessage() {
+    message_count++;
   }
 
   // still awful code
-  static EngineMessage assignMob(int id, Mob mob) {
-    EngineMessage.Argument arg1 = {mob: mob};
-    return EngineMessage(id, EngineMessage.Action.ASSIGN_MOB, [arg1]);
+  static auto assignWorld(int id, IWorld world) {
+    return AssignWorldMessage(MessageHead(id, message_count), world);
+    /* EngineMessage.Argument arg1 = {world: world};
+    return EngineMessage(id, message_count, EngineMessage.Action.ASSIGN_WORLD, [arg1]); */
   }
 
   // still awful code
-  static EngineMessage process(int id) {
-    return EngineMessage(id, EngineMessage.Action.PROCESS, []);
+  static auto assignMob(int id, Mob mob) {
+    return AssignMobMessage(MessageHead(id, message_count), mob);
+    /* EngineMessage.Argument arg1 = {mob: mob};
+    return EngineMessage(id, message_count, EngineMessage.Action.ASSIGN_MOB, [arg1]); */
   }
 
   // still awful code
-  static EngineMessage toggleMobFollow(int id, Mob pet, Mob owner) {
-    EngineMessage.Argument arg1 = {mob: pet};
+  static auto process(int id) {
+    return ProcessMessage(MessageHead(id, message_count));
+    /* return EngineMessage(id, message_count, EngineMessage.Action.PROCESS, []); */
+  }
+
+  // still awful code
+  static auto toggleMobFollow(int id, Mob pet, Mob owner) {
+    return ToggleMobFollowMessage(MessageHead(id, message_count), pet, owner);
+    /* EngineMessage.Argument arg1 = {mob: pet};
     EngineMessage.Argument arg2 = {mob: owner};
-    return EngineMessage(id, EngineMessage.Action.TOGGLE_MOB_FOLLOW, [arg1, arg2]);
+    return EngineMessage(id, message_count, EngineMessage.Action.TOGGLE_MOB_FOLLOW, [arg1, arg2]); */
   }
 }

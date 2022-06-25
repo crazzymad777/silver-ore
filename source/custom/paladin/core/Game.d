@@ -78,7 +78,6 @@ class Game : IGame {
 
     stats.addEntry(paladin.getName());
     stats.addEntry(lion.getName());
-
     stats.addEntry(spider1.getName());
     stats.addEntry(spider2.getName());
     stats.addEntry(spider3.getName());

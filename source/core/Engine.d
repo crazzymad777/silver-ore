@@ -18,7 +18,23 @@ class Engine {
       before = MonoTime.currTime;
     }
 
-    void feed(EngineMessage message) {
+    void feed(T)(T message) {
+      static if (is(T == AssignWorldMessage)) {
+        assignWorld(message.world);
+      }
+      static if (is(T == AssignMobMessage)) {
+        assignMob(message.mob);
+      }
+      static if (is(T == ProcessMessage)) {
+        process();
+      }
+      static if (is(T == ToggleMobFollowMessage)) {
+        toggleMobFollow(message.pet, message.owner);
+      }
+      EngineMessenger.newMessage();
+    }
+
+    /* void feedEngineMessage(EngineMessage message) {
       if (message.action == EngineMessage.Action.ASSIGN_WORLD) {
         assignWorld(message.args[0].world);
       } else if (message.action == EngineMessage.Action.ASSIGN_MOB) {
@@ -28,7 +44,8 @@ class Engine {
       } else if (message.action == EngineMessage.Action.TOGGLE_MOB_FOLLOW) {
         toggleMobFollow(message.args[0].mob, message.args[1].mob);
       }
-    }
+      EngineMessenger.newMessage();
+    } */
 
     private void toggleMobFollow(Mob pet, Mob owner) {
       import core.game.animals.Lion;
