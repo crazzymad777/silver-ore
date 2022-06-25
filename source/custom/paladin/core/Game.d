@@ -4,8 +4,10 @@ import core.world.utils.GlobalCubeCoordinates;
 import custom.paladin.core.World;
 import core.game.Mob;
 import core.game.IGame;
+import core.Engine;
 
 class Game : IGame {
+  import core.engine.EngineMessenger;
   import custom.paladin.world.TextState;
   import core.game.humanoids.Humanoid;
   import custom.paladin.core.Stats;
@@ -26,12 +28,17 @@ class Game : IGame {
   long count = 0;
   private Humanoid paladin;
   private Mob[] mobs;
+  private Engine engine;
   this() {
+    engine = new Engine();
     world = new World();
+
+    engine.feed(EngineMessenger.assignWorld(GAME_ACTOR_ID, world));
+    /* engine.feed(EngineMessage(-2, EngineMessage.Action.ASSIGN_WORLD, [EngineMessage.Argument(world)])); // awful code */
+
     import core.game.monsters.GiantSpider;
     import core.game.animals.Lion;
 
-    before = MonoTime.currTime;
     paladin = new Humanoid(this);
     auto lion = new Lion(this);
 
@@ -64,6 +71,11 @@ class Game : IGame {
     spider1.foes ~= paladin;
     spider2.foes ~= paladin;
     spider3.foes ~= paladin;
+
+    foreach(m; mobs) {
+      engine.feed(EngineMessenger.assignMob(GAME_ACTOR_ID, m));
+      /* engine.feed(EngineMessage(-2, EngineMessage.Action.ASSIGN_MOB, [EngineMessage.Argument(m)])); // awful code */
+    }
 
     stats.addEntry(paladin.getName());
     stats.addEntry(lion.getName());
@@ -98,18 +110,10 @@ class Game : IGame {
     return mobs;
   }
 
-  MonoTime before;
   void process() {
-    MonoTime after = MonoTime.currTime;
-    Duration timeElapsed = after - before;
-    if (timeElapsed.total!"msecs" > 100) {
-      foreach(mob; mobs) {
-        mob.process();
-      }
-
-      count++;
-      before = MonoTime.currTime;
-    }
+    engine.feed(EngineMessenger.process(GAME_ACTOR_ID));
+    /* engine.feed(EngineMessage(-2, EngineMessage.Action.PROCESS, [])); // awful code */
+    count = engine.count;
   }
 
   long getTick() {
