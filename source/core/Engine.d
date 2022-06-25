@@ -34,19 +34,6 @@ class Engine {
       EngineMessenger.newMessage();
     }
 
-    /* void feedEngineMessage(EngineMessage message) {
-      if (message.action == EngineMessage.Action.ASSIGN_WORLD) {
-        assignWorld(message.args[0].world);
-      } else if (message.action == EngineMessage.Action.ASSIGN_MOB) {
-        assignMob(message.args[0].mob);
-      } else if (message.action == EngineMessage.Action.PROCESS) {
-        process();
-      } else if (message.action == EngineMessage.Action.TOGGLE_MOB_FOLLOW) {
-        toggleMobFollow(message.args[0].mob, message.args[1].mob);
-      }
-      EngineMessenger.newMessage();
-    } */
-
     private void toggleMobFollow(Mob pet, Mob owner) {
       import core.game.animals.Lion;
 
