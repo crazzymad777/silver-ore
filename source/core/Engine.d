@@ -34,7 +34,43 @@ class Engine {
       static if (is(T == MobSetPositionMessage)) {
         mobSetPosition(message.mob, message.new_position);
       }
+      static if (is(T == SetFriendMessage)) {
+        mobSetFriend(message.mob1, message.mob2);
+      }
+      static if (is(T == SetFoeMessage)) {
+        mobSetFoe(message.mob1, message.mob2);
+      }
+      static if (is(T == MobSetFollowedMessage)) {
+        mobSetFollowed(message.follower, message.followee);
+      }
       EngineMessenger.newMessage();
+    }
+
+    import core.game.animals.Animal;
+    private void mobSetFollowed(Mob follower, Mob followee) {
+      if (Animal animal1 = cast(Animal) follower) {
+        if (Animal animal2 = cast(Animal) followee) {
+          animal1.followed = animal2;
+        }
+      }
+    }
+
+    private void mobSetFoe(Mob mob1, Mob mob2) {
+      if (Animal animal1 = cast(Animal) mob1) {
+        if (Animal animal2 = cast(Animal) mob2) {
+          animal2.foes ~= animal1;
+        }
+        animal1.foes ~= mob2;
+      }
+    }
+
+    private void mobSetFriend(Mob mob1, Mob mob2) {
+      if (Animal animal1 = cast(Animal) mob1) {
+        if (Animal animal2 = cast(Animal) mob2) {
+          animal2.friends ~= animal1;
+        }
+        animal1.friends ~= mob2;
+      }
     }
 
     import core.world.utils.GlobalCubeCoordinates;

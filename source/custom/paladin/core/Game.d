@@ -30,6 +30,8 @@ class Game : IGame {
   private Humanoid paladin;
   private Lion pet;
   private Engine engine;
+
+  // actually awful constructor
   this() {
     messenger = new EngineMessenger(GAME_ACTOR_ID);
     engine = new Engine();
@@ -57,18 +59,15 @@ class Game : IGame {
     engine.feed(messenger.assignMob(spider3));
     engine.feed(messenger.mobSetPosition(spider3, GlobalCubeCoordinates(0, -16, 0)));
 
-    // TODO: messaging
-    paladin.friends ~= lion;
-    paladin.foes ~= spider1;
-    paladin.foes ~= spider2;
-    paladin.foes ~= spider3;
+    engine.feed(messenger.setFriend(lion, paladin));
+    engine.feed(messenger.setFoe(spider1, paladin));
+    engine.feed(messenger.setFoe(spider2, paladin));
+    engine.feed(messenger.setFoe(spider3, paladin));
+    engine.feed(messenger.setFoe(spider1, lion));
+    engine.feed(messenger.setFoe(spider2, lion));
+    engine.feed(messenger.setFoe(spider3, lion));
 
-    lion.friends ~= paladin;
-    lion.followed = paladin;
-
-    spider1.foes ~= paladin;
-    spider2.foes ~= paladin;
-    spider3.foes ~= paladin;
+    engine.feed(messenger.mobSetFollowed(lion, paladin));
 
     stats.addEntry(paladin.getName());
     stats.addEntry(lion.getName());

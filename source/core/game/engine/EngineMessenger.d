@@ -50,6 +50,12 @@ struct SetFoeMessage {
   Mob mob2;
 }
 
+struct MobSetFollowedMessage {
+  MessageHead head;
+  Mob follower;
+  Mob followee;
+}
+
 class EngineMessenger {
   static long message_count = 0;
   static void newMessage() {
@@ -87,5 +93,9 @@ class EngineMessenger {
 
   auto setFoe(Mob mob1, Mob mob2) {
     return SetFoeMessage(MessageHead(id, message_count), mob1, mob2);
+  }
+
+  auto mobSetFollowed(Mob follower, Mob followee) {
+    return MobSetFollowedMessage(MessageHead(id, message_count), follower, followee);
   }
 }
