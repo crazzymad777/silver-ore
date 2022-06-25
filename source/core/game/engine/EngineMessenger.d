@@ -1,5 +1,6 @@
 module core.engine.EngineMessenger;
 
+import core.world.utils.GlobalCubeCoordinates;
 import core.world.IWorld;
 import core.game.Mob;
 
@@ -31,6 +32,12 @@ struct ToggleMobFollowMessage {
   Mob owner;
 }
 
+struct MobSetPositionMessage {
+  MessageHead head;
+  Mob mob;
+  GlobalCubeCoordinates new_position;
+}
+
 class EngineMessenger {
   static long message_count = 0;
 
@@ -52,5 +59,9 @@ class EngineMessenger {
 
   static auto toggleMobFollow(int id, Mob pet, Mob owner) {
     return ToggleMobFollowMessage(MessageHead(id, message_count), pet, owner);
+  }
+
+  static auto mobSetPosition(int id, Mob mob, GlobalCubeCoordinates position) {
+    return MobSetPositionMessage(MessageHead(id, message_count), mob, position);
   }
 }

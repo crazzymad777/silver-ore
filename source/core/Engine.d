@@ -31,7 +31,16 @@ class Engine {
       static if (is(T == ToggleMobFollowMessage)) {
         toggleMobFollow(message.pet, message.owner);
       }
+      static if (is(T == MobSetPositionMessage)) {
+        mobSetPosition(message.mob, message.new_position);
+      }
       EngineMessenger.newMessage();
+    }
+
+    import core.world.utils.GlobalCubeCoordinates;
+    private void mobSetPosition(Mob mob, GlobalCubeCoordinates position) {
+      mob.position = position;
+      mob.newPosition = position;
     }
 
     private void toggleMobFollow(Mob pet, Mob owner) {
