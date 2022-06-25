@@ -25,6 +25,23 @@ class Engine {
         assignMob(message.args[0].mob);
       } else if (message.action == EngineMessage.Action.PROCESS) {
         process();
+      } else if (message.action == EngineMessage.Action.TOGGLE_MOB_FOLLOW) {
+        toggleMobFollow(message.args[0].mob, message.args[1].mob);
+      }
+    }
+
+    private void toggleMobFollow(Mob pet, Mob owner) {
+      import core.game.animals.Lion;
+
+      auto lion = cast(Lion) pet;
+      if (lion.followed is null) {
+        lion.followed = owner;
+      } else {
+        if (lion.followed == owner) {
+          lion.followed = null;
+        } else {
+          lion.followed = owner;
+        }
       }
     }
 

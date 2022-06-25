@@ -10,7 +10,8 @@ struct EngineMessage {
   enum Action {
     ASSIGN_WORLD,
     ASSIGN_MOB,
-    PROCESS
+    PROCESS,
+    TOGGLE_MOB_FOLLOW
   };
   union Argument {
     Mob mob;
@@ -41,5 +42,12 @@ class EngineMessenger {
   // still awful code
   static EngineMessage process(int id) {
     return EngineMessage(id, EngineMessage.Action.PROCESS, []);
+  }
+
+  // still awful code
+  static EngineMessage toggleMobFollow(int id, Mob pet, Mob owner) {
+    EngineMessage.Argument arg1 = {mob: pet};
+    EngineMessage.Argument arg2 = {mob: owner};
+    return EngineMessage(id, EngineMessage.Action.TOGGLE_MOB_FOLLOW, [arg1, arg2]);
   }
 }

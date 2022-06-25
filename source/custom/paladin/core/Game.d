@@ -8,10 +8,10 @@ import core.Engine;
 
 class Game : IGame {
   import core.engine.EngineMessenger;
+  import core.game.animals.Lion;
   import custom.paladin.world.TextState;
   import core.game.humanoids.Humanoid;
   import custom.paladin.core.Stats;
-  import core.time;
 
   World world;
   TextState textState;
@@ -27,7 +27,7 @@ class Game : IGame {
 
   long count = 0;
   private Humanoid paladin;
-  private Mob[] mobs;
+  private Lion pet;
   private Engine engine;
   this() {
     engine = new Engine();
@@ -37,29 +37,27 @@ class Game : IGame {
     /* engine.feed(EngineMessage(-2, EngineMessage.Action.ASSIGN_WORLD, [EngineMessage.Argument(world)])); // awful code */
 
     import core.game.monsters.GiantSpider;
-    import core.game.animals.Lion;
 
     paladin = new Humanoid(this);
     auto lion = new Lion(this);
+    pet = lion;
 
     auto spider1 = new GiantSpider(this);
+    // TODO: messaging
     spider1.position = GlobalCubeCoordinates(0, -16, 0);
     spider1.newPosition = GlobalCubeCoordinates(0, -16, 0);
 
     auto spider2 = new GiantSpider(this);
+    // TODO: messaging
     spider2.position = GlobalCubeCoordinates(0, -16, 0);
     spider2.newPosition = GlobalCubeCoordinates(0, -16, 0);
 
     auto spider3 = new GiantSpider(this);
+    // TODO: messaging
     spider3.position = GlobalCubeCoordinates(0, -16, 0);
     spider3.newPosition = GlobalCubeCoordinates(0, -16, 0);
 
-    mobs ~= paladin;
-    mobs ~= lion;
-    mobs ~= spider1;
-    mobs ~= spider2;
-    mobs ~= spider3;
-
+    // TODO: messaging
     paladin.friends ~= lion;
     paladin.foes ~= spider1;
     paladin.foes ~= spider2;
@@ -72,10 +70,11 @@ class Game : IGame {
     spider2.foes ~= paladin;
     spider3.foes ~= paladin;
 
-    foreach(m; mobs) {
-      engine.feed(EngineMessenger.assignMob(GAME_ACTOR_ID, m));
-      /* engine.feed(EngineMessage(-2, EngineMessage.Action.ASSIGN_MOB, [EngineMessage.Argument(m)])); // awful code */
-    }
+    engine.feed(EngineMessenger.assignMob(GAME_ACTOR_ID, paladin));
+    engine.feed(EngineMessenger.assignMob(GAME_ACTOR_ID, lion));
+    engine.feed(EngineMessenger.assignMob(GAME_ACTOR_ID, spider1));
+    engine.feed(EngineMessenger.assignMob(GAME_ACTOR_ID, spider2));
+    engine.feed(EngineMessenger.assignMob(GAME_ACTOR_ID, spider3));
 
     stats.addEntry(paladin.getName());
     stats.addEntry(lion.getName());
@@ -92,22 +91,12 @@ class Game : IGame {
   }
 
   void follow() {
-    import core.game.animals.Lion;
-    auto mob = mobs[1];
-    auto lion = cast(Lion) mob;
-    if (lion.followed is null) {
-      lion.followed = paladin;
-    } else {
-      if (lion.followed == paladin) {
-        lion.followed = null;
-      } else {
-        lion.followed = paladin;
-      }
-    }
+    // TODO: messaging
+    engine.feed(EngineMessenger.toggleMobFollow(GAME_ACTOR_ID, pet, paladin));
   }
 
   Mob[] getMobs(GlobalCubeCoordinates coors = GlobalCubeCoordinates(0, 0, 0)) {
-    return mobs;
+    return engine.mobs;
   }
 
   void process() {
@@ -122,7 +111,7 @@ class Game : IGame {
 
   Mob getMob(GlobalCubeCoordinates b) {
     auto mobs = getMobs();
-    foreach (mob; mobs) {
+    foreach (mob; engine.mobs) {
       if (mob.position == b) {
         return mob;
       }
@@ -135,7 +124,7 @@ class Game : IGame {
   }
 
   bool EndCondition() {
-    if (!mobs[2].isAlive() && !mobs[3].isAlive() && !mobs[4].isAlive()) {
+    if (!engine.mobs[2].isAlive() && !engine.mobs[3].isAlive() && !engine.mobs[4].isAlive()) {
       return true;
     }
 
