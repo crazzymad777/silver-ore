@@ -33,8 +33,8 @@ class Game : IGame {
 
   // actually awful constructor
   this() {
-    messenger = new EngineMessenger(GAME_ACTOR_ID);
     engine = new Engine();
+    messenger = new EngineMessenger(GAME_ACTOR_ID, engine);
     world = new World();
 
     engine.feed(messenger.assignWorld(world));
@@ -60,12 +60,12 @@ class Game : IGame {
     engine.feed(messenger.mobSetPosition(spider3, GlobalCubeCoordinates(0, -16, 0)));
 
     engine.feed(messenger.setFriend(lion, paladin));
-    engine.feed(messenger.setFoe(spider1, paladin));
-    engine.feed(messenger.setFoe(spider2, paladin));
-    engine.feed(messenger.setFoe(spider3, paladin));
-    engine.feed(messenger.setFoe(spider1, lion));
-    engine.feed(messenger.setFoe(spider2, lion));
-    engine.feed(messenger.setFoe(spider3, lion));
+    messenger.setFoe(spider1, paladin);
+    messenger.setFoe(spider2, paladin);
+    messenger.setFoe(spider3, paladin);
+    messenger.setFoe(spider1, lion);
+    messenger.setFoe(spider2, lion);
+    messenger.setFoe(spider3, lion);
 
     engine.feed(messenger.mobSetFollowed(lion, paladin));
 
