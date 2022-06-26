@@ -113,13 +113,27 @@ class EngineMessenger {
     }
   }
 
-  import std.meta;
+  mixin template method(T, A...) {
+    auto call(string s = "feed")() {
+      mixin makeMessage!(T, A);
+      auto message = make();
+      mixin processMessage!(s);
+      return f();
+    }
+  }
+
+  auto setFoe(string s = "feed")(Mob mob1, Mob mob2) {
+    mixin method!(SetFoeMessage, mob1, mob2);
+    return call!(s)();
+  }
+
+  /*
   auto setFoe(string s = "feed")(Mob mob1, Mob mob2) {
     mixin makeMessage!(SetFoeMessage, mob1, mob2);
     auto message = make();
     mixin processMessage!(s);
     return f();
-  }
+  } */
 
   auto mobSetFollowed(Mob follower, Mob followee) {
     return MobSetFollowedMessage(MessageHead(id, message_count), follower, followee);
