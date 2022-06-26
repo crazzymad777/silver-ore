@@ -59,7 +59,7 @@ class Game : IGame {
     engine.feed(messenger.assignMob(spider3));
     engine.feed(messenger.mobSetPosition(spider3, GlobalCubeCoordinates(0, -16, 0)));
 
-    engine.feed(messenger.setFriend(lion, paladin));
+    messenger.setFriend(lion, paladin);
     messenger.setFoe(spider1, paladin);
     messenger.setFoe(spider2, paladin);
     messenger.setFoe(spider3, paladin);

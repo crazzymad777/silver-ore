@@ -70,6 +70,21 @@ class EngineMessenger {
     this.id = id;
   }
 
+  mixin template method(T, A...) {
+    auto call(string s = "feed")() {
+      auto message = T(MessageHead(id, message_count), A);
+
+      static if (s == "get") {
+        return message;
+      }
+      static if (s == "feed") {
+        engine.feed(message);
+        return;
+      }
+      assert(0);
+    }
+  }
+
   auto assignWorld(IWorld world) {
     return AssignWorldMessage(MessageHead(id, message_count), world);
   }
@@ -90,50 +105,15 @@ class EngineMessenger {
     return MobSetPositionMessage(MessageHead(id, message_count), mob, position);
   }
 
-  auto setFriend(Mob mob1, Mob mob2) {
-    return SetFriendMessage(MessageHead(id, message_count), mob1, mob2);
-  }
-
-  mixin template processMessage(string s = "feed") {
-    auto f() {
-      static if (s == "get") {
-        return message;
-      }
-      static if (s == "feed") {
-        engine.feed(message);
-        return;
-      }
-      assert(0);
-    }
-  }
-
-  mixin template makeMessage(T, A...) {
-    auto make() {
-      return T(MessageHead(id, message_count), A);
-    }
-  }
-
-  mixin template method(T, A...) {
-    auto call(string s = "feed")() {
-      mixin makeMessage!(T, A);
-      auto message = make();
-      mixin processMessage!(s);
-      return f();
-    }
+  auto setFriend(string s = "feed")(Mob mob1, Mob mob2) {
+    mixin method!(SetFriendMessage, mob1, mob2);
+    return call!(s)();
   }
 
   auto setFoe(string s = "feed")(Mob mob1, Mob mob2) {
     mixin method!(SetFoeMessage, mob1, mob2);
     return call!(s)();
   }
-
-  /*
-  auto setFoe(string s = "feed")(Mob mob1, Mob mob2) {
-    mixin makeMessage!(SetFoeMessage, mob1, mob2);
-    auto message = make();
-    mixin processMessage!(s);
-    return f();
-  } */
 
   auto mobSetFollowed(Mob follower, Mob followee) {
     return MobSetFollowedMessage(MessageHead(id, message_count), follower, followee);
