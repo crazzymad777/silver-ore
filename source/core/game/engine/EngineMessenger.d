@@ -85,24 +85,29 @@ class EngineMessenger {
     }
   }
 
-  auto assignWorld(IWorld world) {
-    return AssignWorldMessage(MessageHead(id, message_count), world);
+  auto assignWorld(string s = "feed")(IWorld world) {
+    mixin method!(AssignWorldMessage, world);
+    return call!(s)();
   }
 
-  auto assignMob(Mob mob) {
-    return AssignMobMessage(MessageHead(id, message_count), mob);
+  auto assignMob(string s = "feed")(Mob mob) {
+    mixin method!(AssignMobMessage, mob);
+    return call!(s)();
   }
 
-  auto process() {
-    return ProcessMessage(MessageHead(id, message_count));
+  auto process(string s = "feed")() {
+    mixin method!(ProcessMessage);
+    return call!(s)();
   }
 
-  auto toggleMobFollow(Mob pet, Mob owner) {
-    return ToggleMobFollowMessage(MessageHead(id, message_count), pet, owner);
+  auto toggleMobFollow(string s = "feed")(Mob pet, Mob owner) {
+    mixin method!(ToggleMobFollowMessage, pet, owner);
+    return call!(s)();
   }
 
-  auto mobSetPosition(Mob mob, GlobalCubeCoordinates position) {
-    return MobSetPositionMessage(MessageHead(id, message_count), mob, position);
+  auto mobSetPosition(string s = "feed")(Mob mob, GlobalCubeCoordinates position) {
+    mixin method!(MobSetPositionMessage, mob, position);
+    return call!(s)();
   }
 
   auto setFriend(string s = "feed")(Mob mob1, Mob mob2) {
@@ -115,7 +120,8 @@ class EngineMessenger {
     return call!(s)();
   }
 
-  auto mobSetFollowed(Mob follower, Mob followee) {
-    return MobSetFollowedMessage(MessageHead(id, message_count), follower, followee);
+  auto mobSetFollowed(string s = "feed")(Mob follower, Mob followee) {
+    mixin method!(MobSetFollowedMessage, follower, followee);
+    return call!(s)();
   }
 }

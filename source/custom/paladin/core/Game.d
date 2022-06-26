@@ -37,27 +37,27 @@ class Game : IGame {
     messenger = new EngineMessenger(GAME_ACTOR_ID, engine);
     world = new World();
 
-    engine.feed(messenger.assignWorld(world));
+    messenger.assignWorld(world);
 
     import core.game.monsters.GiantSpider;
 
     paladin = new Humanoid(this);
     auto lion = new Lion(this);
     pet = lion;
-    engine.feed(messenger.assignMob(paladin));
-    engine.feed(messenger.assignMob(lion));
+    messenger.assignMob(paladin);
+    messenger.assignMob(lion);
 
     auto spider1 = new GiantSpider(this);
-    engine.feed(messenger.assignMob(spider1));
-    engine.feed(messenger.mobSetPosition(spider1, GlobalCubeCoordinates(0, -16, 0)));
+    messenger.assignMob(spider1);
+    messenger.mobSetPosition(spider1, GlobalCubeCoordinates(0, -16, 0));
 
     auto spider2 = new GiantSpider(this);
-    engine.feed(messenger.assignMob(spider2));
-    engine.feed(messenger.mobSetPosition(spider2, GlobalCubeCoordinates(0, -16, 0)));
+    messenger.assignMob(spider2);
+    messenger.mobSetPosition(spider2, GlobalCubeCoordinates(0, -16, 0));
 
     auto spider3 = new GiantSpider(this);
-    engine.feed(messenger.assignMob(spider3));
-    engine.feed(messenger.mobSetPosition(spider3, GlobalCubeCoordinates(0, -16, 0)));
+    messenger.assignMob(spider3);
+    messenger.mobSetPosition(spider3, GlobalCubeCoordinates(0, -16, 0));
 
     messenger.setFriend(lion, paladin);
     messenger.setFoe(spider1, paladin);
@@ -67,7 +67,7 @@ class Game : IGame {
     messenger.setFoe(spider2, lion);
     messenger.setFoe(spider3, lion);
 
-    engine.feed(messenger.mobSetFollowed(lion, paladin));
+    messenger.mobSetFollowed(lion, paladin);
 
     stats.addEntry(paladin.getName());
     stats.addEntry(lion.getName());
@@ -83,7 +83,7 @@ class Game : IGame {
   }
 
   void follow() {
-    engine.feed(messenger.toggleMobFollow(pet, paladin));
+    messenger.toggleMobFollow(pet, paladin);
   }
 
   Mob[] getMobs(GlobalCubeCoordinates coors = GlobalCubeCoordinates(0, 0, 0)) {
@@ -91,7 +91,7 @@ class Game : IGame {
   }
 
   void process() {
-    engine.feed(messenger.process());
+    messenger.process();
     count = engine.count;
   }
 
