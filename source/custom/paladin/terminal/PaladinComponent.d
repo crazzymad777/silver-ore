@@ -128,7 +128,7 @@ class PaladinComponent : AbstractComponent {
         }
         terminal.puts(0, width + 1, format("%s", t));
         int k = 0;
-        foreach(entry; controller.stats().entries.byKeyValue()) {
+        /* foreach(entry; controller.stats().entries.byKeyValue()) {
           terminal.puts(2 + k*5, width + width/2 + 1,
                         format("%s", entry.key));
           terminal.puts(3 + k*5, width + width/2 + 1,
@@ -140,39 +140,43 @@ class PaladinComponent : AbstractComponent {
           terminal.puts(6 + k*5, width + width/2 + 1,
                         format(" - Taken damage: %d", entry.value.damageTaken));
           k++;
-        }
+        } */
 
         auto frens = mobs;
+        k = 0;
         for (int i = 0; i < frens.length; i++) {
           if (frens[i] !is null) {
           auto fren = frens[i];
-          auto state = controller.textState();
+          if (controller.checkVisible(hero.position, fren.position)) {
+            auto state = controller.textState();
 
-          if (fren == hero) {
-            terminal.puts(2 + i*4, width + 1,
-                          format("You're %s", hero.getName()));
-          } else {
-            terminal.puts(2 + i*4, width + 1,
-                          format("%s is %s", fren.getName(), hero.isFoe(fren) ? "foe" : "friend"));
-          }
+            if (fren == hero) {
+              terminal.puts(2 + k*4, width + 1,
+                            format("You're %s", hero.getName()));
+            } else {
+              terminal.puts(2 + k*4, width + 1,
+                            format("%s is %s", fren.getName(), hero.isFoe(fren) ? "foe" : "friend"));
+            }
 
-          terminal.puts(3 + i*4, width + 1,
-                           format("+ %s", state.getStamina(fren.stamina, fren.maxStamina)),
-                           state.getStaminaColor(fren.stamina, fren.maxStamina)
-                           );
+            terminal.puts(3 + k*4, width + 1,
+                             format("+ %s", state.getStamina(fren.stamina, fren.maxStamina)),
+                             state.getStaminaColor(fren.stamina, fren.maxStamina)
+                             );
 
-          terminal.puts(4 + i*4, width + 1,
-                           format("+ %s (%d)", state.getHealth(fren.hitpoints, fren.maxHitpoints), fren.hitpoints),
-                           state.getHealthColor(fren.hitpoints, fren.maxHitpoints)
-                           );
+            terminal.puts(4 + k*4, width + 1,
+                             format("+ %s (%d)", state.getHealth(fren.hitpoints, fren.maxHitpoints), fren.hitpoints),
+                             state.getHealthColor(fren.hitpoints, fren.maxHitpoints)
+                             );
 
-           if (cast(Animal) fren) {
-             Animal animal = cast(Animal) fren;
-             if (animal.followed !is null) {
-               terminal.puts(5 + i*4, width + 1,
-                                format("+ They follow %s", animal.followed != hero ? animal.followed.getName() : "you")
-                                );
+             if (cast(Animal) fren) {
+               Animal animal = cast(Animal) fren;
+               if (animal.followed !is null) {
+                 terminal.puts(5 + k*4, width + 1,
+                                  format("+ They follow %s", animal.followed != hero ? animal.followed.getName() : "you")
+                                  );
+               }
              }
+             k++;
            }
           }
         }
