@@ -1,6 +1,7 @@
 module core.game.IGame;
 
 import core.world.utils.GlobalCubeCoordinates;
+import core.world.IWorld;
 import core.game.Mob;
 
 interface IGame {
@@ -11,4 +12,6 @@ interface IGame {
     Mob[] getMobs(GlobalCubeCoordinates coors = GlobalCubeCoordinates(0, 0, 0));
     Mob getMob(GlobalCubeCoordinates b);
     void takenDamage(Mob mob, Mob damager, int damage);
+
+    IWorld getWorld();
 }

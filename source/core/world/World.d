@@ -2,9 +2,10 @@ module core.world.World;
 
 import core.world.utils.GlobalCubeCoordinates;
 import core.world.WorldConfig;
+import core.world.IWorld;
 import core.world.Cube;
 
-class World {
+class World : IWorld {
   import core.world.map.ClusterId;
   import core.world.map.BiomeId;
   import core.world.scheme.Cluster;
@@ -19,6 +20,10 @@ class World {
     this.config = config;
     map = new Map(config.seed);
     generator = new WorldGenerator(config.seed, map, config.generatorName);
+  }
+
+  bool checkColision(GlobalCubeCoordinates a, GlobalCubeCoordinates b) {
+    return getCube(b).wall.isSolid();
   }
 
   // world contains clusters

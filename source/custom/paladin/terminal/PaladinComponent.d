@@ -177,6 +177,7 @@ class PaladinComponent : AbstractComponent {
           }
         }
 
+        auto glyph = new Glyph(controller.getWorld());
         int column = (width)/2;
         int row = (terminal.height())/2;
         for (int j = -row; j <= row; j++) {
@@ -184,6 +185,7 @@ class PaladinComponent : AbstractComponent {
             auto w = 'x';
             auto color = TerminalColor.BLACK;
             auto lookAt = GlobalCubeCoordinates(coors.x + i, coors.y + j, coors.z);
+            glyph.newGlyph(lookAt);
 
             import std.math: abs;
             if (row-abs(j) >= 3 && column-abs(i) >= 3) {
@@ -198,7 +200,7 @@ class PaladinComponent : AbstractComponent {
 
                 if (entity is null) {
                   auto cube = controller.getCube(lookAt);
-                  auto glyph = new Glyph(cube);
+
                   w = glyph.display();
                   color = glyph.foreground;
                 } else {

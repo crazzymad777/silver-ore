@@ -6,9 +6,17 @@ import core.game.material.Material;
 import terminal.base.TerminalColor;
 
 class Glyph {
+    import core.world.IWorld;
+    import core.world.utils.GlobalCubeCoordinates;
     char glyph;
     TerminalColor foreground = TerminalColor.WHITE;
-    this(Cube cube) {
+    IWorld world;
+    this(IWorld world) {
+      this.world = world;
+    }
+
+    void newGlyph(GlobalCubeCoordinates coors) {
+      auto cube = world.getCube(coors);
       auto item = cube.getItem();
       if (item is null) {
         glyph = getCubeChar(cube);

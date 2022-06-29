@@ -1,6 +1,7 @@
 module custom.paladin.core.Game;
 
 import core.world.utils.GlobalCubeCoordinates;
+import core.world.IWorld;
 import custom.paladin.core.World;
 import core.game.Mob;
 import core.game.IGame;
@@ -16,6 +17,10 @@ class Game : IGame {
   World world;
   TextState textState;
   Stats stats = new Stats();
+
+  IWorld getWorld() {
+    return world;
+  }
 
   void takenDamage(Mob mob, Mob damager, int damage) {
     stats.entries[mob.getName()].hitsTaken++;

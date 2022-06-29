@@ -94,6 +94,7 @@ class GameComponent : AbstractComponent {
          terminal.puts(offset + 2, 0, format("Wall: %s / Floor: %s", cube.wall, cube.floor));
       }
 
+      auto glyph = new Glyph(world);
       int column = terminal.width()/2;
       int row = (terminal.height()-4)/2;
       for (int j = -row; j < row; j++) {
@@ -101,8 +102,7 @@ class GameComponent : AbstractComponent {
           auto w = 'x';
           auto color = TerminalColor.WHITE;
           if (i != 0 || j != 0) {
-            cube = world.getCube(GlobalCubeCoordinates(coors.x + i, coors.y + j, coors.z));
-            auto glyph = new Glyph(cube);
+            glyph.newGlyph(GlobalCubeCoordinates(coors.x + i, coors.y + j, coors.z));
             w = glyph.display();
             color = glyph.foreground;
           } else {
