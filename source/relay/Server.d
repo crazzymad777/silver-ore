@@ -5,8 +5,9 @@ import relay.Server;
 import relay.IPeer;
 
 class Server(string S = "selfhost", T) : BasePeer!(S, T) {
-  override RelayMessage!T poll() {
-    return RelayMessage!T();
+  import std.typecons;
+  override Nullable!(RelayMessage!T) poll() {
+    return Nullable!(RelayMessage!T)();
   }
 
   override void send(RelayMessage!T) {
@@ -17,7 +18,7 @@ class Server(string S = "selfhost", T) : BasePeer!(S, T) {
 
   }
 
-  override RelayMessage!T get() {
-    return RelayMessage!T();
+  override Nullable!(RelayMessage!T) get() {
+    return Nullable!(RelayMessage!T)();
   }
 }

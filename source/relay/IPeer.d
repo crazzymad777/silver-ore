@@ -9,15 +9,16 @@ struct RelayMessage(T) {
 }
 
 interface IPeer(T) {
+  import std.typecons: Nullable;
   // Selfhost peer
   // load message for poll
   void load(RelayMessage!T);
   // get message
-  RelayMessage!T get();
+  Nullable!(RelayMessage!T) get();
 
   // Remote peer
   // receive message from another peer
-  RelayMessage!T poll();
+  Nullable!(RelayMessage!T) poll();
   // send message to another peer
   void send(RelayMessage!T);
 }

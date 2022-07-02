@@ -5,6 +5,7 @@ import relay.Server;
 import relay.IPeer;
 
 class Client(string S = "selfhost", T) : BasePeer!(S, T) {
+  import std.typecons: Nullable;
   static if (S == "selfhost") {
     protected Server!(S, T) server;
   }
@@ -15,7 +16,7 @@ class Client(string S = "selfhost", T) : BasePeer!(S, T) {
     }
   }
 
-  override RelayMessage!T poll() {
+  override Nullable!(RelayMessage!T) poll() {
     static if (S == "selfhost") {
       return server.get();
     }
@@ -31,7 +32,7 @@ class Client(string S = "selfhost", T) : BasePeer!(S, T) {
 
   }
 
-  override RelayMessage!T get() {
-    return RelayMessage!T();
+  override Nullable!(RelayMessage!T) get() {
+    return Nullable!(RelayMessage!T)();
   }
 }

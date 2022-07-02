@@ -3,24 +3,38 @@ module relay.BasePeer;
 import relay.IPeer;
 
 class BasePeer(string S = "selfhost", T) : IPeer!T {
-  RelayMessage!T[] messages_to_poll;
-  RelayMessage!T[] messages_to_send;
+  import std.container : SList;
+  import std.typecons;
+  SList!(RelayMessage!T) messages_to_poll;
+  SList!(RelayMessage!T) messages_to_send;
 
-  RelayMessage!T poll() {
+  Nullable!(RelayMessage!T) poll() {
     // return message from messages_to_poll
-    return RelayMessage!T();
+    if (messages_to_poll.empty()) {
+      return Nullable!(RelayMessage!T)();
+    }
+
+    auto message = messages_to_poll.front;
+    messages_to_poll.removeFront();
+    return nullable(message);
   }
 
   void send(RelayMessage!T msg) {
-    messages_to_send ~= msg;
+    messages_to_send.insert(msg);
   }
 
   void load(RelayMessage!T msg) {
-    messages_to_poll ~= msg;
+    messages_to_poll.insert(msg);
   }
 
-  RelayMessage!T get() {
+  Nullable!(RelayMessage!T) get() {
     // return message from messages_to_send
-    return RelayMessage!T();
+    if (messages_to_send.empty()) {
+      return Nullable!(RelayMessage!T)();
+    }
+
+    auto message = messages_to_send.front;
+    messages_to_send.removeFront();
+    return nullable(message);
   }
 }
