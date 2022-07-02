@@ -17,7 +17,7 @@ class Map {
     this.seed = seed;
     defaultClusterId = signedClusterId(0, 0);
 
-    /* Tile tile;
+    Tile tile;
     long i, x, y;
     int k = 16;
     while (true) {
@@ -38,7 +38,7 @@ class Map {
           i++;
         }
       }
-    } */
+    }
   }
 
   void clearBiomes() {
