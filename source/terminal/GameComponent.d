@@ -99,7 +99,7 @@ class GameComponent : AbstractComponent {
       int row = (terminal.height()-4)/2;
       for (int j = -row; j < row; j++) {
         for (int i = -column; i < column; i++) {
-          auto w = 'x';
+          dchar w = 'x';
           auto color = TerminalColor.WHITE;
           if (i != 0 || j != 0) {
             glyph.newGlyph(GlobalCubeCoordinates(coors.x + i, coors.y + j, coors.z));

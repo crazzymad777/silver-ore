@@ -186,7 +186,7 @@ class PaladinComponent : AbstractComponent {
         int row = (terminal.height())/2;
         for (int j = -row; j <= row; j++) {
           for (int i = -column; i < column; i++) {
-            auto w = 'x';
+            dchar w = 'x';
             auto color = TerminalColor.BLACK;
             auto lookAt = GlobalCubeCoordinates(coors.x + i, coors.y + j, coors.z);
             glyph.newGlyph(lookAt);

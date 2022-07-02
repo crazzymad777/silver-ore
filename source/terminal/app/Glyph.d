@@ -8,14 +8,16 @@ import terminal.base.TerminalColor;
 class Glyph {
     import core.world.IWorld;
     import core.world.utils.GlobalCubeCoordinates;
-    char glyph;
+    dchar glyph;
     TerminalColor foreground = TerminalColor.WHITE;
     IWorld world;
+    GlobalCubeCoordinates coors;
     this(IWorld world) {
       this.world = world;
     }
 
     void newGlyph(GlobalCubeCoordinates coors) {
+      this.coors = coors;
       auto cube = world.getCube(coors);
       auto item = cube.getItem();
       if (item is null) {
@@ -25,7 +27,7 @@ class Glyph {
       }
     }
 
-    char getItemChar(Item item) {
+    dchar getItemChar(Item item) {
       import core.game.Furniture;
       import core.game.Ore;
 
@@ -53,7 +55,7 @@ class Glyph {
 
       if (cast(Furniture) item) {
         auto furniture = cast(Furniture) item;
-        foreground = TerminalColor.YELLOW;
+        foreground = TerminalColor.RED;
 
         if (item.getName() == "bed") {
           return 'B';
@@ -81,14 +83,16 @@ class Glyph {
       return 'i';
     }
 
-    char getCubeChar(Cube cube) {
+    dchar getCubeChar(Cube cube) {
       if (cube.wall.name == "AIR") {
         foreground = getMaterialForegroundColor(cube.floor);
         if (cube.floor.name == "GRASS") {
-          return ',';
+          return '_';
         } else if (cube.floor.name == "WOOD") {
           return '_';
         } else if (cube.floor.name == "STONE") {
+          return '_';
+        } else if (cube.floor.name == "SAND") {
           return '_';
         }
         return getChar(cube.floor.name);
@@ -96,13 +100,50 @@ class Glyph {
 
       if (cube.wall.name == "WOOD") {
         foreground = getMaterialForegroundColor(cube.wall);
+        /*
+          ▀
+          ▜
+          ▐
+          ▟
+          ▄
+          ▙
+          ▐
+          ▛
+        */
+        // ugly. TODO: remake
+        /* import std.algorithm;
+        auto coorsToScan = [
+          GlobalCubeCoordinates(coors.x + 1, coors.y, coors.z),
+          GlobalCubeCoordinates(coors.x - 1, coors.y, coors.z),
+          GlobalCubeCoordinates(coors.x, coors.y + 1, coors.z),
+          GlobalCubeCoordinates(coors.x, coors.y - 1, coors.z),
+        ];
+        auto cubes = coorsToScan.map!(x => world.getCube(x));
+        if (cubes[0].wall.name == "WOOD" && cubes[1].wall.name == "WOOD") {
+          return '▄';
+        }
+        if (cubes[2].wall.name == "WOOD" && cubes[3].wall.name == "WOOD") {
+          return '▐';
+        }
+        if (cubes[0].wall.name == "WOOD" && cubes[2].wall.name == "WOOD") {
+          return '▛';
+        }
+        if (cubes[1].wall.name == "WOOD" && cubes[2].wall.name == "WOOD") {
+          return '▜';
+        }
+        if (cubes[0].wall.name == "WOOD" && cubes[3].wall.name == "WOOD") {
+          return '▙';
+        }
+        if (cubes[1].wall.name == "WOOD" && cubes[3].wall.name == "WOOD") {
+          return '▟';
+        } */
         return '+';
       }
       foreground = getMaterialForegroundColor(cube.wall);
       return getChar(cube.wall.name);
     }
 
-    static char getChar(string str) {
+    static dchar getChar(string str) {
       if (str == "GRASS") {
           return 'g';
       } else if (str == "WOOD") {
@@ -127,7 +168,7 @@ class Glyph {
       return ' ';
     }
 
-    char display() {
+    dchar display() {
       return glyph;
     }
 
