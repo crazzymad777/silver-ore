@@ -7,53 +7,7 @@ import core.game.Mob;
 const ENGINE_ACTOR_ID = -1;
 const GAME_ACTOR_ID = -2;
 
-// ugly structs
-
-struct EngineMessage(T) {
-  MessageHead head;
-  T body;
-}
-
-struct MessageHead {
-  long actor_id;
-  long number;
-}
-
-struct AssignWorldBody {
-  IWorld world;
-}
-
-struct AssignMobBody {
-  Mob mob;
-}
-
-struct ProcessBody {
-}
-
-struct ToggleMobFollowBody {
-  Mob pet;
-  Mob owner;
-}
-
-struct MobSetPositionBody {
-  Mob mob;
-  GlobalCubeCoordinates new_position;
-}
-
-struct SetFriendBody {
-  Mob mob1;
-  Mob mob2;
-}
-
-struct SetFoeBody {
-  Mob mob1;
-  Mob mob2;
-}
-
-struct MobSetFollowedBody {
-  Mob follower;
-  Mob followee;
-}
+import core.engine.messages;
 
 class EngineMessenger {
   import core.Engine;

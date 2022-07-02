@@ -20,6 +20,7 @@ class Engine {
 
     // ugly
     void feed(T)(T message) {
+      import core.engine.messages;
       static if (is(T == EngineMessage!AssignWorldBody)) {
         assignWorld(message.body.world);
       }
