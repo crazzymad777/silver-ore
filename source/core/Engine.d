@@ -18,30 +18,31 @@ class Engine {
       before = MonoTime.currTime;
     }
 
+    // ugly
     void feed(T)(T message) {
-      static if (is(T == AssignWorldMessage)) {
-        assignWorld(message.world);
+      static if (is(T == EngineMessage!AssignWorldBody)) {
+        assignWorld(message.body.world);
       }
-      static if (is(T == AssignMobMessage)) {
-        assignMob(message.mob);
+      static if (is(T == EngineMessage!AssignMobBody)) {
+        assignMob(message.body.mob);
       }
-      static if (is(T == ProcessMessage)) {
+      static if (is(T == EngineMessage!ProcessBody)) {
         process();
       }
-      static if (is(T == ToggleMobFollowMessage)) {
-        toggleMobFollow(message.pet, message.owner);
+      static if (is(T == EngineMessage!ToggleMobFollowBody)) {
+        toggleMobFollow(message.body.pet, message.body.owner);
       }
-      static if (is(T == MobSetPositionMessage)) {
-        mobSetPosition(message.mob, message.new_position);
+      static if (is(T == EngineMessage!MobSetPositionBody)) {
+        mobSetPosition(message.body.mob, message.body.new_position);
       }
-      static if (is(T == SetFriendMessage)) {
-        mobSetFriend(message.mob1, message.mob2);
+      static if (is(T == EngineMessage!SetFriendBody)) {
+        mobSetFriend(message.body.mob1, message.body.mob2);
       }
-      static if (is(T == SetFoeMessage)) {
-        mobSetFoe(message.mob1, message.mob2);
+      static if (is(T == EngineMessage!SetFoeBody)) {
+        mobSetFoe(message.body.mob1, message.body.mob2);
       }
-      static if (is(T == MobSetFollowedMessage)) {
-        mobSetFollowed(message.follower, message.followee);
+      static if (is(T == EngineMessage!MobSetFollowedBody)) {
+        mobSetFollowed(message.body.follower, message.body.followee);
       }
       EngineMessenger.newMessage();
     }

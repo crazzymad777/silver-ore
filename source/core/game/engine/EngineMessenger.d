@@ -7,51 +7,50 @@ import core.game.Mob;
 const ENGINE_ACTOR_ID = -1;
 const GAME_ACTOR_ID = -2;
 
+// ugly structs
+
+struct EngineMessage(T) {
+  MessageHead head;
+  T body;
+}
+
 struct MessageHead {
   long actor_id;
   long number;
 }
 
-struct AssignWorldMessage {
-  MessageHead head;
+struct AssignWorldBody {
   IWorld world;
 }
 
-struct AssignMobMessage {
-  MessageHead head;
+struct AssignMobBody {
   Mob mob;
 }
 
-struct ProcessMessage {
-  MessageHead head;
+struct ProcessBody {
 }
 
-struct ToggleMobFollowMessage {
-  MessageHead head;
+struct ToggleMobFollowBody {
   Mob pet;
   Mob owner;
 }
 
-struct MobSetPositionMessage {
-  MessageHead head;
+struct MobSetPositionBody {
   Mob mob;
   GlobalCubeCoordinates new_position;
 }
 
-struct SetFriendMessage {
-  MessageHead head;
+struct SetFriendBody {
   Mob mob1;
   Mob mob2;
 }
 
-struct SetFoeMessage {
-  MessageHead head;
+struct SetFoeBody {
   Mob mob1;
   Mob mob2;
 }
 
-struct MobSetFollowedMessage {
-  MessageHead head;
+struct MobSetFollowedBody {
   Mob follower;
   Mob followee;
 }
@@ -72,7 +71,7 @@ class EngineMessenger {
 
   mixin template method(T, A...) {
     auto call(string s = "feed")() {
-      auto message = T(MessageHead(id, message_count), A);
+      auto message = EngineMessage!T(MessageHead(id, message_count), T(A));
 
       static if (s == "get") {
         return message;
@@ -86,42 +85,42 @@ class EngineMessenger {
   }
 
   auto assignWorld(string s = "feed")(IWorld world) {
-    mixin method!(AssignWorldMessage, world);
+    mixin method!(AssignWorldBody, world);
     return call!(s)();
   }
 
   auto assignMob(string s = "feed")(Mob mob) {
-    mixin method!(AssignMobMessage, mob);
+    mixin method!(AssignMobBody, mob);
     return call!(s)();
   }
 
   auto process(string s = "feed")() {
-    mixin method!(ProcessMessage);
+    mixin method!(ProcessBody);
     return call!(s)();
   }
 
   auto toggleMobFollow(string s = "feed")(Mob pet, Mob owner) {
-    mixin method!(ToggleMobFollowMessage, pet, owner);
+    mixin method!(ToggleMobFollowBody, pet, owner);
     return call!(s)();
   }
 
   auto mobSetPosition(string s = "feed")(Mob mob, GlobalCubeCoordinates position) {
-    mixin method!(MobSetPositionMessage, mob, position);
+    mixin method!(MobSetPositionBody, mob, position);
     return call!(s)();
   }
 
   auto setFriend(string s = "feed")(Mob mob1, Mob mob2) {
-    mixin method!(SetFriendMessage, mob1, mob2);
+    mixin method!(SetFriendBody, mob1, mob2);
     return call!(s)();
   }
 
   auto setFoe(string s = "feed")(Mob mob1, Mob mob2) {
-    mixin method!(SetFoeMessage, mob1, mob2);
+    mixin method!(SetFoeBody, mob1, mob2);
     return call!(s)();
   }
 
   auto mobSetFollowed(string s = "feed")(Mob follower, Mob followee) {
-    mixin method!(MobSetFollowedMessage, follower, followee);
+    mixin method!(MobSetFollowedBody, follower, followee);
     return call!(s)();
   }
 }
