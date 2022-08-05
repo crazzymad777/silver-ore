@@ -1,6 +1,6 @@
-import terminal.app.App;
-import terminal.app.Paladin;
-import terminal.app.Traveler;
+import silver.terminal.app.App;
+import silver.terminal.app.Paladin;
+import silver.terminal.app.Traveler;
 
 int main(string[] args)
 {
