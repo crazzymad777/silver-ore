@@ -16,8 +16,8 @@ abstract class AbstractComponent {
             if (update()) {
                 draw();
             }
-            recvKey(read());
             sync();
+            recvKey(read());
         } while(!closed());
     }
     abstract Key read();

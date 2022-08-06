@@ -91,7 +91,7 @@ class NcTerminal : ITerminal {
     /* curses.update(); */
 
     // with window clear tty is blinking
-    window.clear();
+    /* window.clear(); */
   }
 
   import Terminal = silver.terminal.base.Key;
