@@ -4,8 +4,7 @@
 	],
 	"copyright": "Copyright © 2022, Yury Moskoff",
 	"dependencies": {
-		"arsd-official:terminal": "~>10.8.4",
-		"nice-curses": "~>0.2.5"
+		"arsd-official:terminal": "~>10.8.4"
 	},
 	"description": "Rogue-like game",
 	"license": "AGPL-3.0",

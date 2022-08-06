@@ -26,11 +26,12 @@ class DTerminal : ITerminal {
 
   Key readKey() {
     auto input = RealTimeConsoleInput(&terminal, ConsoleInputFlags.raw);
-  	auto ch = input.getch();
+    input.timedCheckForInput(100);
+  	auto ch = input.getch(true);
     return new Key(ch);
   }
 
-  static Color getColor(TerminalColor color) {
+  static int getColor(TerminalColor color) {
     if (color == TerminalColor.BLACK) {
       return Color.black;
     }
@@ -56,28 +57,28 @@ class DTerminal : ITerminal {
       return Color.white;
     }
     if (color == TerminalColor.GRAY) {
-      return Color.white; // black + bright ?
+      return Color.black | Bright;
     }
     if (color == TerminalColor.LIGHT_RED) {
-      return Color.red;
+      return Color.red | Bright;
     }
     if (color == TerminalColor.LIGHT_GREEN) {
-      return Color.green;
+      return Color.green | Bright;
     }
     if (color == TerminalColor.LIGHT_YELLOW) {
-      return Color.yellow;
+      return Color.yellow | Bright;
     }
     if (color == TerminalColor.LIGHT_BLUE) {
-      return Color.blue;
+      return Color.blue | Bright;
     }
     if (color == TerminalColor.LIGHT_MAGENTA) {
-      return Color.magenta;
+      return Color.magenta | Bright;
     }
     if (color == TerminalColor.LIGHT_CYAN) {
-      return Color.cyan;
+      return Color.cyan | Bright;
     }
     if (color == TerminalColor.BRIGHT_WHITE) {
-      return Color.white;
+      return Color.white | Bright;
     }
 
     /* GRAY,
@@ -107,7 +108,10 @@ class DTerminal : ITerminal {
   }
 
   void puts(int y, int x, string str, TerminalColor color) {
-
+    auto length = str.length;
+    for (int i = 0; i < length; i++) {
+      glyphs[x + i + y * width] = Char(str[i], color);
+    }
   }
 
   void update() {

@@ -21,8 +21,8 @@ class TravelerComponent : AbstractComponent {
     private ITerminal terminal;
 
     this() {
-      import silver.terminal.Settings: enableNcTerminal;
-      ITerminal terminal = ITerminal.getDefaultTerminal(!enableNcTerminal, this);
+      import silver.terminal.Settings: enableDTerminal;
+      ITerminal terminal = ITerminal.getDefaultTerminal(!enableDTerminal, this);
 
       this.controller = ITravelerController.getImplementation();
       this.terminal = terminal;

@@ -21,8 +21,8 @@ class PaladinComponent : AbstractComponent {
     private ITerminal terminal;
 
     this() {
-      import silver.terminal.Settings: enableNcTerminal;
-      ITerminal terminal = ITerminal.getDefaultTerminal(!enableNcTerminal, this);
+      import silver.terminal.Settings: enableDTerminal;
+      ITerminal terminal = ITerminal.getDefaultTerminal(!enableDTerminal, this);
 
       this.controller = IPaladinController.getImplementation();
       this.terminal = terminal;

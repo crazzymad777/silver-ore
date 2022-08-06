@@ -1,6 +1,5 @@
 module silver.terminal.base.ITerminal;
 
-import silver.terminal.base.NcTerminal;
 import silver.terminal.base.DTerminal;
 import silver.terminal.base.Terminal;
 import silver.terminal.base.Char;

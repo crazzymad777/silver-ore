@@ -23,8 +23,8 @@ class RootComponent : AbstractComponent {
     ITerminal terminal;
     this() {
       world = new World();
-      import silver.terminal.Settings: enableNcTerminal;
-      terminal = ITerminal.getDefaultTerminal(!enableNcTerminal, this);
+      import silver.terminal.Settings: enableDTerminal;
+      terminal = ITerminal.getDefaultTerminal(!enableDTerminal, this);
       game = new GameComponent(terminal, world);
       map = new MapComponent(terminal, world);
       this.components = [game,
