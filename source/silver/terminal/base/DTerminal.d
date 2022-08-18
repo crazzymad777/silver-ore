@@ -97,7 +97,11 @@ class DTerminal : ITerminal {
     terminal.color(getColor(glyph.foreground), getColor(glyph.background));
     terminal.write(glyph.ch);
     terminal.color(Color.DEFAULT, Color.DEFAULT); */
-    glyphs[x + y * width] = glyph;
+    if (x >= 0 && x < width) {
+      if (y >= 0 && y < height) {
+        glyphs[x + y * width] = glyph;
+      }
+    }
   }
 
   void puts(int y, int x, string str) {
