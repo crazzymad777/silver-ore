@@ -10,7 +10,7 @@ import silver.terminal.base.Key;
 
 import std.stdio;
 
-import core.world.World;
+import silver.core.world.World;
 
 class RootComponent : AbstractComponent {
     private World world;

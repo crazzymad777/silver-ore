@@ -10,7 +10,7 @@ class Game : IGame {
   import silver.core.engine.EngineMessenger;
   import core.game.animals.Lion;
   import core.game.humanoids.Humanoid;
-  import core.world.World;
+  import silver.core.world.World;
 
   World world;
   IWorld getWorld() {

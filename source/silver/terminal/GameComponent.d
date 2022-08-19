@@ -12,7 +12,7 @@ import std.format;
 import std.conv;
 
 import core.world.utils.GlobalCubeCoordinates;
-import core.world.World;
+import silver.core.world.World;
 import core.world.WorldConfig;
 
 class GameComponent : AbstractComponent {

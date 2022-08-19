@@ -1,4 +1,4 @@
-module core.world.WorldGenerator;
+module silver.core.world.WorldGenerator;
 
 class WorldGenerator {
   import core.world.utils.ClusterCubeCoordinates;

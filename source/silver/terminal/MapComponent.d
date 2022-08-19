@@ -14,7 +14,7 @@ import std.conv;
 import core.world.utils.GlobalCubeCoordinates;
 
 class MapComponent : AbstractComponent {
-    import core.world.World;
+    import silver.core.world.World;
     import core.world.map.ClusterId;
     import core.world.map.Tile;
 

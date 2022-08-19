@@ -1,4 +1,4 @@
-module core.world.World;
+module silver.core.world.World;
 
 import core.world.utils.GlobalCubeCoordinates;
 import core.world.WorldConfig;
@@ -9,7 +9,7 @@ class World : IWorld {
   import core.world.map.ClusterId;
   import core.world.map.BiomeId;
   import core.world.scheme.Cluster;
-  import core.world.WorldGenerator;
+  import silver.core.world.WorldGenerator;
   import core.world.Map;
 
   // N.B.: world generator have own associative array of cluster generators
