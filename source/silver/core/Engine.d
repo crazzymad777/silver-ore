@@ -1,6 +1,6 @@
-module core.Engine;
+module silver.core.Engine;
 
-import core.engine.EngineMessenger;
+import silver.core.engine.EngineMessenger;
 import core.world.IWorld;
 import core.game.Mob;
 
@@ -20,7 +20,7 @@ class Engine {
 
     // ugly
     void feed(T)(T message) {
-      import core.engine.messages;
+      import silver.core.engine.messages;
       static if (is(T == EngineMessage!AssignWorldBody)) {
         assignWorld(message.body.world);
       }

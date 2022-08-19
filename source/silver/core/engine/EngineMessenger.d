@@ -1,4 +1,4 @@
-module core.engine.EngineMessenger;
+module silver.core.engine.EngineMessenger;
 
 import core.world.utils.GlobalCubeCoordinates;
 import core.world.IWorld;
@@ -7,10 +7,10 @@ import core.game.Mob;
 const ENGINE_ACTOR_ID = -1;
 const GAME_ACTOR_ID = -2;
 
-import core.engine.messages;
+import silver.core.engine.messages;
 
 class EngineMessenger {
-  import core.Engine;
+  import silver.core.Engine;
   static long message_count = 0;
   static void newMessage() {
     message_count++;

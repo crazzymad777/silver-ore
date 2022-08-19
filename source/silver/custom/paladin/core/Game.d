@@ -5,10 +5,10 @@ import core.world.IWorld;
 import custom.paladin.core.World;
 import core.game.Mob;
 import core.game.IGame;
-import core.Engine;
+import silver.core.Engine;
 
 class Game : IGame {
-  import core.engine.EngineMessenger;
+  import silver.core.engine.EngineMessenger;
   import core.game.animals.Lion;
   import custom.paladin.world.TextState;
   import core.game.humanoids.Humanoid;

@@ -4,10 +4,10 @@ import core.world.utils.GlobalCubeCoordinates;
 import core.world.IWorld;
 import core.game.Mob;
 import core.game.IGame;
-import core.Engine;
+import silver.core.Engine;
 
 class Game : IGame {
-  import core.engine.EngineMessenger;
+  import silver.core.engine.EngineMessenger;
   import core.game.animals.Lion;
   import core.game.humanoids.Humanoid;
   import core.world.World;

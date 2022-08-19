@@ -1,4 +1,4 @@
-module core.engine.messages;
+module silver.core.engine.messages;
 
 import core.world.utils.GlobalCubeCoordinates;
 import core.world.IWorld;
