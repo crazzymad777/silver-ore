@@ -1,4 +1,4 @@
-module core.world.WorldConfig;
+module silver.core.world.WorldConfig;
 
 import std.datetime.systime;
 

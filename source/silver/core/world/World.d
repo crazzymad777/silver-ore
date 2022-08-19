@@ -1,7 +1,7 @@
 module silver.core.world.World;
 
 import core.world.utils.GlobalCubeCoordinates;
-import core.world.WorldConfig;
+import silver.core.world.WorldConfig;
 import core.world.IWorld;
 import core.world.Cube;
 
