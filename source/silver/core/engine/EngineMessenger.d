@@ -1,7 +1,7 @@
 module silver.core.engine.EngineMessenger;
 
 import core.world.utils.GlobalCubeCoordinates;
-import core.world.IWorld;
+import silver.core.world.IWorld;
 import core.game.Mob;
 
 const ENGINE_ACTOR_ID = -1;

@@ -1,4 +1,4 @@
-module core.world.IGenerator;
+module silver.core.world.IGenerator;
 
 interface IGenerator(T) {
   import std.typecons: Nullable;

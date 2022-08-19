@@ -7,7 +7,7 @@ import core.game.material.Material;
 import silver.terminal.base.TerminalColor;
 
 class Glyph {
-    import core.world.IWorld;
+    import silver.core.world.IWorld;
     import core.world.utils.GlobalCubeCoordinates;
     dchar glyph;
     TerminalColor foreground = TerminalColor.WHITE;

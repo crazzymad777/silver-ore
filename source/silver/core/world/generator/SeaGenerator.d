@@ -4,7 +4,7 @@ import core.world.utils.ClusterCubeCoordinates;
 import core.game.material.Dispenser;
 import core.game.material.Material;
 import std.typecons: Nullable;
-import core.world.IGenerator;
+import silver.core.world.IGenerator;
 import core.world.Cube;
 
 import core.world.generator.ClusterOreGeneratorId;

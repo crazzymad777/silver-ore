@@ -2,7 +2,7 @@ module silver.core.world.World;
 
 import core.world.utils.GlobalCubeCoordinates;
 import silver.core.world.WorldConfig;
-import core.world.IWorld;
+import silver.core.world.IWorld;
 import core.world.Cube;
 
 class World : IWorld {

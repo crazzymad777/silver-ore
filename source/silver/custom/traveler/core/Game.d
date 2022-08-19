@@ -1,7 +1,6 @@
 module custom.traveler.core.Game;
 
 import core.world.utils.GlobalCubeCoordinates;
-import core.world.IWorld;
 import core.game.Mob;
 import core.game.IGame;
 import silver.core.Engine;
@@ -12,6 +11,7 @@ class Game : IGame {
   import core.game.humanoids.Humanoid;
   import silver.core.world.World;
 
+  import silver.core.world.IWorld;
   World world;
   IWorld getWorld() {
     return world;

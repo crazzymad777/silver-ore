@@ -7,7 +7,7 @@ class Cluster {
   import core.world.map.ClusterId;
   import core.world.scheme.Chunk;
   import std.typecons: Nullable;
-  import core.world.IGenerator;
+  import silver.core.world.IGenerator;
   import core.world.Cube;
 
   private ClusterId id;

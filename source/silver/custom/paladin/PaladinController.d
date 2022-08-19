@@ -6,7 +6,6 @@ import custom.paladin.core.Game;
 import core.game.Mob;
 
 import core.world.utils.GlobalCubeCoordinates;
-import core.world.IWorld;
 import core.world.Cube;
 
 interface IPaladinController {
@@ -31,6 +30,7 @@ interface IPaladinController {
   bool checkVisible(GlobalCubeCoordinates a, GlobalCubeCoordinates b);
   Cube getCube(GlobalCubeCoordinates coors);
 
+  import silver.core.world.IWorld;
   IWorld getWorld();
 }
 
@@ -42,6 +42,7 @@ class PaladinControllerImpl : IPaladinController {
     new Client!("selfhost",int)();
   }
 
+  import silver.core.world.IWorld;
   IWorld getWorld() {
     return game.getWorld();
   }

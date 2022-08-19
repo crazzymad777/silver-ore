@@ -3,7 +3,7 @@ module silver.core.world.WorldGenerator;
 class WorldGenerator {
   import core.world.utils.ClusterCubeCoordinates;
   import core.world.map.ClusterId;
-  import core.world.IGenerator;
+  import silver.core.world.IGenerator;
   import silver.core.world.Map;
   private ulong seed;
   private Map map;

@@ -1,7 +1,7 @@
 module core.game.IGame;
 
 import core.world.utils.GlobalCubeCoordinates;
-import core.world.IWorld;
+import silver.core.world.IWorld;
 import core.game.Mob;
 
 interface IGame {

@@ -3,7 +3,7 @@ module core.world.generator.town.HumanTown;
 import core.world.utils.ClusterCubeCoordinates;
 import std.typecons: Nullable;
 import core.world.Cube;
-import core.world.IGenerator;
+import silver.core.world.IGenerator;
 
 class HumanTown : IGenerator!ClusterCubeCoordinates {
   import core.world.generator.town.BuildingGenerator;

@@ -3,7 +3,7 @@ module custom.paladin.core.World;
 import core.world.utils.GlobalCubeCoordinates;
 import custom.paladin.world.Generator;
 import core.world.Cube;
-import core.world.IWorld;
+import silver.core.world.IWorld;
 
 class World : IWorld {
     private Generator generator = new Generator();

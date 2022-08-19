@@ -1,7 +1,7 @@
 module silver.core.Engine;
 
 import silver.core.engine.EngineMessenger;
-import core.world.IWorld;
+import silver.core.world.IWorld;
 import core.game.Mob;
 
 /* union EngineResponse {
