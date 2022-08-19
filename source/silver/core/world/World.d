@@ -10,7 +10,7 @@ class World : IWorld {
   import core.world.map.BiomeId;
   import core.world.scheme.Cluster;
   import silver.core.world.WorldGenerator;
-  import core.world.Map;
+  import silver.core.world.Map;
 
   // N.B.: world generator have own associative array of cluster generators
   private WorldGenerator generator;

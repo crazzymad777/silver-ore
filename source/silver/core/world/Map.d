@@ -1,4 +1,4 @@
-module core.world.Map;
+module silver.core.world.Map;
 
 import std.datetime.systime;
 

@@ -4,7 +4,7 @@ class WorldGenerator {
   import core.world.utils.ClusterCubeCoordinates;
   import core.world.map.ClusterId;
   import core.world.IGenerator;
-  import core.world.Map;
+  import silver.core.world.Map;
   private ulong seed;
   private Map map;
   private string generatorName;

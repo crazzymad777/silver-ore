@@ -10,9 +10,9 @@ import core.world.Cube;
 import core.world.generator.ClusterOreGeneratorId;
 import core.world.generator.ClusterOreGenerator;
 import core.world.map.ClusterId;
-import core.world.Map;
 
 class SeaGenerator : IGenerator!ClusterCubeCoordinates {
+  import silver.core.world.Map;
   ClusterOreGenerator oreGenerator;
   private ClusterId[] neighbourhood;
   private Map map;
