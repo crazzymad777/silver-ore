@@ -1,17 +1,17 @@
-module core.game.material.Dispenser;
+module silver.core.game.material.Dispenser;
 
-import core.game.material.Material;
-import core.game.material.Metal;
-import core.game.material.Grass;
-import core.game.material.Stone;
-import core.game.material.Wood;
-import core.game.material.Soil;
-import core.game.material.Void;
-import core.game.material.Air;
-import core.game.material.Water;
-import core.game.material.Silt;
-import core.game.material.Sand;
-import core.game.material.Crust;
+import silver.core.game.material.Material;
+import silver.core.game.material.Metal;
+import silver.core.game.material.Grass;
+import silver.core.game.material.Stone;
+import silver.core.game.material.Wood;
+import silver.core.game.material.Soil;
+import silver.core.game.material.Void;
+import silver.core.game.material.Air;
+import silver.core.game.material.Water;
+import silver.core.game.material.Silt;
+import silver.core.game.material.Sand;
+import silver.core.game.material.Crust;
 
 class Dispenser {
   static private Material[string] materials;

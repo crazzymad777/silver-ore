@@ -21,7 +21,7 @@ class Generator {
   }
 
   Cube generateCube(GlobalCubeCoordinates coors) {
-    import core.game.material.Dispenser;
+    import silver.core.game.material.Dispenser;
     import std.math;
 
     if (abs(coors.x) <= 8) {

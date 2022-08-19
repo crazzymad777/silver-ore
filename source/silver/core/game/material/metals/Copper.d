@@ -1,7 +1,7 @@
-module core.game.material.Copper;
+module silver.core.game.material.Copper;
 
-import core.game.material.Material;
-import core.game.material.Metal;
+import silver.core.game.material.Material;
+import silver.core.game.material.Metal;
 
 class Copper : Metal {
   package this(Material[string] materials) {

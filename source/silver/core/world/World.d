@@ -39,7 +39,7 @@ class World : IWorld {
   }
 
   export Cube getCube(GlobalCubeCoordinates coors) {
-    import core.game.material.Dispenser;
+    import silver.core.game.material.Dispenser;
     // world -> cluster -> chunk -> cube
 
     if (coors.z >= 256) {

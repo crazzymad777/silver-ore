@@ -1,10 +1,10 @@
-module silver.core.game.material.Wood;
+module silver.core.game.material.plant.Roots;
 
 import silver.core.game.material.Material;
 
-class Wood : Material {
+class Roots : Material {
   package this(Material[string] materials) {
-    this.name = "WOOD";
+    this.name = "ROOTS";
     super(materials);
   }
 

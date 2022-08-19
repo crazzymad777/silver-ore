@@ -1,7 +1,7 @@
-module core.game.material.Iron;
+module silver.core.game.material.Iron;
 
-import core.game.material.Material;
-import core.game.material.Metal;
+import silver.core.game.material.Material;
+import silver.core.game.material.Metal;
 
 class Iron : Metal {
   package this(Material[string] materials) {

@@ -1,8 +1,8 @@
 module core.world.generator.i1;
 
 import core.world.utils.ClusterCubeCoordinates;
-import core.game.material.Dispenser;
-import core.game.material.Material;
+import silver.core.game.material.Dispenser;
+import silver.core.game.material.Material;
 import std.typecons: Nullable;
 import silver.core.world.IGenerator;
 import core.world.Cube;

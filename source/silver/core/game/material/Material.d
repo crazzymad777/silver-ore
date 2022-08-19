@@ -1,4 +1,4 @@
-module core.game.material.Material;
+module silver.core.game.material.Material;
 
 class Material {
   package this() {

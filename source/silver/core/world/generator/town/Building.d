@@ -4,8 +4,8 @@ import std.typecons: Nullable;
 
 class Building {
   import core.world.utils.ClusterCubeCoordinates;
-  import core.game.material.Dispenser;
-  import core.game.material.Material;
+  import silver.core.game.material.Dispenser;
+  import silver.core.game.material.Material;
   import core.game.Furniture;
 
   import std.random;

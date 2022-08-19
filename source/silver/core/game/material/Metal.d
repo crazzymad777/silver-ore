@@ -1,12 +1,12 @@
-module core.game.material.Metal;
+module silver.core.game.material.Metal;
 
-import core.game.material.Material;
+import silver.core.game.material.Material;
 
-import core.game.material.Gold;
-import core.game.material.Silver;
-import core.game.material.Iron;
-import core.game.material.Copper;
-import core.game.material.Tin;
+import silver.core.game.material.Gold;
+import silver.core.game.material.Silver;
+import silver.core.game.material.Iron;
+import silver.core.game.material.Copper;
+import silver.core.game.material.Tin;
 
 class Metal : Material {
   package this() {

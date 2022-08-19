@@ -1,6 +1,6 @@
-module core.game.material.Air;
+module silver.core.game.material.Air;
 
-import core.game.material.Material;
+import silver.core.game.material.Material;
 
 class Air : Material {
   package this(Material[string] materials) {

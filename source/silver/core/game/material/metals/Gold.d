@@ -1,7 +1,7 @@
-module core.game.material.Gold;
+module silver.core.game.material.Gold;
 
-import core.game.material.Material;
-import core.game.material.Metal;
+import silver.core.game.material.Material;
+import silver.core.game.material.Metal;
 
 class Gold : Metal {
   package this(Material[string] materials) {

@@ -1,6 +1,6 @@
 module core.world.Cube;
 
-import core.game.material.Material;
+import silver.core.game.material.Material;
 import core.game.Furniture;
 import core.game.Item;
 import core.game.Ore;

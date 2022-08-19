@@ -1,6 +1,6 @@
-module core.game.material.Crust;
+module silver.core.game.material.Crust;
 
-import core.game.material.Material;
+import silver.core.game.material.Material;
 
 /// Earth's crust
 class Crust : Material {

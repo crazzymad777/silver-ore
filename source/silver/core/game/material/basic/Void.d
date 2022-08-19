@@ -1,6 +1,6 @@
-module core.game.material.Void;
+module silver.core.game.material.Void;
 
-import core.game.material.Material;
+import silver.core.game.material.Material;
 
 class Void : Material {
   package this(Material[string] materials) {

@@ -1,6 +1,6 @@
-module core.game.material.Grass;
+module silver.core.game.material.Grass;
 
-import core.game.material.Material;
+import silver.core.game.material.Material;
 
 class Grass : Material {
   package this(Material[string] materials) {

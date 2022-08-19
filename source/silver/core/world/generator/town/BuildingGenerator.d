@@ -52,7 +52,7 @@ class BuildingGenerator : IGenerator!ClusterCubeCoordinates {
   }
 
   Nullable!Cube getCube(ClusterCubeCoordinates coors) {
-    import core.game.material.Dispenser;
+    import silver.core.game.material.Dispenser;
 
     Building building;
     foreach (build; buildings) {

@@ -2,7 +2,7 @@ module silver.terminal.app.Glyph;
 
 import core.world.Cube;
 import core.game.Item;
-import core.game.material.Material;
+import silver.core.game.material.Material;
 
 import silver.terminal.base.TerminalColor;
 
