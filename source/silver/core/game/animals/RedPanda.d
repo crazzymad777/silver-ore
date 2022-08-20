@@ -18,6 +18,11 @@ class RedPanda : Animal {
     this.damageDice = 4;
   }
 
+  override void onDie() {
+    super.onDie();
+    game.requestRedPandaGuard(cast(Mob)this);
+  }
+
   override void process() {
     super.process();
   }

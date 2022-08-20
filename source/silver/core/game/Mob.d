@@ -26,9 +26,18 @@ class Mob : Item {
   }
 
   void takeDamage(int damage, Mob mob) {
+    bool wasAlive = isAlive();
     hitpoints -= damage;
+    if (wasAlive && !isAlive()) {
+      onDie();
+    }
+
     dropStamina();
     game.takenDamage(this, mob, damage);
+  }
+
+  void onDie() {
+
   }
 
   void dropStamina() {

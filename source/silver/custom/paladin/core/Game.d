@@ -129,4 +129,10 @@ class Game : IGame {
 
     return false;
   }
+
+  void requestRedPandaGuard(Mob mob) {
+    import silver.core.game.monsters.Edward;
+    auto edward = new Edward(this);
+    messenger.assignMob(edward);
+  }
 }
