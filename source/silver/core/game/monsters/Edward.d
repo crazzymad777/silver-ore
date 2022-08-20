@@ -2,10 +2,10 @@ module silver.core.game.monsters.Edward;
 
 import core.game.Mob;
 import core.game.IGame;
-import core.game.monsters.Monster;
+import silver.core.game.animals.Animal;
 
 // Red Panda Guard
-class Edward : Monster {
+class Edward : Animal {
   static edwardCount = 0;
   this(IGame game) {
     super(game);

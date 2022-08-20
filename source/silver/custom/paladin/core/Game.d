@@ -23,11 +23,15 @@ class Game : IGame {
   }
 
   void takenDamage(Mob mob, Mob damager, int damage) {
-    stats.entries[mob.getName()].hitsTaken++;
-    stats.entries[mob.getName()].damageTaken += damage;
+    if ((mob.getName() in stats.entries) !is null) {
+      stats.entries[mob.getName()].hitsTaken++;
+      stats.entries[mob.getName()].damageTaken += damage;
+    }
 
-    stats.entries[damager.getName()].hits++;
-    stats.entries[damager.getName()].damage += damage;
+    if ((damager.getName() in stats.entries) !is null) {
+      stats.entries[damager.getName()].hits++;
+      stats.entries[damager.getName()].damage += damage;
+    }
   }
 
   long count = 0;
@@ -82,7 +86,6 @@ class Game : IGame {
     stats.addEntry(spider1.getName());
     stats.addEntry(spider2.getName());
     stats.addEntry(spider3.getName());
-    stats.addEntry(panda.getName());
 
     textState = new TextState();
   }
@@ -143,6 +146,6 @@ class Game : IGame {
     foreach(foe; mob.foes) {
       messenger.setFoe(edward, foe);
     }
-    stats.addEntry(edward.getName());
+    /* stats.addEntry(edward.getName()); */
   }
 }
