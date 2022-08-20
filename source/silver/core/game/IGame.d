@@ -12,7 +12,9 @@ interface IGame {
     Mob[] getMobs(GlobalCubeCoordinates coors = GlobalCubeCoordinates(0, 0, 0));
     Mob getMob(GlobalCubeCoordinates b);
     void takenDamage(Mob mob, Mob damager, int damage);
-    void requestRedPandaGuard(Mob mob);
+
+    import silver.core.game.animals.Animal;
+    void requestRedPandaGuard(Animal mob);
 
     IWorld getWorld();
 }

@@ -48,7 +48,7 @@ class Engine {
       EngineMessenger.newMessage();
     }
 
-    import core.game.animals.Animal;
+    import silver.core.game.animals.Animal;
     private void mobSetFollowed(Mob follower, Mob followee) {
       if (Animal animal1 = cast(Animal) follower) {
         if (Animal animal2 = cast(Animal) followee) {

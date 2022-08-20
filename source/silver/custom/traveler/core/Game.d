@@ -96,10 +96,14 @@ class Game : IGame {
     return false;
   }
 
-  void requestRedPandaGuard(Mob mob) {
+  import silver.core.game.animals.Animal;
+  void requestRedPandaGuard(Animal mob) {
     import silver.core.game.monsters.Edward;
     auto edward = new Edward(this);
     messenger.assignMob(edward);
     messenger.mobSetPosition(edward, mob.position);
+    foreach(foe; mob.foes) {
+      messenger.setFoe(edward, foe);
+    }
   }
 }

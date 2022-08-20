@@ -106,12 +106,11 @@ class PaladinComponent : AbstractComponent {
     override void draw() {
         // fill display matrix
         int width = terminal.width()*1/2;
-        import core.game.animals.Animal;
+        import silver.core.game.animals.Animal;
         Animal hero = cast(Animal) controller.getPaladin();
         auto coors = hero.position;
 
         import core.game.Mob;
-        import core.game.animals.Animal;
         import core.game.animals.Lion;
         import core.game.monsters.Monster;
 

@@ -1,6 +1,6 @@
 module core.game.monsters.Monster;
 
-import core.game.animals.Animal;
+import silver.core.game.animals.Animal;
 import core.game.Mob;
 import core.game.IGame;
 

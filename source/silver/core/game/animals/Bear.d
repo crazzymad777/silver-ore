@@ -2,7 +2,7 @@ module core.game.animals.Bear;
 
 import core.game.Mob;
 import core.game.IGame;
-import core.game.animals.Animal;
+import silver.core.game.animals.Animal;
 
 class Bear : Animal {
   this(IGame game) {

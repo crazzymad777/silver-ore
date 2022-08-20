@@ -1,6 +1,6 @@
 module core.game.humanoids.Humanoid;
 
-import core.game.animals.Animal;
+import silver.core.game.animals.Animal;
 import core.game.IGame;
 
 class Humanoid : Animal {
