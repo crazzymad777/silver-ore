@@ -63,6 +63,14 @@ class Animal : Mob {
     return false;
   }
 
+  bool isAbleToAttack() {
+    return isAlive();
+  }
+
+  bool checkAim(Mob mob) {
+    return (isFoe(mob) && !disableAI) || (!isFriend(mob) && disableAI);
+  }
+
   override void attack() {
     import std.math, std.conv: to;
     import std.random;
@@ -73,20 +81,22 @@ class Animal : Mob {
         auto dx = abs(mob.position.x-this.position.x);
         auto dy = abs(mob.position.y-this.position.y);
         if (dx <= 1 && dy <= 1) {
-          if (mob.isAlive() && isAlive()) {
-            if ((isFoe(mob) && !disableAI) || (!isFriend(mob) && disableAI)) {
+          if (mob.isAlive()) {
+            if (isAbleToAttack()) {
+              if (checkAim(mob)) {
 
-              // armor
-              if (uniform!"[]"(0, 8) == 0) {
-                int damage = 0;
-                if (this.damageDice > 0) {
-                  damage = uniform!"[]"(1, this.damageDice);
+                // armor
+                if (uniform!"[]"(0, 8) == 0) {
+                  int damage = 0;
+                  if (this.damageDice > 0) {
+                    damage = uniform!"[]"(1, this.damageDice);
+                  }
+                  mob.takeDamage(damage, this);
+                  this.triggeredFoe = mob;
+                  break;
                 }
-                mob.takeDamage(damage, this);
-                this.triggeredFoe = mob;
-                break;
+                this.dropStamina();
               }
-              this.dropStamina();
             }
           }
         }
