@@ -1,4 +1,4 @@
-module core.game.animals.Fox;
+module silver.core.game.animals.Fox;
 
 import core.game.Mob;
 import core.game.IGame;

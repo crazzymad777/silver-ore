@@ -82,7 +82,7 @@ class Engine {
     }
 
     private void toggleMobFollow(Mob pet, Mob owner) {
-      import core.game.animals.Lion;
+      import silver.core.game.animals.Lion;
 
       auto lion = cast(Lion) pet;
       if (lion.followed is null) {

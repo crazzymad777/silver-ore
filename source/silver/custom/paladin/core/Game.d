@@ -8,7 +8,7 @@ import silver.core.Engine;
 
 class Game : IGame {
   import silver.core.engine.EngineMessenger;
-  import core.game.animals.Lion;
+  import silver.core.game.animals.Lion;
   import custom.paladin.world.TextState;
   import core.game.humanoids.Humanoid;
   import custom.paladin.core.Stats;

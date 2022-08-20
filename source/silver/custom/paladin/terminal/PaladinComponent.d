@@ -111,7 +111,7 @@ class PaladinComponent : AbstractComponent {
         auto coors = hero.position;
 
         import core.game.Mob;
-        import core.game.animals.Lion;
+        import silver.core.game.animals.Lion;
         import core.game.monsters.Monster;
 
         auto mobs = controller.getMobs();

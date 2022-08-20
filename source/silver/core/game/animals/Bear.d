@@ -1,4 +1,4 @@
-module core.game.animals.Bear;
+module silver.core.game.animals.Bear;
 
 import core.game.Mob;
 import core.game.IGame;
