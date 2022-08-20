@@ -1,20 +1,20 @@
-module core.game.animals.Lion;
+module core.game.animals.Wolf;
 
 import core.game.Mob;
 import core.game.IGame;
 import core.game.animals.Animal;
 
-class Lion : Animal {
+class Wolf : Animal {
   this(IGame game) {
     super(game);
-    this.name = "lion";
-    this.maxStamina = 32;
+    this.name = "wolf";
+    this.maxStamina = 42;
     this.stamina = this.maxStamina;
 
-    this.maxHitpoints = 32;
+    this.maxHitpoints = 22;
     this.hitpoints = this.maxHitpoints;
 
-    this.damageDice = 12;
+    this.damageDice = 8;
   }
 
   override void process() {
