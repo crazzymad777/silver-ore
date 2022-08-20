@@ -134,5 +134,6 @@ class Game : IGame {
     import silver.core.game.monsters.Edward;
     auto edward = new Edward(this);
     messenger.assignMob(edward);
+    messenger.mobSetPosition(edward, mob.position);
   }
 }
