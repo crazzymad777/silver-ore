@@ -11,13 +11,13 @@ import silver.core.game.material.Air;
 import silver.core.game.material.Water;
 import silver.core.game.material.Silt;
 import silver.core.game.material.Sand;
-import silver.core.game.material.Crust;
+import silver.core.game.material.Mantle;
 
 class Dispenser {
   static private Material[string] materials;
   private this() {
     import std.meta;
-    static foreach(y; AliasSeq!(Material, Wood, Grass, Metal, Soil, Air, Void, Stone, Sand, Silt, Water, Crust)) {
+    static foreach(y; AliasSeq!(Material, Wood, Grass, Metal, Soil, Air, Void, Stone, Sand, Silt, Water, Mantle)) {
       materials[y.stringof] = new y(materials);
     }
   }

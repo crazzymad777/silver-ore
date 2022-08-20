@@ -163,7 +163,7 @@ class Glyph {
           return 'z';
       } else if (str == "SAND") {
           return '.';
-      } else if (str == "CRUST") {
+      } else if (str == "MANTLE") {
           return 'C';
       }
       return ' ';
@@ -222,7 +222,7 @@ class Glyph {
       if (material.name == "SOIL") {
         return TerminalColor.YELLOW;
       }
-      if (material.name == "CRUST") {
+      if (material.name == "MANTLE") {
         return TerminalColor.RED;
       }
       return TerminalColor.MAGENTA;

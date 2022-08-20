@@ -45,7 +45,7 @@ class World : IWorld {
     if (coors.z >= 256) {
       return new Cube(Dispenser.get().getMaterial("Void"), Dispenser.get().getMaterial("Void"));
     } else if (coors.z < 0) {
-      return new Cube(Dispenser.get().getMaterial("Crust"), Dispenser.get().getMaterial("Crust"));
+      return new Cube(Dispenser.get().getMaterial("Mantle"), Dispenser.get().getMaterial("Mantle"));
     }
 
     auto chunkCoors = coors.getChunkCoordinates();
