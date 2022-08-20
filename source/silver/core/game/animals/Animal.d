@@ -11,6 +11,7 @@ class Animal : Mob {
   Mob followed;
   bool disableAI = false;
   long attackedTick;
+  bool isPeaceful = true;
   this(IGame game) {
     super(game);
     this.name = "animal";
@@ -72,8 +73,8 @@ class Animal : Mob {
         auto dx = abs(mob.position.x-this.position.x);
         auto dy = abs(mob.position.y-this.position.y);
         if (dx <= 1 && dy <= 1) {
-          if (mob.isAlive()) {
-            if (isFoe(mob)) {
+          if (mob.isAlive() && isAlive()) {
+            if ((isFoe(mob) && !disableAI) || (!isFriend(mob) && disableAI)) {
 
               // armor
               if (uniform!"[]"(0, 8) == 0) {
@@ -111,8 +112,9 @@ class Animal : Mob {
 
     if (!disableAI) {
       if (isAlive()) {
+        /* if (!isPeaceful) { */
         attack();
-
+        /* } */
 
         bool customMove = true;
         if (followed !is null) {

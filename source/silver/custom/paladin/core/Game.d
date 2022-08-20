@@ -44,11 +44,14 @@ class Game : IGame {
 
     messenger.assignWorld(world);
 
+    import silver.core.game.animals.RedPanda;
     import core.game.monsters.GiantSpider;
 
     paladin = new Humanoid(this);
     auto lion = new Lion(this);
+    auto panda = new RedPanda(this);
     pet = lion;
+    messenger.assignMob(panda);
     messenger.assignMob(paladin);
     messenger.assignMob(lion);
 
@@ -79,6 +82,7 @@ class Game : IGame {
     stats.addEntry(spider1.getName());
     stats.addEntry(spider2.getName());
     stats.addEntry(spider3.getName());
+    stats.addEntry(panda.getName());
 
     textState = new TextState();
   }
@@ -135,5 +139,7 @@ class Game : IGame {
     auto edward = new Edward(this);
     messenger.assignMob(edward);
     messenger.mobSetPosition(edward, mob.position);
+
+    stats.addEntry(edward.getName());
   }
 }

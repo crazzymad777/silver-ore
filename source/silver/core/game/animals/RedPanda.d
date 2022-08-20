@@ -1,4 +1,4 @@
-module core.game.animals.RedPanda;
+module silver.core.game.animals.RedPanda;
 
 import core.game.Mob;
 import core.game.IGame;
