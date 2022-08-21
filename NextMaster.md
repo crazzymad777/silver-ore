@@ -3,13 +3,13 @@ Next master:
 Paladin Game:
  - [] Enter name
  - [] Choose race
- - [] Choose weaopon
+ - [] Choose weapon
  - [] Choose pet
  - [] Some simple world generator
 
 Common:
  - [] More monsters
- - [] Weapons
+ - [X] Weapons
  - [] Forest generator
  - [] Spawn animals
  - [] Movement by ladder
@@ -28,5 +28,6 @@ Common:
  - [] Sun generator
  - [] Moon generator
  - [] Physics (Sea, in Void)
+ - [] More weapons
  ----------------------------------------------------
 End of next intention
