@@ -1,7 +1,7 @@
 module core.game.Mob;
 
 import core.world.utils.GlobalCubeCoordinates;
-import core.game.Item;
+import silver.core.game.Item;
 import core.game.IGame;
 
 import core.atomic : atomicOp, atomicLoad;

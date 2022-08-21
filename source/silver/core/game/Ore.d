@@ -1,7 +1,7 @@
 module core.game.Ore;
 
 import silver.core.game.material.Material;
-import core.game.Item;
+import silver.core.game.Item;
 
 class Ore : Item {
   Material metal;

@@ -9,7 +9,7 @@ Paladin Game:
 
 Common:
  - [] More monsters
- - [] More weapons
+ - [] Weapons
  - [] Forest generator
  - [] Spawn animals
  - [] Movement by ladder

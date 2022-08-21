@@ -2,7 +2,7 @@ module core.world.Cube;
 
 import silver.core.game.material.Material;
 import core.game.Furniture;
-import core.game.Item;
+import silver.core.game.Item;
 import core.game.Ore;
 import std.typecons;
 

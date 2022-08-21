@@ -1,6 +1,6 @@
 module core.game.Torch;
 
-import core.game.Item;
+import silver.core.game.Item;
 
 class Torch : Item {
   this() {

@@ -1,6 +1,6 @@
 module core.game.Furniture;
 
-import core.game.Item;
+import silver.core.game.Item;
 
 class Furniture : Item {
   this() {

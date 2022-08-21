@@ -1,4 +1,4 @@
-module core.game.Item;
+module silver.core.game.Item;
 
 class Item {
   protected string name = "item";
