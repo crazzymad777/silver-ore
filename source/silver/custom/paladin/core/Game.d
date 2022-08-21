@@ -48,17 +48,15 @@ class Game : IGame {
 
     messenger.assignWorld(world);
 
-    import silver.core.game.animals.RedPanda;
     import core.game.monsters.GiantSpider;
 
-    paladin = new Humanoid(this);
-    import silver.core.game.weapon.combat.Warhammer;
-    paladin.equipment.right_hand = new Warhammer();
+    import silver.core.game.humanoids.Orc;
+    import silver.core.game.weapon.combat.Battleaxe;
+    paladin = new Orc(this);
+    paladin.equipment.left_hand = new Battleaxe();
 
     auto lion = new Lion(this);
-    auto panda = new RedPanda(this);
     pet = lion;
-    messenger.assignMob(panda);
     messenger.assignMob(paladin);
     messenger.assignMob(lion);
 
