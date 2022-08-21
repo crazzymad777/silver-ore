@@ -71,9 +71,22 @@ class Animal : Mob {
     return (isFoe(mob) && !disableAI) || (!isFriend(mob) && disableAI);
   }
 
+  void attackMob(Mob mob) {
+    import std.random;
+    // armor
+    if (uniform!"[]"(0, 8) == 0) {
+      int damage = 0;
+      if (this.damageDice > 0) {
+        damage = uniform!"[]"(1, this.damageDice);
+      }
+      mob.takeDamage(damage, this);
+      this.triggeredFoe = mob;
+    }
+    this.dropStamina();
+  }
+
   override void attack() {
     import std.math, std.conv: to;
-    import std.random;
 
     auto mobs = game.getMobs();
     foreach (mob; mobs) {
@@ -84,18 +97,8 @@ class Animal : Mob {
           if (mob.isAlive()) {
             if (isAbleToAttack()) {
               if (checkAim(mob)) {
-
-                // armor
-                if (uniform!"[]"(0, 8) == 0) {
-                  int damage = 0;
-                  if (this.damageDice > 0) {
-                    damage = uniform!"[]"(1, this.damageDice);
-                  }
-                  mob.takeDamage(damage, this);
-                  this.triggeredFoe = mob;
-                  break;
-                }
-                this.dropStamina();
+                attackMob(mob);
+                break;
               }
             }
           }

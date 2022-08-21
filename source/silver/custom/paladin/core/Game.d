@@ -52,6 +52,9 @@ class Game : IGame {
     import core.game.monsters.GiantSpider;
 
     paladin = new Humanoid(this);
+    import silver.core.game.weapon.combat.Warhammer;
+    paladin.equipment.right_hand = new Warhammer();
+
     auto lion = new Lion(this);
     auto panda = new RedPanda(this);
     pet = lion;
