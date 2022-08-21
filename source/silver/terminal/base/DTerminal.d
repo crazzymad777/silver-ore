@@ -105,16 +105,20 @@ class DTerminal : ITerminal {
   }
 
   void puts(int y, int x, string str) {
-    auto length = str.length;
-    for (int i = 0; i < length; i++) {
-      glyphs[x + i + y * width] = Char(str[i]);
+    if (y >= 0 && y < height) {
+      auto length = str.length;
+      for (int i = 0; i < length; i++) {
+        glyphs[x + i + y * width] = Char(str[i]);
+      }
     }
   }
 
   void puts(int y, int x, string str, TerminalColor color) {
-    auto length = str.length;
-    for (int i = 0; i < length; i++) {
-      glyphs[x + i + y * width] = Char(str[i], color);
+    if (y >= 0 && y < height) {
+      auto length = str.length;
+      for (int i = 0; i < length; i++) {
+        glyphs[x + i + y * width] = Char(str[i], color);
+      }
     }
   }
 
