@@ -1,5 +1,6 @@
 module silver.terminal.base.DTerminal;
 
+import silver.terminal.base.TerminalMatrix;
 import silver.terminal.base.ITerminal;
 import silver.terminal.base.Char;
 import silver.terminal.base.Key;
@@ -12,21 +13,46 @@ class DTerminal : ITerminal {
   import arsd.terminal;
   Terminal terminal;
   AbstractComponent component;
-  Char[] glyphs;
+  TerminalMatrix matrix;
+  int oldwidth, oldheight;
   this(AbstractComponent component = null) {
     this.terminal = Terminal(ConsoleOutputType.linear);
     this.component = component;
-    int width = this.width();
-    int height = this.height();
-    glyphs = new Char[width * height];
+
+    int width = terminal.width();
+    int height = terminal.height();
+    matrix = new TerminalMatrix();
+    matrix.resize(width, height);
+    oldwidth = width;
+    oldheight = height;
   }
 
   ~this() {
   }
 
+  protected bool checkSize() {
+    int width = terminal.width();
+    int height = terminal.height();
+
+    bool changed = false;
+    if (oldwidth != width) {
+      oldwidth = width;
+      changed = true;
+    }
+    if (oldheight != height) {
+      oldheight = height;
+      changed = true;
+    }
+    if (changed) {
+      matrix.resize(width, height);
+    }
+    return changed;
+  }
+
   Key readKey() {
-    auto input = RealTimeConsoleInput(&terminal, ConsoleInputFlags.raw);
+    auto input = RealTimeConsoleInput(&terminal, ConsoleInputFlags.raw + ConsoleInputFlags.size);
     input.timedCheckForInput(100);
+    checkSize();
   	auto ch = input.getch(true);
     return new Key(ch);
   }
@@ -93,33 +119,15 @@ class DTerminal : ITerminal {
   }
 
   void put(int y, int x, Char glyph) {
-    /* terminal.moveTo(x, y);
-    terminal.color(getColor(glyph.foreground), getColor(glyph.background));
-    terminal.write(glyph.ch);
-    terminal.color(Color.DEFAULT, Color.DEFAULT); */
-    if (x >= 0 && x < width) {
-      if (y >= 0 && y < height) {
-        glyphs[x + y * width] = glyph;
-      }
-    }
+    matrix.put(y, x, glyph);
   }
 
   void puts(int y, int x, string str) {
-    if (y >= 0 && y < height) {
-      auto length = str.length;
-      for (int i = 0; i < length; i++) {
-        glyphs[x + i + y * width] = Char(str[i]);
-      }
-    }
+    matrix.puts(y, x, str);
   }
 
   void puts(int y, int x, string str, TerminalColor color) {
-    if (y >= 0 && y < height) {
-      auto length = str.length;
-      for (int i = 0; i < length; i++) {
-        glyphs[x + i + y * width] = Char(str[i], color);
-      }
-    }
+    matrix.puts(y, x, str, color);
   }
 
   void update() {
@@ -130,10 +138,10 @@ class DTerminal : ITerminal {
     int height = height();
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        auto glyph = glyphs[x + y*width];
+        auto glyph = matrix.get(y, x);
         terminal.color(getColor(glyph.foreground), getColor(glyph.background));
         terminal.write(glyph.ch);
-        glyphs[x + y*width] = Char(' ');
+        matrix.put(y, x, Char());
       }
       terminal.write('\n');
     }
