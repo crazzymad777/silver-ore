@@ -1,7 +1,7 @@
 module silver.core.game.humanoids.Orc;
 
 import core.game.humanoids.Humanoid;
-import core.game.IGame;
+import silver.core.game.IGame;
 
 class Orc : Humanoid {
   this(IGame game) {

@@ -1,4 +1,4 @@
-module core.game.IGame;
+module silver.core.game.IGame;
 
 import core.world.utils.GlobalCubeCoordinates;
 import silver.core.world.IWorld;

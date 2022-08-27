@@ -2,7 +2,7 @@ module custom.traveler.core.Game;
 
 import core.world.utils.GlobalCubeCoordinates;
 import core.game.Mob;
-import core.game.IGame;
+import silver.core.game.IGame;
 import silver.core.Engine;
 
 class Game : IGame {
@@ -28,7 +28,7 @@ class Game : IGame {
   long count = 0;
   EngineMessenger messenger;
   private Humanoid traveler;
-  private Lion pet;
+  private Animal pet;
   private Engine engine;
 
   // actually awful constructor
@@ -98,15 +98,10 @@ class Game : IGame {
 
   import silver.core.game.animals.Animal;
   void requestRedPandaGuard(Animal mob) {
-    import silver.core.game.monsters.Edward;
-    auto edward = new Edward(this);
-    messenger.assignMob(edward);
-    messenger.mobSetPosition(edward, mob.position);
-    foreach(foe; mob.foes) {
-      messenger.setFoe(edward, foe);
-    }
-    foreach(friend; mob.friends) {
-      messenger.setFriend(edward, friend);
+    import silver.core.game.utils.RedPandaGuard;
+    auto edward = createRedPandaGuard(this, messenger, mob);
+    if (mob == pet) {
+      pet = edward;
     }
   }
 }

@@ -1,7 +1,7 @@
 module core.game.monsters.GiantSpider;
 
 import core.game.Mob;
-import core.game.IGame;
+import silver.core.game.IGame;
 import core.game.monsters.Monster;
 
 class GiantSpider : Monster {

@@ -2,10 +2,11 @@ module core.game.Mob;
 
 import core.world.utils.GlobalCubeCoordinates;
 import silver.core.game.Item;
-import core.game.IGame;
+import silver.core.game.IGame;
 
 import core.atomic : atomicOp, atomicLoad;
 
+// vulnerable & resistance to damage
 class Mob : Item {
   import core.time;
   GlobalCubeCoordinates position;

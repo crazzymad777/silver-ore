@@ -1,7 +1,7 @@
 module silver.core.game.animals.Lion;
 
 import core.game.Mob;
-import core.game.IGame;
+import silver.core.game.IGame;
 import silver.core.game.animals.Animal;
 
 class Lion : Animal {
