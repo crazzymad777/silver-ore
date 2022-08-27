@@ -105,5 +105,8 @@ class Game : IGame {
     foreach(foe; mob.foes) {
       messenger.setFoe(edward, foe);
     }
+    foreach(friend; mob.friends) {
+      messenger.setFriend(edward, friend);
+    }
   }
 }
