@@ -19,6 +19,8 @@ class PaladinComponent : AbstractComponent {
     private auto updated = true;
     private auto exited = false;
     private ITerminal terminal;
+    private string description;
+    private bool showDescripton = true;
 
     import silver.custom.paladin.core.GameConfig;
     this(GameConfig config) {
@@ -27,7 +29,13 @@ class PaladinComponent : AbstractComponent {
 
       this.controller = IPaladinController.getImplementation(config);
       this.terminal = terminal;
-      /* this.coors = world.getDefaultCoordinates(); */
+
+      // articles?
+      description = "Your name is " ~ config.name ~ ". You were born " ~ config.race ~ ". You have " ~ config.weapon;
+      if (config.pet !is null) {
+        description ~= " and " ~ config.pet;
+      }
+      description ~= ". You're in The Dark Maze of Dungeon. Let's go!";
     }
 
     ~this() {
@@ -103,8 +111,30 @@ class PaladinComponent : AbstractComponent {
       terminal.update();
     }
 
-    string sequence;
+
     override void draw() {
+      if (showDescripton) {
+        drawDescription();
+      } else {
+        drawGame();
+      }
+    }
+
+    private int countDescription = 0;
+    void drawDescription() {
+      for (int i = 0; i < countDescription; i++) {
+        if (i < description.length) {
+          terminal.put(i / terminal.width(), i % terminal.width(), Char(description[i]));
+        }
+      }
+      countDescription++;
+      if (countDescription >= description.length + 10) {
+        showDescripton = false;
+      }
+    }
+
+    string sequence;
+    void drawGame() {
         // fill display matrix
         int width = terminal.width()*1/2;
         import silver.core.game.animals.Animal;
