@@ -3,8 +3,25 @@ module silver.custom.paladin.core.GameConfig;
 struct GameConfig {
   string name, race, weapon, pet;
 
-  static void requestGameConfig() {
+  static GameConfig request() {
+    import silver.terminal.RequestData;
+    int checkRange(ulong max, string title, string[] options) {
+      return checkedInput!int((int i) => (i >= 0 && i < max), () => input(title, options));
+    }
+    string checkOptions(string[] options, string title) {
+      return options[checkRange(options.length, title, options)];
+    }
 
+    string[] races = ["Human", "Elf", "Dark Elf", "Dwarf", "Orc"];
+    string[] weapons = ["Battleaxe", "Longsword", "Shortsword", "Warhammer"];
+    string[] pets = ["Bear", "Lion", "Wolf", "Fox", "Dog", "Cat", "Red Panda", "None"];
+
+    GameConfig gc;
+    gc.name = checkedInput!string((string str) => str.length > 0 && str.length < 15, () => input("Enter hero name"));
+    gc.race = checkOptions(races, "Choose hero race");
+    gc.weapon = checkOptions(weapons, "Choose weapon");
+    gc.pet = checkOptions(pets, "Choose pet");
+    return gc;
   }
 
   import core.game.humanoids.Humanoid;
@@ -29,5 +46,28 @@ struct GameConfig {
     }
 
     return new Humanoid(game);
+  }
+
+  import silver.core.game.animals.Animal;
+  Animal getPet(IGame game) {
+    string altered_pet = pet;
+    if (pet == "Red Panda") {
+      altered_pet = "RedPanda";
+    }
+
+    import silver.core.game.animals.Bear;
+    import silver.core.game.animals.Lion;
+    import silver.core.game.animals.Wolf;
+    import silver.core.game.animals.Fox;
+    import silver.core.game.animals.Dog;
+    import silver.core.game.animals.Cat;
+    import silver.core.game.animals.RedPanda;
+    import std.meta;
+    static foreach(y; AliasSeq!(Bear, Lion, Wolf, Fox, Dog, Cat, RedPanda)) {
+      if (y.stringof == altered_pet) {
+        return new y(game);
+      }
+    }
+    return null;
   }
 }

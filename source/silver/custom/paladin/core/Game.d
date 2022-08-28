@@ -55,10 +55,9 @@ class Game : IGame {
     paladin = config.getPaladin(this);
     paladin.equipment.right_hand = new Battleaxe();
 
-    auto lion = new Lion(this);
-    pet = lion;
+    pet = config.getPet(this);
     messenger.assignMob(paladin);
-    messenger.assignMob(lion);
+    if (pet) messenger.assignMob(pet);
 
     auto spider1 = new GiantSpider(this);
     messenger.assignMob(spider1);
@@ -72,18 +71,18 @@ class Game : IGame {
     messenger.assignMob(spider3);
     messenger.mobSetPosition(spider3, GlobalCubeCoordinates(0, -16, 0));
 
-    messenger.setFriend(lion, paladin);
+    if (pet) messenger.setFriend(pet, paladin);
     messenger.setFoe(spider1, paladin);
     messenger.setFoe(spider2, paladin);
     messenger.setFoe(spider3, paladin);
-    messenger.setFoe(spider1, lion);
-    messenger.setFoe(spider2, lion);
-    messenger.setFoe(spider3, lion);
+    if (pet) messenger.setFoe(spider1, pet);
+    if (pet) messenger.setFoe(spider2, pet);
+    if (pet) messenger.setFoe(spider3, pet);
 
-    messenger.mobSetFollowed(lion, paladin);
+    if (pet) messenger.mobSetFollowed(pet, paladin);
 
     stats.addEntry(paladin.getName());
-    stats.addEntry(lion.getName());
+    if (pet) stats.addEntry(pet.getName());
     stats.addEntry(spider1.getName());
     stats.addEntry(spider2.getName());
     stats.addEntry(spider3.getName());
