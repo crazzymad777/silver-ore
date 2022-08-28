@@ -20,11 +20,12 @@ class PaladinComponent : AbstractComponent {
     private auto exited = false;
     private ITerminal terminal;
 
-    this() {
+    import silver.custom.paladin.core.GameConfig;
+    this(GameConfig config) {
       import silver.terminal.Settings: enableDTerminal;
       ITerminal terminal = ITerminal.getDefaultTerminal(!enableDTerminal, this);
 
-      this.controller = IPaladinController.getImplementation();
+      this.controller = IPaladinController.getImplementation(config);
       this.terminal = terminal;
       /* this.coors = world.getDefaultCoordinates(); */
     }

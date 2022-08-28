@@ -20,6 +20,8 @@ export void PaladinApplication() {
   race = checkOptions(races, "Choose hero race");
   weapon = checkOptions(weapons, "Choose weapon");
   pet = checkOptions(pets, "Choose pet");
-  auto component = new PaladinComponent();
+
+  import silver.custom.paladin.core.GameConfig;
+  auto component = new PaladinComponent(GameConfig(name, race, weapon, pet));
   component.run();
 }

@@ -41,7 +41,8 @@ class Game : IGame {
   private Engine engine;
 
   // actually awful constructor
-  this() {
+  import silver.custom.paladin.core.GameConfig;
+  this(GameConfig config) {
     engine = new Engine();
     messenger = new EngineMessenger(GAME_ACTOR_ID, engine);
     world = new World();
@@ -50,10 +51,9 @@ class Game : IGame {
 
     import core.game.monsters.GiantSpider;
 
-    import silver.core.game.humanoids.Orc;
     import silver.core.game.weapon.combat.Battleaxe;
-    paladin = new Orc(this);
-    paladin.equipment.left_hand = new Battleaxe();
+    paladin = config.getPaladin(this);
+    paladin.equipment.right_hand = new Battleaxe();
 
     auto lion = new Lion(this);
     pet = lion;

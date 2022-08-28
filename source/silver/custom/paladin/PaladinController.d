@@ -9,8 +9,9 @@ import core.world.utils.GlobalCubeCoordinates;
 import core.world.Cube;
 
 interface IPaladinController {
-  static PaladinControllerImpl getImplementation() {
-    return new PaladinControllerImpl();
+  import silver.custom.paladin.core.GameConfig;
+  static PaladinControllerImpl getImplementation(GameConfig config) {
+    return new PaladinControllerImpl(config);
   }
 
   void process();
@@ -35,10 +36,13 @@ interface IPaladinController {
 }
 
 class PaladinControllerImpl : IPaladinController {
+  import silver.custom.paladin.core.GameConfig;
   private Game game;
-  this() {
+  private GameConfig config;
+  this(GameConfig config) {
     import relay.Client;
-    this.game = new Game();
+    this.game = new Game(config);
+    this.config = config;
     new Client!("selfhost",int)();
   }
 
@@ -53,7 +57,7 @@ class PaladinControllerImpl : IPaladinController {
 
   void resetGame() {
     if (game.EndCondition()) {
-      game = new Game();
+      game = new Game(config);
     }
   }
 
