@@ -122,9 +122,16 @@ class PaladinComponent : AbstractComponent {
 
     private int countDescription = 0;
     void drawDescription() {
-      for (int i = 0; i < countDescription; i++) {
+      import std.algorithm: min, max;
+      int count = min(countDescription, description.length);
+
+      int width = 30;
+      int x = max(terminal.width() / 2 - count/2, terminal.width() / 2 - width/2);
+      int y = max(terminal.height() / 2 - count / width, 0);
+
+      for (int i = 0; i < count; i++) {
         if (i < description.length) {
-          terminal.put(i / terminal.width(), i % terminal.width(), Char(description[i]));
+          terminal.put(i / width + y, i % width + x, Char(description[i]));
         }
       }
       countDescription++;
