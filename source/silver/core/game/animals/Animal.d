@@ -5,6 +5,8 @@ import silver.core.game.IGame;
 import core.world.utils.GlobalCubeCoordinates;
 
 class Animal : Mob {
+  import silver.core.engine.Pathfinder;
+  Pathfinder pathfinder = new Pathfinder();
   Mob[] friends;
   Mob[] foes;
   Mob triggeredFoe;
@@ -131,15 +133,35 @@ class Animal : Mob {
 
         bool customMove = true;
         if (followed !is null) {
-          customMove = false;
-          auto dx = followed.position.x-this.position.x;
-          auto dy = followed.position.y-this.position.y;
-          auto disX = abs(dx);
-          auto disY = abs(dy);
+          auto followed_disX = abs(followed.position.x - this.position.x);
+          auto followed_disY = abs(followed.position.y - this.position.y);
 
-          if (disX+disY > 3) {
-            move(to!int(sgn(dx)), to!int(sgn(dy)));
-          } else {
+          customMove = false;
+          pathfinder.setFrom(this.position);
+          pathfinder.setTo(followed.position);
+          auto next_move = pathfinder.find(game.getWorld());
+
+          if (next_move.result == Pathfinder.FINDING_RESULT.FOUND) {
+            auto dx = next_move.position.x-this.position.x;
+            auto dy = next_move.position.y-this.position.y;
+            auto sign_dx = to!int(sgn(dx));
+            auto sign_dy = to!int(sgn(dy));
+
+            // limit diagonal motion
+            if (abs(sign_dx) + abs(sign_dy) >= 2) {
+              if (uniform!"[]"(0, 1) == 0) {
+                sign_dx = 0;
+              } else {
+                sign_dy = 0;
+              }
+            }
+
+            if (followed_disX+followed_disY > 1) {
+              move(sign_dx, sign_dy);
+            } else {
+              customMove = true;
+            }
+          } else if (next_move.result == Pathfinder.FINDING_RESULT.LOST) {
             customMove = true;
           }
 
