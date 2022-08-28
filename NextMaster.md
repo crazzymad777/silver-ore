@@ -1,10 +1,10 @@
 Next master:
 
 Paladin Game:
- - [ ] Enter name
- - [ ] Choose race
- - [ ] Choose weapon
- - [ ] Choose pet
+ - [X] Enter name
+ - [X] Choose race
+ - [X] Choose weapon
+ - [X] Choose pet
  - [ ] Some simple world generator
 
 Common:
