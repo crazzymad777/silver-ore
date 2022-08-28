@@ -53,7 +53,8 @@ class Game : IGame {
 
     import silver.core.game.weapon.combat.Battleaxe;
     paladin = config.getPaladin(this);
-    paladin.equipment.right_hand = new Battleaxe();
+    paladin.setName(config.name);
+    paladin.equipment.right_hand = config.getWeapon();
 
     pet = config.getPet(this);
     messenger.assignMob(paladin);

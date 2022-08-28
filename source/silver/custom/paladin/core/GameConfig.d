@@ -17,7 +17,8 @@ struct GameConfig {
     string[] pets = ["Bear", "Lion", "Wolf", "Fox", "Dog", "Cat", "Red Panda", "None"];
 
     GameConfig gc;
-    gc.name = checkedInput!string((string str) => str.length > 0 && str.length < 15, () => input("Enter hero name"));
+    import std.string;
+    gc.name = strip(checkedInput!string((string str) => str.length > 0 && str.length < 15, () => input("Enter hero name")));
     gc.race = checkOptions(races, "Choose hero race");
     gc.weapon = checkOptions(weapons, "Choose weapon");
     gc.pet = checkOptions(pets, "Choose pet");
@@ -66,6 +67,21 @@ struct GameConfig {
     static foreach(y; AliasSeq!(Bear, Lion, Wolf, Fox, Dog, Cat, RedPanda)) {
       if (y.stringof == altered_pet) {
         return new y(game);
+      }
+    }
+    return null;
+  }
+
+  import silver.core.game.Weapon;
+  Weapon getWeapon() {
+    import silver.core.game.weapon.combat.Battleaxe;
+    import silver.core.game.weapon.combat.Warhammer;
+    import silver.core.game.weapon.combat.Longsword;
+    import silver.core.game.weapon.combat.Shortsword;
+    import std.meta;
+    static foreach(y; AliasSeq!(Battleaxe, Warhammer, Longsword, Shortsword)) {
+      if (y.stringof == weapon) {
+        return new y();
       }
     }
     return null;

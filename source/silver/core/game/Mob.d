@@ -26,6 +26,10 @@ class Mob : Item {
     this.game = game;
   }
 
+  void setName(string name) {
+    this.name = name;
+  }
+
   void takeDamage(int damage, Mob mob) {
     bool wasAlive = isAlive();
     hitpoints -= damage;
