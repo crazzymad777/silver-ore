@@ -30,6 +30,7 @@ class PaladinComponent : AbstractComponent {
       this.controller = IPaladinController.getImplementation(config);
       this.terminal = terminal;
 
+      showDescripton = !config.test;
       // articles?
       description = "Your name is " ~ config.name ~ ". You were born " ~ config.race ~ ". You have " ~ config.weapon;
       if (config.pet != "None") {

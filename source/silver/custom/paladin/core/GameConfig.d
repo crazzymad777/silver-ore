@@ -2,6 +2,7 @@ module silver.custom.paladin.core.GameConfig;
 
 struct GameConfig {
   string name, race, weapon, pet;
+  bool test;
 
   static GameConfig request() {
     import silver.terminal.RequestData;
@@ -19,9 +20,17 @@ struct GameConfig {
     GameConfig gc;
     import std.string;
     gc.name = strip(checkedInput!string((string str) => str.length > 0 && str.length < 15, () => input("Enter hero name")));
-    gc.race = checkOptions(races, "Choose hero race");
-    gc.weapon = checkOptions(weapons, "Choose weapon");
-    gc.pet = checkOptions(pets, "Choose pet");
+    if (gc.name == "test") {
+      gc.name = "Emmanuel";
+      gc.race = "Elf";
+      gc.weapon = "Warhammer";
+      gc.pet = "Red Panda";
+      gc.test = true;
+    } else {
+      gc.race = checkOptions(races, "Choose hero race");
+      gc.weapon = checkOptions(weapons, "Choose weapon");
+      gc.pet = checkOptions(pets, "Choose pet");
+    }
     return gc;
   }
 
