@@ -32,7 +32,7 @@ class PaladinComponent : AbstractComponent {
 
       // articles?
       description = "Your name is " ~ config.name ~ ". You were born " ~ config.race ~ ". You have " ~ config.weapon;
-      if (config.pet !is null) {
+      if (config.pet != "None") {
         description ~= " and " ~ config.pet;
       }
       description ~= ". You're in The Dark Maze of Dungeon. Let's go!";
