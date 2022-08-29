@@ -23,13 +23,17 @@ class Pathfinder {
     import std.math: abs, sgn;
     import std.conv: to;
 
+    if (lastFrom == lastTo) {
+      return Move(FINDING_RESULT.FOUND, lastFrom, 0);
+    }
+
     const Offset[] offsets = [{1, 0}, {0, 1}, {-1, 0}, {0, -1}];
     GlobalCubeCoordinates[] marked;
     marked ~= lastFrom;
 
-    Move find_path(GlobalCubeCoordinates position, int length, int step) {
-      if (length <= 0) {
-        return Move(FINDING_RESULT.LOST, position, length);
+    Move find_path(GlobalCubeCoordinates position, int depth) {
+      if (depth <= 0) {
+        return Move(FINDING_RESULT.LOST, position, depth);
       }
 
       GlobalCubeCoordinates new_position;
@@ -38,27 +42,29 @@ class Pathfinder {
         import std.algorithm: canFind;
         new_position.x += offsets[j].x;
         new_position.y += offsets[j].y;
+
         if (!world.checkColision(position, new_position)) {
           if (!marked.canFind(new_position)) {
             if (new_position == lastTo) {
-              return Move(FINDING_RESULT.FOUND, position, length);
+              return Move(FINDING_RESULT.FOUND, position, depth);
             }
             marked ~= new_position;
           }
-          if (step > 0) {
-            auto result = find_path(new_position, length, step - 1);
+
+          if (depth > 0) {
+            auto result = find_path(new_position, depth - 1);
             if (result.result == FINDING_RESULT.FOUND) {
-              return Move(FINDING_RESULT.FOUND, new_position, length);
+              return Move(FINDING_RESULT.FOUND, new_position, depth);
             }
           }
         }
       }
-      return Move(FINDING_RESULT.LOST, position, length);
+      return Move(FINDING_RESULT.LOST, position, depth);
     }
 
     Move result;
-    for (int step = 0; step < 8; step++) {
-      result = find_path(lastFrom, step, step);
+    for (int depth = 0; depth < 8; depth++) {
+      result = find_path(lastFrom, depth);
       if (result.result == FINDING_RESULT.FOUND) {
         return result;
       }
