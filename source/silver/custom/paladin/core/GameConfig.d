@@ -14,7 +14,7 @@ struct GameConfig {
     }
 
     string[] races = ["Human", "Elf", "Dark Elf", "Dwarf", "Orc"];
-    string[] weapons = ["Battleaxe", "Longsword", "Shortsword", "Warhammer"];
+    string[] weapons = ["Battleaxe", "Longsword", "Shortsword", "Warhammer", "Mace"];
     string[] pets = ["Bear", "Lion", "Wolf", "Fox", "Dog", "Cat", "Red Panda", "None"];
 
     GameConfig gc;
@@ -88,7 +88,7 @@ struct GameConfig {
     import silver.core.game.weapon.combat.Longsword;
     import silver.core.game.weapon.combat.Shortsword;
     import std.meta;
-    static foreach(y; AliasSeq!(Battleaxe, Warhammer, Longsword, Shortsword)) {
+    static foreach(y; AliasSeq!(Battleaxe, Warhammer, Longsword, Shortsword, Mace)) {
       if (y.stringof == weapon) {
         return new y();
       }
